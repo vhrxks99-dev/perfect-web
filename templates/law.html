@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>법무법인 정도 | Perfect_Web 참고 디자인</title>
+<meta name="description" content="법률사무소·로펌 홈페이지 참고 디자인. 업무분야, 해결 사례, 구성원, 비용 안내, 상담 신청.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<!--
+  2026-09-06 — E유형 견본. 법률사무소.
+  원장님이 보내주신 법무법인 온강(onganglawyer.co.kr)을 참고했다.
+  그 사이트의 뼈대(업무분야 카드 → 해결사례 → 구성원 → 상담)를 가져왔고,
+  사진은 전부 Pexels 무료 소재다. 그 로펌 것은 하나도 쓰지 않았다.
+
+  ⚠ 인물 사진을 일부러 쓰지 않았다.
+     무료 소재에 한국인 변호사 사진이 사실상 없어서 외국인을 넣으면 어색해진다.
+     대신 이름 첫 글자를 새긴 판(모노그램)으로 갈음했다.
+     격조 있는 로펌 사이트가 실제로 자주 쓰는 방식이고, 결과적으로 더 무겁게 나온다.
+
+  앞선 견본과 겹치지 않게
+    아파트(A) 세로 띠 · 공방(B) 흰 여백 · 치과(C) 배경 영상 · 인테리어(D) 격자와 계산기
+    법률(E) 은 '어두운 바탕 + 명조체 + 세로로 흐르는 선' 으로 간다.
+
+  넣은 것 15가지
+   01 어두운 첫 화면 — 글자가 마스크에서 밀려 올라온다
+   02 스크롤하면 바탕이 어두운 색에서 밝은 색으로 넘어간다
+   03 맨 위 진행 막대 + 상단 바
+   04 숫자 올라가는 실적 칸
+   05 업무분야 목록 — 올리면 오른쪽 사진이 바뀐다
+   06 해결 사례 표 (혐의별로 걸러 보기)
+   07 사례를 누르면 아래로 펼쳐지는 상세
+   08 구성원 카드 (이름 첫 글자 판 + 이력)
+   09 상담 절차 5단계 — 세로선이 스크롤에 맞춰 그려진다
+   10 비용 안내 표 (착수금 · 성공보수 구조)
+   11 의뢰인 후기 넘기기
+   12 자주 묻는 질문 접었다 펴기
+   13 상담 신청 팝업 (사건 종류 · 진행 단계)
+   14 아래 고정된 긴급 상담 바
+   15 맨 위로 단추
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0E1116;        /* 먹빛 — 다른 견본에 없는 색이다 */
+  --ink2:#161B23;
+  --paper:#F5F3EE;
+  --line:#2A313C;
+  --lineL:#DAD5CB;
+  --mute:#8B93A0;
+  --gold:#A8874E;       /* 아주 조금만 쓰는 포인트 */
+  --pad:clamp(18px,4.5vw,76px);
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:#E8E4DC;
+  font-family:'Pretendard Variable',system-ui,sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:58px}
+img{display:block;width:100%;height:100%;object-fit:cover}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#0E1116}
+.my{font-family:'Nanum Myeongjo',serif}
+.eb{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ══ 03. 진행 막대 · 상단 바 ══ */
+.prog{position:fixed;inset:0 auto auto 0;height:2px;width:100%;z-index:120;
+  background:var(--gold);transform:scaleX(0);transform-origin:left}
+.top{position:fixed;inset:0 0 auto 0;z-index:110;display:flex;align-items:center;
+  justify-content:space-between;padding:17px var(--pad);
+  transition:background .45s,padding .45s,border-color .45s;border-bottom:1px solid transparent}
+.top.solid{background:rgba(14,17,22,.94);backdrop-filter:blur(10px);
+  padding-top:12px;padding-bottom:12px;border-bottom-color:var(--line)}
+.top.light{color:#1A1D22}
+.top.light.solid{background:rgba(245,243,238,.95);border-bottom-color:var(--lineL)}
+.top .logo{font-size:clamp(16px,1.6vw,21px);font-weight:800;letter-spacing:.02em}
+.top .logo i{font-style:normal;color:var(--gold)}
+.top nav{display:flex;gap:clamp(10px,1.8vw,26px);align-items:center;font-size:13.5px}
+.top .call{border:1px solid var(--gold);color:var(--gold);padding:9px 17px;font-size:12.5px;
+  font-weight:600}
+@media (max-width:940px){ .top nav a{display:none} }
+
+/* ══ 01. 첫 화면 ══ */
+.hero{position:relative;min-height:100svh;display:grid;align-items:center;
+  padding:clamp(96px,14vh,150px) var(--pad) clamp(70px,11vh,120px);overflow:hidden}
+.hero .bgw{position:absolute;inset:0;opacity:.2}
+.hero .bgw::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,17,22,.5),rgba(14,17,22,.95))}
+.hero .in{position:relative;z-index:2;max-width:min(100%,52ch)}
+.hero h1{font-size:clamp(30px,5.4vw,72px);line-height:1.32;letter-spacing:-.01em;font-weight:800}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:block;white-space:nowrap;transform:translateY(105%);
+  transition:transform 1.05s cubic-bezier(.16,1,.3,1)}
+body.ready .hero h1 .ln span{transform:translateY(0)}
+.hero h1 .ln:nth-child(2) span{transition-delay:.12s}
+.hero h1 .ln:nth-child(3) span{transition-delay:.24s}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .lead{margin-top:24px;font-size:clamp(13.5px,1.5vw,16.5px);line-height:2;color:#A9B0BB;
+  max-width:44ch;opacity:0;transition:opacity 1s .8s}
+body.ready .hero .lead{opacity:1}
+.hero .act{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap;
+  opacity:0;transform:translateY(12px);transition:opacity .9s 1s,transform .9s 1s}
+body.ready .hero .act{opacity:1;transform:none}
+.hero .act a,.hero .act button{border:1px solid #3A4250;padding:13px 24px;font-size:13.5px;
+  transition:.3s}
+.hero .act .main{background:var(--gold);border-color:var(--gold);color:#0E1116;font-weight:700}
+.hero .act a:hover{border-color:var(--gold);color:var(--gold)}
+.hero .now{position:absolute;right:var(--pad);bottom:clamp(70px,11vh,120px);z-index:2;
+  text-align:right;font-size:12.5px;color:var(--mute);line-height:1.9}
+.hero .now b{display:block;color:#E8E4DC;font-size:15px;margin-bottom:4px}
+.hero .now .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#5FBF8F;
+  margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(95,191,143,0)}100%{box-shadow:0 0 0 0 rgba(95,191,143,0)}}
+@media (max-width:900px){ .hero .now{position:static;text-align:left;margin-top:34px} }
+
+/* ══ 04. 숫자 ══ */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line)}
+.nums div{padding:clamp(26px,4vw,50px) 12px;text-align:center;border-right:1px solid var(--line)}
+.nums div:last-child{border-right:0}
+.nums b{display:block;font-size:clamp(26px,4vw,50px);font-weight:800;letter-spacing:-.02em}
+.nums b i{font-style:normal;color:var(--gold);font-size:.5em;margin-left:2px}
+.nums small{display:block;margin-top:7px;font-size:11.5px;letter-spacing:.16em;color:var(--mute)}
+
+/* ══ 02. 밝은 구간 ══ */
+.light{background:var(--paper);color:#1A1D22}
+.light .eb{color:#8A6A3B}
+.sec{padding:clamp(58px,9.5vh,120px) var(--pad)}
+.sec .hd{margin-bottom:clamp(24px,4vh,46px)}
+.sec .hd h2{font-size:clamp(23px,3.4vw,44px);line-height:1.34;letter-spacing:-.01em;
+  font-weight:800;margin-top:11px}
+.sec .hd p{margin-top:13px;font-size:14.5px;line-height:2;color:#5A6068;max-width:52ch}
+.light .sec .hd p{color:#5A6068}
+
+/* ══ 05. 업무분야 ══ */
+.fields{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3.4vw,56px);align-items:start}
+.flist{border-top:1px solid var(--lineL)}
+.frow{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
+  padding:clamp(17px,2.4vw,26px) 0;border-bottom:1px solid var(--lineL);text-align:left;
+  transition:padding-left .4s,color .4s}
+.frow .no{font-size:11.5px;letter-spacing:.16em;color:#9A9186}
+.frow .nm{font-size:clamp(17px,2.2vw,27px);letter-spacing:-.02em;font-weight:700}
+.frow .nm em{display:block;font-style:normal;font-size:12px;letter-spacing:.14em;
+  color:#9A9186;margin-top:5px;font-weight:400;text-transform:uppercase}
+.frow .ar{font-size:17px;color:#9A9186;transition:transform .4s,color .4s}
+.frow:hover,.frow.on{padding-left:14px;color:#8A6A3B}
+.frow:hover .ar,.frow.on .ar{transform:translateX(6px);color:#8A6A3B}
+.fpane{position:sticky;top:100px}
+.fpane .ph{aspect-ratio:4/5;overflow:hidden;background:#E4E0D7;position:relative}
+.fpane .ph img{position:absolute;inset:0;opacity:0;transition:opacity .7s}
+.fpane .ph img.on{opacity:1}
+.fpane .tx{margin-top:18px}
+.fpane .tx h3{font-size:clamp(17px,2vw,24px);letter-spacing:-.02em;font-weight:800}
+.fpane .tx p{margin-top:11px;font-size:13.5px;line-height:1.95;color:#5A6068}
+.fpane .tx ul{margin-top:14px;display:grid;gap:7px}
+.fpane .tx li{list-style:none;font-size:13px;color:#3E444B;padding-left:15px;position:relative}
+.fpane .tx li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;
+  background:#8A6A3B}
+@media (max-width:900px){ .fields{grid-template-columns:1fr} .fpane{position:static} }
+
+/* ══ 06·07. 해결 사례 ══ */
+.cf{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.cf button{border:1px solid var(--lineL);padding:8px 16px;font-size:12.5px;color:#5A6068;
+  transition:.25s}
+.cf button.on{background:#1A1D22;border-color:#1A1D22;color:#F5F3EE}
+.cases{border-top:1px solid var(--lineL)}
+.cs{border-bottom:1px solid var(--lineL)}
+.cs .hd2{width:100%;display:grid;grid-template-columns:96px 1fr auto auto;gap:14px;
+  align-items:center;padding:clamp(15px,2.2vw,22px) 0;text-align:left}
+.cs .hd2 .no{font-size:12px;letter-spacing:.1em;color:#9A9186}
+.cs .hd2 .tt{font-size:clamp(14.5px,1.8vw,18px);font-weight:700;letter-spacing:-.02em}
+.cs .hd2 .rs{font-size:12.5px;font-weight:700;color:#2E6B4E;white-space:nowrap}
+.cs .hd2 .pl{font-size:17px;color:#9A9186;transition:transform .4s}
+.cs.on .hd2 .pl{transform:rotate(45deg)}
+.cs .bd{height:0;overflow:hidden;transition:height .5s cubic-bezier(.76,0,.24,1)}
+.cs .bd .in{padding:0 0 clamp(18px,2.6vw,28px);display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(14px,2.4vw,34px)}
+.cs .bd h4{font-size:12px;letter-spacing:.16em;color:#9A9186;margin-bottom:8px}
+.cs .bd p{font-size:13.5px;line-height:1.95;color:#3E444B}
+.cs.hide{display:none}
+@media (max-width:760px){
+  .cs .hd2{grid-template-columns:1fr auto;gap:8px}
+  .cs .hd2 .no{display:none}
+  .cs .bd .in{grid-template-columns:1fr}
+}
+
+/* ══ 08. 구성원 ══ */
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.6vw,20px)}
+.mc{border:1px solid var(--line);padding:clamp(18px,2.6vw,28px);transition:.4s;background:var(--ink2)}
+.mc:hover{border-color:var(--gold);transform:translateY(-4px)}
+.mc .mono{width:64px;height:64px;border:1px solid var(--gold);color:var(--gold);
+  display:grid;place-items:center;font-size:25px;font-weight:700;margin-bottom:18px}
+.mc b{display:block;font-size:18px;letter-spacing:-.02em}
+.mc b em{font-style:normal;font-size:12.5px;color:var(--mute);margin-left:7px;font-weight:400}
+.mc .rl{margin-top:12px;display:grid;gap:6px}
+.mc .rl span{font-size:12.5px;color:#A9B0BB;line-height:1.7;padding-left:12px;position:relative}
+.mc .rl span::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;
+  background:var(--gold)}
+@media (max-width:1000px){ .mem{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .mem{grid-template-columns:1fr} }
+
+/* ══ 09. 상담 절차 ══ */
+.steps{position:relative;padding-left:clamp(22px,4vw,44px)}
+.steps::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:1px;
+  background:var(--lineL)}
+.steps .fill{position:absolute;left:6px;top:6px;width:1px;background:#8A6A3B;height:0}
+.st{position:relative;padding-bottom:clamp(26px,4vw,44px)}
+.st:last-child{padding-bottom:0}
+.st::before{content:'';position:absolute;left:calc(-1 * clamp(22px,4vw,44px) + 2px);top:5px;
+  width:9px;height:9px;border-radius:50%;background:var(--paper);border:2px solid #8A6A3B}
+.st small{font-size:11.5px;letter-spacing:.2em;color:#8A6A3B}
+.st h4{margin-top:7px;font-size:clamp(16px,2vw,22px);letter-spacing:-.02em;font-weight:700}
+.st p{margin-top:8px;font-size:13.5px;line-height:1.95;color:#5A6068;max-width:52ch}
+
+/* ══ 10. 비용 ══ */
+.fee{width:100%;border-collapse:collapse;font-size:14px}
+.fee th,.fee td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--lineL)}
+.fee thead th{font-size:12px;letter-spacing:.14em;color:#9A9186;font-weight:600;
+  border-bottom:1px solid #1A1D22}
+.fee td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fee tbody th{font-weight:700}
+.feenote{margin-top:16px;font-size:12.5px;line-height:1.95;color:#6B7178}
+
+/* ══ 11. 후기 ══ */
+.revw{overflow:hidden}
+.revt{display:flex;gap:clamp(12px,2vw,22px);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.rv1{flex:0 0 auto;width:clamp(260px,32vw,400px);border:1px solid var(--line);
+  padding:clamp(20px,2.8vw,30px);background:var(--ink2)}
+.rv1 .q{font-size:clamp(14.5px,1.7vw,18px);line-height:1.85;letter-spacing:-.01em}
+.rv1 .w{margin-top:16px;font-size:12.5px;color:var(--mute)}
+.revnav{display:flex;gap:8px;margin-top:20px}
+.revnav button{width:40px;height:40px;border:1px solid var(--line);display:grid;place-items:center;
+  transition:.3s}
+.revnav button:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ══ 12. 질문 ══ */
+.qa{border-top:1px solid var(--lineL)}
+.qa:last-of-type{border-bottom:1px solid var(--lineL)}
+.qa .q{width:100%;display:flex;justify-content:space-between;gap:16px;align-items:center;
+  padding:clamp(16px,2.2vw,24px) 0;text-align:left;font-size:clamp(15px,1.8vw,19px);
+  font-weight:700;letter-spacing:-.02em}
+.qa .q i{font-style:normal;font-size:19px;color:#8A6A3B;transition:transform .4s;flex:0 0 auto}
+.qa.on .q i{transform:rotate(45deg)}
+.qa .a{height:0;overflow:hidden;transition:height .5s cubic-bezier(.76,0,.24,1)}
+.qa .a p{padding-bottom:clamp(18px,2.6vw,26px);font-size:14px;line-height:2;color:#5A6068;
+  max-width:70ch}
+
+/* ══ 13. 상담 팝업 ══ */
+.mod{position:fixed;inset:0;z-index:170;display:grid;place-items:center;
+  background:rgba(8,10,14,.72);opacity:0;pointer-events:none;transition:opacity .4s;padding:14px}
+.mod.on{opacity:1;pointer-events:auto}
+.mod .card{background:var(--paper);color:#1A1D22;width:min(94vw,540px);max-height:88vh;
+  overflow:auto;padding:clamp(22px,4vw,42px);transform:translateY(16px);position:relative;
+  transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.mod.on .card{transform:none}
+.mod h3{font-size:clamp(21px,3vw,32px);letter-spacing:-.02em;font-weight:800}
+.mod .lead{margin-top:9px;margin-bottom:22px;font-size:13.5px;color:#5A6068;line-height:1.9}
+.mod label.f{display:block;font-size:11.5px;letter-spacing:.14em;color:#9A9186;margin-bottom:7px}
+.mod .fw{margin-bottom:14px}
+.mod input,.mod select,.mod textarea{width:100%;border:1px solid var(--lineL);background:#fff;
+  padding:12px 13px;font:inherit;font-size:14px;border-radius:0}
+.mod .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.mod .go{width:100%;background:#1A1D22;color:var(--paper);padding:15px;font-size:14px;
+  font-weight:700;margin-top:6px}
+.mod .x{position:absolute;top:12px;right:16px;font-size:25px;color:#9A9186;line-height:1}
+.mod .ok{display:none;text-align:center;padding:22px 0}
+.mod .ok b{display:block;font-size:clamp(19px,2.6vw,26px);margin-bottom:10px;letter-spacing:-.02em}
+.mod .ok p{font-size:13.5px;color:#5A6068;line-height:1.95}
+.mod.sent .form{display:none}
+.mod.sent .ok{display:block}
+.mod .sec2{font-size:12px;color:#6B7178;line-height:1.8;margin-top:14px;
+  border-top:1px solid var(--lineL);padding-top:14px}
+
+/* ══ 14. 아래 고정 바 ══ */
+.bbar{position:fixed;inset:auto 0 0 0;z-index:135;background:#080A0E;color:#E8E4DC;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px var(--pad);
+  border-top:1px solid var(--line)}
+.bbar .l{font-size:12.5px;color:var(--mute)}
+.bbar .l b{display:block;font-size:15.5px;color:#E8E4DC;margin-top:2px;letter-spacing:-.01em}
+.bbar .r{display:flex;gap:8px}
+.bbar .r a,.bbar .r button{border:1px solid #2A313C;padding:10px 17px;font-size:13px;
+  font-weight:600}
+.bbar .r .main{background:var(--gold);border-color:var(--gold);color:#0E1116}
+
+.up{position:fixed;right:18px;bottom:72px;z-index:100;width:44px;height:44px;
+  background:var(--ink2);border:1px solid var(--line);display:grid;place-items:center;
+  opacity:0;pointer-events:none;transform:translateY(10px);transition:.4s}
+.up.on{opacity:1;pointer-events:auto;transform:none}
+
+.demo{position:fixed;inset:auto 0 58px 0;z-index:132;background:#05070A;color:#A9B0BB;
+  font-size:11.5px;padding:7px 16px;display:flex;gap:9px;justify-content:center;align-items:center;
+  flex-wrap:wrap}
+.demo b{font-weight:700;color:#E8E4DC}
+.demo a{text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:860px){
+  .nums{grid-template-columns:1fr 1fr}
+  .nums div:nth-child(2){border-right:0}
+  .nums div:nth-child(1),.nums div:nth-child(2){border-bottom:1px solid var(--line)}
+  .mod .row{grid-template-columns:1fr}
+  .bbar .r a{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .hero h1 .ln span{transform:none}
+  .hero .lead,.hero .act{opacity:1;transform:none}
+}
+/* 썸네일 캡처용. 주소 뒤에 ?shot=1 을 붙이면 등장 애니메이션을 건너뛴다. */
+body.shot .hero h1 .ln span{transform:none!important;transition:none!important}
+body.shot .hero .lead,body.shot .hero .act{opacity:1!important;transform:none!important}
+</style>
+</head>
+<body>
+<script>if(location.search.indexOf('shot')>=0)document.body.className='shot';</script>
+
+<div class="prog" id="prog"></div>
+
+<header class="top" id="top">
+  <a class="logo" href="#tp">법무법인 <i>정도</i></a>
+  <nav>
+    <a href="#fields">업무분야</a>
+    <a href="#cases">해결 사례</a>
+    <a href="#mem">구성원</a>
+    <a href="#fee">비용 안내</a>
+    <a href="#faq">자주 묻는 질문</a>
+    <button class="call" data-ask>상담 신청</button>
+  </nav>
+</header>
+
+<main id="tp">
+
+  <section class="hero">
+    <div class="bgw"><img src="../media/tpl/lw-02.jpg" alt="" loading="eager"></div>
+    <div class="in">
+      <h1 class="my">
+        <span class="ln"><span>혼자 감당하지</span></span>
+        <span class="ln"><span>않으셔도</span></span>
+        <span class="ln"><span><em>됩니다</em></span></span>
+      </h1>
+      <p class="lead">사건이 어디까지 왔는지, 앞으로 무엇이 남았는지 먼저 알려드립니다.
+        모르는 채로 기다리는 시간이 가장 힘들다는 것을 알기 때문입니다.</p>
+      <div class="act">
+        <button class="main" data-ask>상담 신청</button>
+        <a href="#cases">해결 사례 보기</a>
+        <a href="#fee">비용 먼저 보기</a>
+      </div>
+    </div>
+    <div class="now">
+      <b><span class="dot"></span>지금 상담 가능합니다</b>
+      평일 09:00 &ndash; 20:00 · 토요일 예약제<br>
+      긴급 사건은 <span class="my" style="color:#A8874E">24시간</span> 받습니다
+    </div>
+  </section>
+
+  <section class="nums">
+    <div><b data-n="2007">2007</b><small>설립</small></div>
+    <div><b data-n="19">19</b><small>구성 변호사</small></div>
+    <div><b data-n="4200">4200</b><small>누적 상담</small></div>
+    <div><b data-n="24">24</b><small>시간 접수</small></div>
+  </section>
+
+  <section class="sec light" id="fields">
+    <div class="hd">
+      <span class="eb">Practice</span>
+      <h2 class="my">무엇 때문에 오셨습니까</h2>
+      <p>분야마다 대응 방식이 다릅니다. 왼쪽 목록에 마우스를 올려 보세요.</p>
+    </div>
+    <div class="fields">
+      <div class="flist" id="flist"></div>
+      <aside class="fpane">
+        <div class="ph" id="fPh">
+          <img class="on" src="../media/tpl/lw-01.jpg" alt="형사 사건" loading="lazy">
+          <img src="../media/tpl/lw-03.jpg" alt="이혼·가사" loading="lazy">
+          <img src="../media/tpl/lw-05.jpg" alt="상속" loading="lazy">
+          <img src="../media/tpl/lw-04.jpg" alt="부동산·건설" loading="lazy">
+          <img src="../media/tpl/lw-07.jpg" alt="노동" loading="lazy">
+          <img src="../media/tpl/lw-06.jpg" alt="기업 자문" loading="lazy">
+        </div>
+        <div class="tx" id="fTx"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec light" id="cases" style="padding-top:0">
+    <div class="hd">
+      <span class="eb">Results</span>
+      <h2 class="my">해결 사례</h2>
+      <p>의뢰인을 알 수 없게 고쳐 적었습니다. 누르면 어떻게 다퉜는지 나옵니다.</p>
+    </div>
+    <div class="cf" id="cf">
+      <button class="on" data-k="all">전체</button>
+      <button data-k="cri">형사</button>
+      <button data-k="fam">이혼·가사</button>
+      <button data-k="inh">상속</button>
+      <button data-k="est">부동산</button>
+      <button data-k="lab">노동</button>
+    </div>
+    <div class="cases" id="caseList"></div>
+  </section>
+
+  <section class="sec" id="mem">
+    <div class="hd">
+      <span class="eb">Members</span>
+      <h2 class="my">누가 맡는지 먼저 아셔야 합니다</h2>
+      <p>사건을 상담한 변호사가 끝까지 맡습니다. 중간에 담당이 바뀌지 않습니다.</p>
+    </div>
+    <div class="mem">
+      <article class="mc"><div class="mono my">鄭</div>
+        <b>정하윤 <em>대표변호사</em></b>
+        <div class="rl"><span>사법연수원 38기</span><span>전 서울중앙지검 검사</span>
+          <span>형사 · 기업범죄</span></div></article>
+      <article class="mc"><div class="mono my">徐</div>
+        <b>서민재 <em>변호사</em></b>
+        <div class="rl"><span>변호사시험 3회</span><span>가사 전문 등록</span>
+          <span>이혼 · 양육 · 재산분할</span></div></article>
+      <article class="mc"><div class="mono my">林</div>
+        <b>임도경 <em>변호사</em></b>
+        <div class="rl"><span>사법연수원 41기</span><span>전 법원 재판연구원</span>
+          <span>상속 · 유류분</span></div></article>
+      <article class="mc"><div class="mono my">康</div>
+        <b>강태오 <em>변호사</em></b>
+        <div class="rl"><span>변호사시험 8회</span><span>공인노무사 겸직</span>
+          <span>노동 · 산업재해</span></div></article>
+    </div>
+  </section>
+
+  <section class="sec light">
+    <div class="hd">
+      <span class="eb">Process</span>
+      <h2 class="my">상담부터 마무리까지</h2>
+    </div>
+    <div class="steps" id="steps">
+      <div class="fill" id="stFill"></div>
+      <div class="st"><small>STEP 01</small><h4>전화 또는 온라인 접수</h4>
+        <p>어떤 일인지 짧게만 말씀해 주세요. 이 단계에서는 판단하지 않고 듣기만 합니다.</p></div>
+      <div class="st"><small>STEP 02</small><h4>담당 배정 · 방문 상담</h4>
+        <p>사건 종류에 맞는 변호사를 정해 연락드립니다. 첫 상담은 대면으로 합니다.
+          가지고 계신 서류를 그대로 가져오시면 됩니다.</p></div>
+      <div class="st"><small>STEP 03</small><h4>검토 의견서</h4>
+        <p>지금 상황, 예상되는 진행, 걸리는 기간, 비용을 문서로 드립니다.
+          여기까지 보시고 결정하지 않으셔도 됩니다.</p></div>
+      <div class="st"><small>STEP 04</small><h4>선임 · 대응</h4>
+        <p>수사기관 조사부터 재판까지 동행합니다. 진행 상황은 매 단계 문자로 알려드립니다.</p></div>
+      <div class="st"><small>STEP 05</small><h4>마무리 · 사후</h4>
+        <p>결과가 나오면 다음에 무엇을 해야 하는지 정리해 드립니다.
+          이후 생기는 질문은 추가 비용 없이 답해 드립니다.</p></div>
+    </div>
+  </section>
+
+  <section class="sec light" id="fee" style="padding-top:0">
+    <div class="hd">
+      <span class="eb">Fee</span>
+      <h2 class="my">비용을 먼저 말씀드립니다</h2>
+      <p>사건마다 다르지만 대략의 범위는 이렇습니다. 상담할 때 정확한 금액을 문서로 드립니다.</p>
+    </div>
+    <table class="fee">
+      <thead><tr><th>구분</th><th class="r">착수금</th><th class="r">성공보수</th><th class="r">기간</th></tr></thead>
+      <tbody>
+        <tr><th>형사 &mdash; 수사 단계</th><td class="r">330만원 ~</td><td class="r">협의</td><td class="r">1~3개월</td></tr>
+        <tr><th>형사 &mdash; 1심</th><td class="r">550만원 ~</td><td class="r">협의</td><td class="r">4~8개월</td></tr>
+        <tr><th>이혼 &mdash; 협의</th><td class="r">220만원 ~</td><td class="r">없음</td><td class="r">1~2개월</td></tr>
+        <tr><th>이혼 &mdash; 소송</th><td class="r">440만원 ~</td><td class="r">재산분할 연동</td><td class="r">6~12개월</td></tr>
+        <tr><th>상속 &mdash; 유류분</th><td class="r">440만원 ~</td><td class="r">회수액 연동</td><td class="r">8~14개월</td></tr>
+        <tr><th>부동산 &mdash; 명도</th><td class="r">330만원 ~</td><td class="r">협의</td><td class="r">3~6개월</td></tr>
+        <tr><th>노동 &mdash; 부당해고</th><td class="r">220만원 ~</td><td class="r">복직 시 협의</td><td class="r">3~5개월</td></tr>
+      </tbody>
+    </table>
+    <p class="feenote">부가세 별도입니다. 인지대·송달료 같은 실비는 따로 들어갑니다.<br>
+      경제적 사정이 어려우신 경우 분할이 가능합니다. 상담할 때 말씀해 주세요.</p>
+  </section>
+
+  <section class="sec">
+    <div class="hd">
+      <span class="eb">Voices</span>
+      <h2 class="my">의뢰인이 남긴 말</h2>
+    </div>
+    <div class="revw">
+      <div class="revt" id="revt">
+        <article class="rv1"><p class="q my">&ldquo;무엇이 남았는지 매번 알려주셔서
+          기다리는 게 덜 무서웠습니다.&rdquo;</p><div class="w">형사 · 40대 · 2026</div></article>
+        <article class="rv1"><p class="q my">&ldquo;처음 상담에서 안 되는 건 안 된다고
+          말씀해 주신 게 오히려 믿음이 갔습니다.&rdquo;</p><div class="w">이혼 · 30대 · 2025</div></article>
+        <article class="rv1"><p class="q my">&ldquo;서류를 잔뜩 들고 갔는데
+          하나하나 무엇인지 다 설명해 주셨습니다.&rdquo;</p><div class="w">상속 · 50대 · 2025</div></article>
+        <article class="rv1"><p class="q my">&ldquo;비용을 먼저 문서로 주셔서
+          집에 와서 가족과 상의할 수 있었습니다.&rdquo;</p><div class="w">부동산 · 60대 · 2025</div></article>
+        <article class="rv1"><p class="q my">&ldquo;끝나고 나서도 질문에 답을 주셨습니다.
+          그게 제일 고마웠습니다.&rdquo;</p><div class="w">노동 · 30대 · 2024</div></article>
+      </div>
+    </div>
+    <div class="revnav">
+      <button id="revP" aria-label="이전">&larr;</button>
+      <button id="revN" aria-label="다음">&rarr;</button>
+    </div>
+  </section>
+
+  <section class="sec light" id="faq">
+    <div class="hd">
+      <span class="eb">FAQ</span>
+      <h2 class="my">자주 묻는 질문</h2>
+    </div>
+    <div class="qa"><button class="q">상담은 유료인가요<i>+</i></button>
+      <div class="a"><p>첫 상담은 무료입니다. 30분 정도 걸립니다.
+        서류 검토가 많이 필요한 경우에는 별도 검토료를 말씀드리고 진행합니다.</p></div></div>
+    <div class="qa"><button class="q">지금 조사를 받으라는 연락을 받았습니다<i>+</i></button>
+      <div class="a"><p>조사 전에 오시는 것이 가장 좋습니다.
+        무엇을 묻는지, 어떻게 답해야 하는지 미리 정리하면 결과가 달라집니다.
+        일정이 촉박하시면 전화 주세요. 당일 상담도 잡아 드립니다.</p></div></div>
+    <div class="qa"><button class="q">담당 변호사가 중간에 바뀌나요<i>+</i></button>
+      <div class="a"><p>바뀌지 않습니다. 상담한 변호사가 끝까지 맡습니다.
+        큰 사건은 두세 명이 함께 보지만 주 담당은 고정입니다.</p></div></div>
+    <div class="qa"><button class="q">비용을 나눠 낼 수 있나요<i>+</i></button>
+      <div class="a"><p>가능합니다. 사정을 말씀해 주시면 사건 진행에 맞춰 나눠 받습니다.
+        돈 때문에 대응 시기를 놓치는 것이 가장 안 좋습니다.</p></div></div>
+    <div class="qa"><button class="q">이길 수 있는지 먼저 알고 싶습니다<i>+</i></button>
+      <div class="a"><p>결과를 약속드리지는 않습니다. 그럴 수 있다고 말하는 곳은 피하시는 게 좋습니다.
+        대신 지금 자료로 어디까지 다툴 수 있는지, 무엇이 부족한지는 정확히 말씀드립니다.</p></div></div>
+    <div class="qa"><button class="q">지방인데 상담이 되나요<i>+</i></button>
+      <div class="a"><p>됩니다. 첫 상담은 영상으로 하고 서류는 우편이나 메일로 받습니다.
+        재판 기일에는 저희가 내려갑니다.</p></div></div>
+  </section>
+
+</main>
+
+<!-- 상담 팝업 -->
+<div class="mod" id="mod">
+  <div class="card">
+    <button class="x" data-modx>&times;</button>
+    <div class="form">
+      <h3 class="my">상담 신청</h3>
+      <p class="lead">첫 상담은 무료입니다. 접수하신 순서대로 연락드립니다.</p>
+      <div class="row">
+        <div class="fw"><label class="f">이름</label><input type="text" placeholder="성함"></div>
+        <div class="fw"><label class="f">연락처</label><input type="text" placeholder="010-0000-0000"></div>
+      </div>
+      <div class="row">
+        <div class="fw"><label class="f">사건 종류</label>
+          <select><option>형사</option><option>이혼 · 가사</option><option>상속</option>
+            <option>부동산 · 건설</option><option>노동</option><option>기업 자문</option>
+            <option>그 밖에</option></select></div>
+        <div class="fw"><label class="f">진행 단계</label>
+          <select><option>아직 아무것도 진행되지 않음</option><option>경찰 조사 예정 · 진행 중</option>
+            <option>검찰 송치 이후</option><option>재판 진행 중</option><option>판결 이후</option>
+          </select></div>
+      </div>
+      <div class="fw"><label class="f">희망 연락 시간</label>
+        <select><option>아무 때나</option><option>오전 (09~12시)</option>
+          <option>오후 (13~18시)</option><option>저녁 (18~20시)</option></select></div>
+      <div class="fw"><label class="f">상황을 짧게 적어 주세요</label>
+        <textarea rows="4" placeholder="언제, 무슨 일이 있었는지. 자세하지 않아도 됩니다."></textarea></div>
+      <button class="go" id="mGo">상담 신청</button>
+      <p class="sec2">남겨주신 내용은 상담 목적으로만 쓰고 외부에 알리지 않습니다.
+        변호사에게는 법으로 정해진 비밀유지 의무가 있습니다.</p>
+    </div>
+    <div class="ok"><b class="my">접수되었습니다</b>
+      <p>담당 변호사를 정해 연락드리겠습니다.<br>
+        급하신 경우 대표번호로 전화 주세요.<br>
+        <small>(견본 화면입니다. 실제로 전송되지 않습니다.)</small></p></div>
+  </div>
+</div>
+
+<button class="up" id="up">&uarr;</button>
+
+<div class="demo">이 화면은 <b>Perfect_Web 참고 디자인 견본</b>입니다. 실제 법무법인이 아니며 법률 자문이 아닙니다.
+  <a href="../index.html#design">&larr; 목록으로</a></div>
+
+<div class="bbar">
+  <div class="l">긴급 사건은 24시간 접수합니다
+    <b class="my">02-000-0000</b></div>
+  <div class="r">
+    <a href="#fee">비용 보기</a>
+    <button class="main" data-ask>상담 신청</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function(id){ return document.getElementById(id); };
+  var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+
+  /* ══ 05. 업무분야 ══ */
+  var FIELDS = [
+    {n:'형사', en:'Criminal', t:'형사 사건',
+     d:'수사 단계에서 무엇을 말하느냐로 결과가 크게 갈립니다. 조사 전에 오시는 것이 가장 좋습니다.',
+     li:['조사 동행 · 진술 정리','구속영장 대응','불송치 · 불기소 의견서','1심부터 상고심까지']},
+    {n:'이혼 · 가사', en:'Family', t:'이혼 · 가사',
+     d:'재산과 아이 문제는 나중에 바꾸기 어렵습니다. 처음 합의서를 쓸 때가 가장 중요합니다.',
+     li:['협의이혼 · 합의서 작성','재산분할 · 위자료','양육권 · 면접교섭','사실혼 관계 정리']},
+    {n:'상속', en:'Inheritance', t:'상속 · 유류분',
+     d:'기한이 정해진 절차가 많습니다. 늦으면 권리 자체가 사라지는 경우가 있습니다.',
+     li:['상속 포기 · 한정승인','유류분 반환','상속재산 분할','유언 검인']},
+    {n:'부동산 · 건설', en:'Real Estate', t:'부동산 · 건설',
+     d:'계약서 한 줄이 몇 년을 좌우합니다. 서명 전에 한 번 보여주시는 것이 가장 쌉니다.',
+     li:['명도 · 인도 소송','매매 · 임대차 분쟁','공사대금 · 하자','재개발 · 재건축']},
+    {n:'노동', en:'Labor', t:'노동 · 산재',
+     d:'회사를 상대로 혼자 다투면 시간과 마음이 먼저 소진됩니다. 절차를 대신 밟아 드립니다.',
+     li:['부당해고 구제신청','임금 · 퇴직금 청구','직장 내 괴롭힘','산업재해 보상']},
+    {n:'기업 자문', en:'Corporate', t:'기업 자문',
+     d:'문제가 터진 뒤보다 계약서를 쓸 때 부르시는 편이 훨씬 저렴합니다.',
+     li:['상시 자문 계약','계약서 검토 · 작성','주주 간 분쟁','노무 · 인사 자문']}
+  ];
+  (function fields(){
+    var list = $('flist'), tx = $('fTx'), imgs = $$('#fPh img');
+    list.innerHTML = FIELDS.map(function(f, i){
+      return '<button class="frow' + (i === 0 ? ' on' : '') + '" data-i="' + i + '">' +
+        '<span class="no">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="nm">' + f.n + '<em>' + f.en + '</em></span>' +
+        '<span class="ar">&rarr;</span></button>';
+    }).join('');
+    function draw(i){
+      var f = FIELDS[i];
+      tx.innerHTML = '<h3>' + f.t + '</h3><p>' + f.d + '</p><ul>' +
+        f.li.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ul>';
+      imgs.forEach(function(im, k){ im.classList.toggle('on', k === i); });
+      $$('.frow').forEach(function(b, k){ b.classList.toggle('on', k === i); });
+      if(window.gsap) gsap.fromTo(tx, {y:12, opacity:0}, {y:0, opacity:1, duration:.45, ease:'power2.out'});
+    }
+    $$('.frow').forEach(function(b){
+      b.addEventListener('mouseenter', function(){ draw(+b.dataset.i); });
+      b.addEventListener('click', function(){ draw(+b.dataset.i); });
+    });
+    draw(0);
+  })();
+
+  /* ══ 06·07. 해결 사례 ══ */
+  var CASES = [
+    {k:'cri', kn:'형사', t:'상해 혐의 — 쌍방 다툼에서 정당방위 주장', r:'불기소',
+     s:'술자리에서 시비가 붙어 상대가 먼저 밀친 사건. 의뢰인만 고소당했습니다.',
+     h:'주변 가게 CCTV를 확보하고 목격자 진술을 받아, 먼저 손을 댄 쪽이 상대임을 시간 순서로 정리했습니다.',
+     y:'2026'},
+    {k:'cri', kn:'형사', t:'업무상 횡령 혐의 — 회계 처리 착오 소명', r:'혐의없음',
+     s:'경리 담당자가 대표 지시로 처리한 항목이 횡령으로 고발된 사건.',
+     h:'3년치 전표와 결재 내역을 대조해 지시 계통을 밝히고, 개인 계좌로 흘러간 돈이 없음을 입증했습니다.',
+     y:'2025'},
+    {k:'fam', kn:'이혼', t:'재산분할 — 혼인 전 취득 아파트의 기여도', r:'분할 비율 상향',
+     s:'배우자 명의 아파트가 혼인 전 매수분이라 분할 대상이 아니라는 주장이 있었습니다.',
+     h:'혼인 기간 중 갚은 대출 원리금과 가사노동 기여를 자료로 정리해 기여도를 인정받았습니다.',
+     y:'2025'},
+    {k:'fam', kn:'이혼', t:'양육권 — 비양육 상태에서 친권 회복', r:'양육자 변경',
+     s:'별거 중 아이를 데려간 상대가 면접교섭을 막은 사건.',
+     h:'아이의 학교 적응 자료와 상담 기록을 제출해 현재 환경이 아이에게 불리함을 다퉜습니다.',
+     y:'2024'},
+    {k:'inh', kn:'상속', t:'유류분 반환 — 생전 증여된 부동산', r:'일부 인용',
+     s:'아버지가 장남에게만 부동산을 넘긴 뒤 사망해 다른 형제가 소외된 사건.',
+     h:'증여 시점의 시가를 감정으로 확정하고 특별수익으로 산입해 유류분을 계산했습니다.',
+     y:'2025'},
+    {k:'est', kn:'부동산', t:'명도 — 계약 만료 후 퇴거 거부', r:'인도 완료',
+     s:'임대차 기간이 끝났는데 임차인이 나가지 않아 새 임차인을 받지 못한 사건.',
+     h:'점유이전금지 가처분을 먼저 걸어 시간을 벌고, 본안과 강제집행까지 5개월에 마쳤습니다.',
+     y:'2025'},
+    {k:'est', kn:'부동산', t:'공사대금 — 추가 공사분 미지급', r:'전액 인용',
+     s:'구두로 지시받은 추가 공사를 마쳤으나 계약서에 없다며 대금을 거부한 사건.',
+     h:'현장 사진, 카카오톡 지시 내역, 자재 반입 기록을 시간순으로 묶어 추가 합의를 입증했습니다.',
+     y:'2024'},
+    {k:'lab', kn:'노동', t:'부당해고 — 권고사직 형식의 실질 해고', r:'복직 · 임금 지급',
+     s:'사직서를 쓰라는 압박을 받고 퇴사한 뒤 실업급여마저 막힌 사건.',
+     h:'사직 권유 당시 녹취와 동료 진술로 자발적 퇴사가 아님을 밝혔습니다.',
+     y:'2025'},
+    {k:'lab', kn:'노동', t:'산업재해 — 출퇴근 중 사고 인정', r:'요양 승인',
+     s:'자차 출근 중 사고가 업무상 재해가 아니라는 이유로 반려된 사건.',
+     h:'통상적인 경로와 방법이었음을 지도와 근무 기록으로 입증해 재심에서 뒤집었습니다.',
+     y:'2024'}
+  ];
+  (function cases(){
+    var box = $('caseList');
+    box.innerHTML = CASES.map(function(c, i){
+      return '<div class="cs" data-k="' + c.k + '">' +
+        '<button class="hd2"><span class="no">' + c.kn + ' · ' + c.y + '</span>' +
+        '<span class="tt">' + c.t + '</span>' +
+        '<span class="rs">' + c.r + '</span><span class="pl">+</span></button>' +
+        '<div class="bd"><div class="in">' +
+        '<div><h4>어떤 사건이었나</h4><p>' + c.s + '</p></div>' +
+        '<div><h4>어떻게 다퉜나</h4><p>' + c.h + '</p></div>' +
+        '</div></div></div>';
+    }).join('');
+
+    $$('.cs .hd2').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var cs = btn.parentElement;
+        var open = cs.classList.contains('on');
+        $$('.cs.on').forEach(function(o){
+          o.classList.remove('on'); o.querySelector('.bd').style.height = '0px';
+        });
+        if(!open){
+          cs.classList.add('on');
+          var bd = cs.querySelector('.bd');
+          bd.style.height = bd.scrollHeight + 'px';
+        }
+      });
+    });
+
+    $$('#cf button').forEach(function(b){
+      b.addEventListener('click', function(){
+        $$('#cf button').forEach(function(o){ o.classList.remove('on'); });
+        b.classList.add('on');
+        var k = b.dataset.k;
+        $$('.cs').forEach(function(cs){
+          cs.classList.toggle('hide', k !== 'all' && cs.dataset.k !== k);
+        });
+        if(window.ScrollTrigger) ScrollTrigger.refresh();
+      });
+    });
+  })();
+
+  /* ══ 12. 질문 접기 ══ */
+  $$('.qa').forEach(function(qa){
+    qa.querySelector('.q').addEventListener('click', function(){
+      var open = qa.classList.contains('on');
+      $$('.qa.on').forEach(function(o){
+        o.classList.remove('on'); o.querySelector('.a').style.height = '0px';
+      });
+      if(!open){
+        qa.classList.add('on');
+        var p = qa.querySelector('.a'); p.style.height = p.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ══ 11. 후기 넘기기 ══ */
+  (function reviews(){
+    var track = $('revt');
+    if(!track) return;
+    var i = 0;
+    function step(){
+      var c = track.children[0]; if(!c) return 0;
+      var gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return c.getBoundingClientRect().width + gap;
+    }
+    function go(n){
+      var per = Math.max(1, Math.floor(track.parentElement.clientWidth / step()));
+      var max = Math.max(0, track.children.length - per);
+      i = Math.min(max, Math.max(0, n));
+      track.style.transform = 'translateX(' + (-i * step()) + 'px)';
+    }
+    $('revP').addEventListener('click', function(){ go(i - 1); });
+    $('revN').addEventListener('click', function(){ go(i + 1); });
+    addEventListener('resize', function(){ go(i); });
+  })();
+
+  /* ══ 13. 상담 팝업 ══ */
+  (function modal(){
+    var m = $('mod');
+    function open(){ m.classList.add('on'); if(window.__lenis) window.__lenis.stop(); }
+    function close(){ m.classList.remove('on'); if(window.__lenis) window.__lenis.start(); }
+    $$('[data-ask]').forEach(function(b){ b.addEventListener('click', open); });
+    m.querySelector('[data-modx]').addEventListener('click', close);
+    m.addEventListener('click', function(e){ if(e.target === m) close(); });
+    addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+    // ⚠ 견본이라 실제로 보내지 않는다. alert 는 화면을 멈추므로 쓰지 않는다.
+    $('mGo').addEventListener('click', function(){ m.classList.add('sent'); });
+  })();
+
+  /* ══ 03·15. 진행 막대 · 상단 바 · 맨 위로 ══ */
+  (function chrome(){
+    var up = $('up'), top = $('top'), prog = $('prog');
+    up.addEventListener('click', function(){
+      if(window.__lenis) window.__lenis.scrollTo(0, {duration:1.2});
+      else scrollTo({top:0, behavior:'smooth'});
+    });
+    // 밝은 구간 위에 상단 바가 올라가면 글자색을 뒤집는다
+    var lights = $$('.light');
+    function paint(){
+      up.classList.toggle('on', scrollY > 700);
+      top.classList.toggle('solid', scrollY > 90);
+      var y = 60, onLight = false;
+      lights.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if(r.top <= y && r.bottom >= y) onLight = true;
+      });
+      top.classList.toggle('light', onLight);
+      var h = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+    }
+    addEventListener('scroll', paint, {passive:true});
+    paint();
+  })();
+
+  function ready(){ document.body.classList.add('ready'); }
+  if(document.readyState === 'loading') addEventListener('DOMContentLoaded', ready);
+  else ready();
+
+  /* ─── 아래는 GSAP 이 있어야 하는 것들 ─── */
+  var ok = window.gsap && window.ScrollTrigger;
+  if(!ok || reduce) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var lenis = null;
+  if(window.Lenis){
+    lenis = new Lenis({duration:1.15, smoothWheel:true,
+      easing:function(t){ return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    window.__lenis = lenis;
+    // ⚠ Lenis 를 쓰면 브라우저 기본 앵커 이동이 안 먹는다.
+    $$('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href'); if(id.length < 2) return;
+        var el = document.querySelector(id); if(!el) return;
+        e.preventDefault(); lenis.scrollTo(el, {offset:-70, duration:1.3});
+      });
+    });
+  }
+
+  /* 첫 화면 배경이 천천히 밀린다 */
+  gsap.to('.hero .bgw', {yPercent:12, scale:1.08, ease:'none',
+    scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+
+  /* 04. 숫자 올라가기
+     🚨 Lenis 로 건너뛰면 scroll 이벤트도 IntersectionObserver 도 놓친다.
+        gsap.ticker 로 매 프레임 본다. HTML 에 값이 박혀 있어 안 돌아도 숫자는 보인다. */
+  (function counter(){
+    var els = $$('.nums b'), done = els.map(function(){ return false; });
+    var tick = function(){
+      var all = true;
+      els.forEach(function(el, i){
+        if(done[i]) return;
+        all = false;
+        if(el.getBoundingClientRect().top < innerHeight * 0.92){
+          done[i] = true;
+          var to = parseInt(el.dataset.n, 10) || 0, o = {v:0};
+          gsap.to(o, {v:to, duration:1.8, ease:'power2.out',
+            onUpdate:function(){
+              el.textContent = to >= 1000 ? Math.floor(o.v).toLocaleString('ko-KR') : Math.floor(o.v);
+            },
+            onComplete:function(){
+              el.textContent = to >= 1000 ? to.toLocaleString('ko-KR') : to;
+              if(to >= 1000) el.innerHTML = el.textContent + '<i>+</i>';
+            }});
+        }
+      });
+      if(all) gsap.ticker.remove(tick);
+    };
+    gsap.ticker.add(tick);
+  })();
+
+  /* 09. 상담 절차 — 세로선이 스크롤에 맞춰 그려진다 */
+  (function line(){
+    var steps = $('steps'), fill = $('stFill');
+    if(!steps || !fill) return;
+    ScrollTrigger.create({
+      trigger:steps, start:'top 72%', end:'bottom 72%', scrub:.5,
+      onUpdate:function(self){
+        fill.style.height = (self.progress * 100).toFixed(2) + '%';
+      }
+    });
+  })();
+
+  /* 구성원 · 사례 · 제목 드러나기 */
+  ScrollTrigger.batch('.mc', {
+    start:'top 92%', once:true,
+    onEnter:function(els){
+      gsap.fromTo(els, {y:26, opacity:0},
+        {y:0, opacity:1, duration:.85, ease:'expo.out', stagger:.07, immediateRender:false});
+    }
+  });
+  gsap.utils.toArray('.sec .hd, .frow, .st, .fee, .rv1').forEach(function(el){
+    gsap.fromTo(el, {y:22, opacity:0}, {y:0, opacity:1, duration:.9, ease:'expo.out',
+      immediateRender:false, scrollTrigger:{trigger:el, start:'top 92%', once:true}});
+  });
+
+  addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  addEventListener('resize', function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>

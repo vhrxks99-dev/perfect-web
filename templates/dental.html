@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온바른치과 | Perfect_Web 참고 디자인</title>
+<meta name="description" content="치과·병의원 홈페이지 참고 디자인. 배경 영상, 진료과목 탭, 실시간 진료 여부, 온라인 예약.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<!--
+  2026-09-06 — C유형 견본. 병의원(치과).
+  원장님이 보내주신 신촌다인치과(ysdain.com)를 참고했다.
+  참고한 것은 짜임새와 움직임뿐이고, 영상·사진은 전부 무료 소재로 새로 받았다.
+  (남의 병원 영상을 쓰면 저작권 문제가 되고 크몽 계정까지 위험하다.)
+
+  아파트(A) 는 세로 띠, 공방(B) 은 흰 여백과 큰 글자.
+  병원(C) 은 '화면을 가득 채우는 영상 + 정보가 촘촘한 카드' 로 셋 다 다르게 두었다.
+
+  넣은 것 16가지
+   01 첫 화면 가득 채우는 배경 영상 (소리 없음, 스크롤하면 줄어들며 어두워진다)
+   02 처음 들어오면 뜨는 공지 팝업 ('오늘 하루 안 보기' 기억)
+   03 맨 위 진행 막대 + 스크롤하면 하얘지는 상단 바
+   04 진료과목 탭 (누르면 사진과 설명이 통째로 바뀐다)
+   05 지금 진료 중인지 실시간 표시 (요일·시간으로 판단, 점심시간까지)
+   06 진료시간표에서 오늘 요일이 강조된다
+   07 숫자 올라가는 실적 칸
+   08 의료진 카드 좌우로 넘기기
+   09 시설 사진 옆으로 미는 갤러리
+   10 두 번째 영상 구간 (스크롤에 맞춰 확대)
+   11 치료 과정 6단계 (왼쪽 붙어 있고 오른쪽만 넘어간다)
+   12 자주 묻는 질문 접었다 펴기
+   13 온라인 예약 팝업 (날짜·시간·진료과목 고르기)
+   14 오시는 길 + 주차 안내
+   15 아래 고정된 빠른 상담 바 (전화·카톡·예약)
+   16 맨 위로 단추
+-->
+<style>
+/* 썸네일 캡처용. 주소 뒤에 ?shot=1 을 붙이면 등장 애니메이션을 건너뛴다.
+   헤드리스로 화면을 뜰 때 글자가 반쯤 올라온 채로 찍히는 걸 막는다. */
+body.shot .hero h1 .ln span{transform:none!important;transition:none!important}
+body.shot .hero p,body.shot .hero .qk{opacity:1!important;transform:none!important;transition:none!important}
+body.shot .pop{display:none!important}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0E2320;        /* 깊은 청록 — 치과에 흔한 하늘색을 피했다 */
+  --ink2:#16332E;
+  --paper:#F6F4EF;
+  --line:#DDD9D0;
+  --mute:#7C8580;
+  --pt:#2E7D6B;         /* 포인트 */
+  --pt2:#C9A227;        /* 아주 조금만 쓰는 두 번째 포인트 */
+  --pad:clamp(18px,4.5vw,74px);
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);
+  font-family:'Pretendard Variable',system-ui,sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:56px}
+img{display:block;width:100%;height:100%;object-fit:cover}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--pt);color:#fff}
+.eb{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--pt)}
+
+/* ══ 03. 진행 막대 · 상단 바 ══ */
+.prog{position:fixed;inset:0 auto auto 0;height:3px;width:100%;z-index:120;
+  background:var(--pt);transform:scaleX(0);transform-origin:left}
+.top{position:fixed;inset:0 0 auto 0;z-index:110;display:flex;align-items:center;
+  justify-content:space-between;padding:16px var(--pad);color:#fff;
+  transition:background .4s,color .4s,padding .4s,box-shadow .4s}
+.top.solid{background:rgba(246,244,239,.96);backdrop-filter:blur(10px);color:var(--ink);
+  padding-top:11px;padding-bottom:11px;box-shadow:0 1px 0 var(--line)}
+.top .logo{font-size:clamp(16px,1.6vw,20px);font-weight:800;letter-spacing:-.03em}
+.top .logo i{font-style:normal;color:var(--pt2)}
+.top nav{display:flex;gap:clamp(10px,1.9vw,26px);align-items:center;font-size:13.5px}
+.top .call{border:1px solid currentColor;border-radius:999px;padding:8px 16px;font-size:12.5px;
+  font-weight:600}
+.top .bk{background:var(--pt);border-color:var(--pt);color:#fff}
+@media (max-width:860px){ .top nav a{display:none} }
+
+/* ══ 01. 첫 화면 ══ */
+.hero{position:relative;height:100svh;overflow:hidden;color:#fff;
+  display:grid;align-items:end}
+.hero .vidwrap{position:absolute;inset:0;overflow:hidden}
+.hero video{width:100%;height:100%;object-fit:cover}
+.hero .sh{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,24,21,.74) 0%,rgba(8,24,21,.46) 40%,rgba(8,24,21,.92) 100%)}
+.hero .in{position:relative;z-index:2;padding:0 var(--pad) clamp(90px,14vh,150px);width:100%}
+.hero .kick{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.4);
+  border-radius:999px;padding:7px 15px;font-size:12px;letter-spacing:.06em;margin-bottom:22px}
+.hero .kick .dot{width:7px;height:7px;border-radius:50%;background:#5FD3A6;
+  box-shadow:0 0 0 0 rgba(95,211,166,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(95,211,166,0)}100%{box-shadow:0 0 0 0 rgba(95,211,166,0)}}
+.hero h1{font-size:clamp(30px,5.4vw,74px);line-height:1.2;letter-spacing:-.04em;font-weight:800;
+  max-width:16ch}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:block;transform:translateY(105%);
+  transition:transform 1s cubic-bezier(.16,1,.3,1)}
+body.ready .hero h1 .ln span{transform:translateY(0)}
+.hero p{margin-top:18px;font-size:clamp(13.5px,1.5vw,17px);line-height:1.85;color:#D9E4E0;
+  max-width:44ch;opacity:0;transition:opacity .9s .75s}
+body.ready .hero p{opacity:1}
+.hero .qk{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap;
+  opacity:0;transform:translateY(12px);transition:opacity .9s .95s,transform .9s .95s}
+body.ready .hero .qk{opacity:1;transform:none}
+.hero .qk a{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:11px 20px;
+  font-size:13px;transition:background .3s,color .3s,border-color .3s}
+.hero .qk a:hover{background:#fff;color:var(--ink);border-color:#fff}
+.hero .qk a.on{background:var(--pt);border-color:var(--pt)}
+
+/* ══ 05. 지금 진료 중 ══ */
+.live{position:absolute;right:var(--pad);bottom:clamp(90px,14vh,150px);z-index:3;
+  background:rgba(246,244,239,.94);color:var(--ink);border-radius:3px;
+  padding:16px 20px;min-width:212px;backdrop-filter:blur(8px)}
+.live b{display:block;font-size:15px;letter-spacing:-.02em;margin-bottom:5px}
+.live b .d{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2E9E6B;
+  margin-right:7px;vertical-align:1px}
+.live b.off .d{background:#C0574A}
+.live small{display:block;font-size:12px;color:var(--mute);line-height:1.7}
+@media (max-width:860px){ .live{position:static;margin:18px var(--pad) 0} .hero{align-items:end} }
+
+/* ══ 07. 숫자 ══ */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink);color:#EAF0ED}
+.nums div{padding:clamp(28px,4.4vw,52px) 14px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.09)}
+.nums div:last-child{border-right:0}
+.nums b{display:block;font-size:clamp(26px,4vw,52px);font-weight:800;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums}
+.nums b i{font-style:normal;color:var(--pt2);font-size:.55em;margin-left:2px}
+.nums small{display:block;margin-top:7px;font-size:11.5px;letter-spacing:.16em;color:#8FA39C}
+
+/* ══ 공통 제목 ══ */
+.sec{padding:clamp(56px,9vh,116px) var(--pad)}
+.sec > .hd{margin-bottom:clamp(24px,4vh,46px)}
+.sec > .hd h2{font-size:clamp(23px,3.4vw,44px);letter-spacing:-.04em;line-height:1.25;
+  font-weight:800;margin-top:10px}
+.sec > .hd p{margin-top:12px;font-size:14.5px;line-height:1.9;color:#5A6560;max-width:52ch}
+
+/* ══ 04. 진료과목 탭 ══ */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.tabs button{border:1px solid var(--line);border-radius:999px;padding:10px 20px;font-size:13.5px;
+  color:#5A6560;transition:.3s}
+.tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.tp{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(16px,3vw,44px);align-items:center}
+.tp .ph{aspect-ratio:4/3;overflow:hidden;background:#E6E2DA;position:relative}
+.tp .ph img{position:absolute;inset:0;opacity:0;transition:opacity .6s}
+.tp .ph img.on{opacity:1}
+.tp .tx h3{font-size:clamp(20px,2.6vw,34px);letter-spacing:-.035em;font-weight:800}
+.tp .tx p{margin-top:14px;font-size:14.5px;line-height:1.95;color:#5A6560}
+.tp .tx ul{margin-top:20px;display:grid;gap:9px}
+.tp .tx li{list-style:none;font-size:14px;color:#3E4A46;padding-left:18px;position:relative}
+.tp .tx li::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;
+  border-radius:50%;background:var(--pt)}
+.tp .tx .meta{margin-top:22px;display:flex;gap:26px;border-top:1px solid var(--line);padding-top:16px}
+.tp .tx .meta div small{display:block;font-size:11px;letter-spacing:.14em;color:var(--mute);
+  margin-bottom:5px}
+.tp .tx .meta div b{font-size:15px;letter-spacing:-.02em}
+@media (max-width:860px){ .tp{grid-template-columns:1fr} }
+
+/* ══ 10. 두 번째 영상 ══ */
+.vid2{position:relative;height:clamp(360px,72vh,660px);overflow:hidden;background:#0B1A17}
+.vid2 video{width:100%;height:100%;object-fit:cover;opacity:.62}
+.vid2 .cap{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  color:#fff;padding:0 var(--pad)}
+.vid2 .cap h3{font-size:clamp(22px,3.6vw,50px);letter-spacing:-.04em;font-weight:800;line-height:1.3}
+.vid2 .cap p{margin-top:14px;font-size:14.5px;color:#CDDBD6;line-height:1.9}
+
+/* ══ 08. 의료진 ══ */
+.docs{position:relative}
+.docwrap{overflow:hidden}
+.doctrack{display:flex;gap:clamp(12px,2vw,24px);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.doc{flex:0 0 auto;width:clamp(220px,25vw,300px);background:#fff;border:1px solid var(--line)}
+.doc .hdd{aspect-ratio:16/9;background:var(--ink);color:#EAF0ED;display:grid;
+  place-content:center;text-align:center;gap:7px;position:relative;overflow:hidden}
+.doc .hdd::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pt)}
+.doc .hdd .en{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--pt2)}
+.doc .hdd .ko{font-size:clamp(20px,2.4vw,28px);font-weight:800;letter-spacing:-.03em}
+.doc:hover .hdd{background:var(--ink2)}
+.doc .tx{padding:18px}
+.doc .tx b{font-size:17px;letter-spacing:-.03em}
+.doc .tx b em{font-style:normal;font-size:12.5px;color:var(--mute);margin-left:6px}
+.doc .tx p{margin-top:9px;font-size:12.5px;line-height:1.8;color:#5A6560}
+.doc .tx .tg{margin-top:12px;display:flex;gap:6px;flex-wrap:wrap}
+.doc .tx .tg span{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;
+  color:var(--pt)}
+.docnav{display:flex;gap:8px;margin-top:20px}
+.docnav button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-items:center;transition:.3s}
+.docnav button:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ══ 09. 시설 가로 갤러리 ══ */
+.fac{background:var(--ink);color:#EAF0ED;overflow:hidden;position:relative}
+.facwrap{height:100svh;display:flex;align-items:center}
+.factrack{display:flex;gap:clamp(14px,2.4vw,32px);padding:0 var(--pad);will-change:transform}
+.factrack figure{flex:0 0 auto;width:clamp(230px,28vw,430px)}
+.factrack figure.w{width:clamp(300px,40vw,600px)}
+.factrack .ph{aspect-ratio:3/4;overflow:hidden;background:#123]}
+.factrack figure.w .ph{aspect-ratio:4/3}
+.factrack figcaption{margin-top:12px;font-size:12px;letter-spacing:.12em;color:#8FA39C;
+  display:flex;justify-content:space-between}
+.fac .ttl{position:absolute;left:var(--pad);top:clamp(58px,10vh,94px);z-index:2}
+.fac .ttl h2{font-size:clamp(20px,2.6vw,34px);letter-spacing:-.035em;font-weight:800;margin-top:8px}
+
+/* ══ 11. 치료 과정 ══ */
+.flow{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(18px,3.4vw,60px);align-items:start}
+.flow .stick{position:sticky;top:20vh}
+.flow .stick h2{font-size:clamp(23px,3.4vw,44px);letter-spacing:-.04em;font-weight:800;line-height:1.25}
+.flow .stick p{margin-top:14px;font-size:14px;line-height:1.9;color:#5A6560;max-width:32ch}
+.fstep{border-left:2px solid var(--line);padding:0 0 clamp(24px,4vw,40px) clamp(18px,2.6vw,30px);
+  position:relative}
+.fstep::before{content:'';position:absolute;left:-7px;top:4px;width:12px;height:12px;
+  border-radius:50%;background:var(--paper);border:2px solid var(--pt)}
+.fstep:last-child{border-left-color:transparent;padding-bottom:0}
+.fstep small{font-size:11.5px;letter-spacing:.2em;color:var(--pt)}
+.fstep h4{margin-top:7px;font-size:clamp(16px,1.9vw,22px);letter-spacing:-.03em;font-weight:700}
+.fstep p{margin-top:8px;font-size:13.5px;line-height:1.9;color:#5A6560;max-width:46ch}
+@media (max-width:860px){ .flow{grid-template-columns:1fr} .flow .stick{position:static} }
+
+/* ══ 06. 진료시간 ══ */
+.hours{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,50px);align-items:start}
+.htab{width:100%;border-collapse:collapse;font-size:14.5px}
+.htab tr{border-bottom:1px solid var(--line)}
+.htab th{text-align:left;padding:14px 0;font-weight:600;width:34%}
+.htab td{padding:14px 0;color:#5A6560;font-variant-numeric:tabular-nums}
+.htab tr.today{background:#EDF3F0}
+.htab tr.today th{color:var(--pt);position:relative;padding-left:12px}
+.htab tr.today th::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:16px;background:var(--pt)}
+.htab tr.off td{color:#B2544A}
+.hnote{margin-top:16px;font-size:13px;color:var(--mute);line-height:1.9}
+.map{background:#E6E2DA;aspect-ratio:4/3;position:relative;overflow:hidden}
+.map .pin{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  width:18px;height:18px;border-radius:50%;background:var(--pt);
+  box-shadow:0 0 0 0 rgba(46,125,107,.6);animation:pulse 2.2s infinite}
+.map .lb{position:absolute;left:0;right:0;bottom:0;background:rgba(14,35,32,.9);color:#fff;
+  padding:14px 18px;font-size:13px;line-height:1.8}
+@media (max-width:860px){ .hours{grid-template-columns:1fr} }
+
+/* ══ 12. 질문 ══ */
+.qa{border-top:1px solid var(--line)}
+.qa:last-of-type{border-bottom:1px solid var(--line)}
+.qa .q{width:100%;display:flex;justify-content:space-between;gap:16px;align-items:center;
+  padding:clamp(16px,2.2vw,24px) 0;text-align:left;font-size:clamp(15px,1.8vw,19px);
+  letter-spacing:-.025em;font-weight:600}
+.qa .q i{font-style:normal;font-size:19px;color:var(--pt);transition:transform .4s;flex:0 0 auto}
+.qa.on .q i{transform:rotate(45deg)}
+.qa .a{height:0;overflow:hidden;transition:height .5s cubic-bezier(.76,0,.24,1)}
+.qa .a p{padding-bottom:clamp(18px,2.6vw,26px);font-size:14px;line-height:1.95;color:#5A6560;
+  max-width:70ch}
+
+/* ══ 13. 예약 팝업 ══ */
+.mod{position:fixed;inset:0;z-index:170;display:grid;place-items:center;
+  background:rgba(10,25,22,.6);opacity:0;pointer-events:none;transition:opacity .4s;padding:16px}
+.mod.on{opacity:1;pointer-events:auto}
+.mod .card{background:var(--paper);width:min(94vw,560px);max-height:88vh;overflow:auto;
+  padding:clamp(22px,4vw,40px);transform:translateY(18px);
+  transition:transform .5s cubic-bezier(.16,1,.3,1);position:relative}
+.mod.on .card{transform:none}
+.mod h3{font-size:clamp(21px,3vw,32px);letter-spacing:-.035em;font-weight:800}
+.mod .lead{margin-top:8px;margin-bottom:22px;font-size:13.5px;color:#5A6560;line-height:1.85}
+.mod label{display:block;font-size:11.5px;letter-spacing:.14em;color:var(--mute);margin-bottom:7px}
+.mod .f{margin-bottom:15px}
+.mod input,.mod select,.mod textarea{width:100%;border:1px solid var(--line);background:#fff;
+  padding:12px 14px;font:inherit;font-size:14px;border-radius:0}
+.mod .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mod .slots{display:flex;gap:7px;flex-wrap:wrap}
+.mod .slots button{border:1px solid var(--line);background:#fff;padding:9px 14px;font-size:13px;
+  transition:.25s}
+.mod .slots button.on{background:var(--pt);border-color:var(--pt);color:#fff}
+.mod .slots button:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.mod .go{width:100%;background:var(--ink);color:#fff;padding:15px;font-size:14px;font-weight:600;
+  margin-top:8px}
+.mod .x{position:absolute;top:12px;right:16px;font-size:26px;color:var(--mute);line-height:1}
+.mod .ok{display:none;text-align:center;padding:22px 0}
+.mod .ok b{display:block;font-size:clamp(19px,2.6vw,26px);margin-bottom:10px;letter-spacing:-.03em}
+.mod .ok p{font-size:13.5px;color:#5A6560;line-height:1.9}
+.mod.sent .form{display:none}
+.mod.sent .ok{display:block}
+.mod .agree{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:#5A6560;
+  line-height:1.7;margin-top:4px}
+.mod .agree input{width:auto;margin-top:3px}
+
+/* ══ 02. 공지 팝업 ══ */
+.pop{position:fixed;left:clamp(14px,3vw,44px);bottom:clamp(70px,9vh,96px);z-index:140;
+  width:min(88vw,314px);background:#fff;box-shadow:0 12px 40px rgba(10,25,22,.22);
+  opacity:0;transform:translateY(16px);pointer-events:none;transition:.5s}
+.pop.on{opacity:1;transform:none;pointer-events:auto}
+.pop .ph{aspect-ratio:16/10;overflow:hidden;background:#E6E2DA}
+.pop .tx{padding:16px 18px}
+.pop .tx b{font-size:15.5px;letter-spacing:-.025em}
+.pop .tx p{margin-top:7px;font-size:12.5px;color:#5A6560;line-height:1.8}
+.pop .bar{display:flex;border-top:1px solid var(--line);font-size:12.5px}
+.pop .bar button{flex:1;padding:12px;color:#5A6560}
+.pop .bar button+button{border-left:1px solid var(--line);color:var(--ink);font-weight:600}
+
+/* ══ 15. 아래 고정 바 ══ */
+.bbar{position:fixed;inset:auto 0 0 0;z-index:135;display:grid;grid-template-columns:repeat(3,1fr);
+  background:var(--ink);color:#EAF0ED}
+.bbar button,.bbar a{padding:16px 8px;text-align:center;font-size:13.5px;font-weight:600;
+  border-right:1px solid rgba(255,255,255,.1)}
+.bbar > :last-child{border-right:0;background:var(--pt);color:#fff}
+
+/* ══ 16. 맨 위로 ══ */
+.up{position:fixed;right:18px;bottom:70px;z-index:100;width:44px;height:44px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);display:grid;place-items:center;
+  box-shadow:0 6px 18px rgba(10,25,22,.12);opacity:0;pointer-events:none;
+  transform:translateY(10px);transition:.4s}
+.up.on{opacity:1;pointer-events:auto;transform:none}
+
+.demo{position:fixed;inset:auto 0 56px 0;z-index:132;background:#0A1614;color:#D9E4E0;
+  font-size:11.5px;padding:7px 16px;display:flex;gap:9px;justify-content:center;align-items:center;
+  flex-wrap:wrap}
+.demo b{font-weight:700;color:#fff}
+.demo a{text-decoration:underline;text-underline-offset:3px}
+
+.rv{}
+
+@media (max-width:860px){
+  .nums{grid-template-columns:1fr 1fr}
+  .nums div:nth-child(2){border-right:0}
+  .nums div:nth-child(1),.nums div:nth-child(2){border-bottom:1px solid rgba(255,255,255,.09)}
+  .mod .row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .hero h1 .ln span{transform:none}
+  .hero p,.hero .qk{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<script>if(location.search.indexOf('shot')>=0)document.body.className='shot';</script>
+
+<div class="prog" id="prog"></div>
+
+<header class="top" id="top">
+  <a class="logo" href="#tp">온바른<i>치과</i></a>
+  <nav>
+    <a href="#care">진료과목</a>
+    <a href="#docs">의료진</a>
+    <a href="#fac">둘러보기</a>
+    <a href="#hours">진료시간</a>
+    <a href="#faq">자주 묻는 질문</a>
+    <button class="call bk" data-book>예약하기</button>
+  </nav>
+</header>
+
+<main id="tp">
+
+  <section class="hero">
+    <div class="vidwrap" id="vw">
+      <video id="hv" autoplay muted loop playsinline preload="auto"
+             poster="../media/tpl/dt-hero.jpg">
+        <source src="../media/tpl/clinic-hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="sh"></div>
+
+    <div class="live" id="live">
+      <b id="liveB"><span class="d"></span>진료 시간 확인 중</b>
+      <small id="liveS">잠시만 기다려 주세요</small>
+    </div>
+
+    <div class="in">
+      <span class="kick"><span class="dot"></span>신촌역 2번 출구 · 주차 2시간 무료</span>
+      <h1>
+        <span class="ln"><span>겁이 나서 미뤄온</span></span>
+        <span class="ln"><span>치과라면</span></span>
+      </h1>
+      <p>아프지 않게 하는 것보다, 왜 아픈지 먼저 설명해 드립니다.
+        오늘 무엇을 하고 얼마가 드는지 알고 앉으시게 합니다.</p>
+      <div class="qk">
+        <a href="#care" class="on">진료과목 보기</a>
+        <a href="#hours">진료시간 · 오시는 길</a>
+        <a href="#faq">자주 묻는 질문</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="nums">
+    <div><b data-n="2009">2009</b><small>개원</small></div>
+    <div><b data-n="12">12</b><small>진료 의자</small></div>
+    <div><b data-n="38000">38000</b><small>누적 진료</small></div>
+    <div><b data-n="7">7</b><small>상주 의료진</small></div>
+  </section>
+
+  <section class="sec" id="care">
+    <div class="hd">
+      <span class="eb">Treatment</span>
+      <h2>무엇을 보시겠습니까</h2>
+      <p>과목마다 진행이 다릅니다. 눌러서 확인해 보세요.</p>
+    </div>
+
+    <div class="tabs" id="careTabs">
+      <button class="on" data-k="0">치아교정</button>
+      <button data-k="1">임플란트</button>
+      <button data-k="2">수면 · 진정치료</button>
+      <button data-k="3">심미 · 보철</button>
+      <button data-k="4">잇몸 · 예방</button>
+    </div>
+
+    <div class="tp">
+      <div class="ph" id="carePh">
+        <img class="on" src="../media/tpl/dt-care1.jpg" alt="치아교정 진료" loading="lazy">
+        <img src="../media/tpl/dt-care2.jpg" alt="임플란트 진료" loading="lazy">
+        <img src="../media/tpl/dt-care3.jpg" alt="수면 진정치료" loading="lazy">
+        <img src="../media/tpl/dt-care4.jpg" alt="심미 보철 진료" loading="lazy">
+        <img src="../media/tpl/dt-care5.jpg" alt="잇몸 예방 진료" loading="lazy">
+      </div>
+      <div class="tx" id="careTx"></div>
+    </div>
+  </section>
+
+  <section class="vid2" id="vid2">
+    <video id="v2" muted loop playsinline preload="none" poster="../media/tpl/dt-fac6.jpg">
+      <source src="../media/tpl/clinic-sub.mp4" type="video/mp4">
+    </video>
+    <div class="cap">
+      <div>
+        <h3 class="rv">쓰는 기구는 한 사람당 한 벌</h3>
+        <p class="rv">멸균 과정을 매일 기록하고, 원하시면 그 기록을 보여 드립니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec docs" id="docs">
+    <div class="hd">
+      <span class="eb">Doctors</span>
+      <h2>누가 보는지 먼저 아셔야 합니다</h2>
+    </div>
+    <div class="docwrap">
+      <div class="doctrack" id="doctrack">
+        <article class="doc">
+          <div class="hdd"><span class="en">Ortho</span><span class="ko">교정</span></div>
+          <div class="tx"><b>김선재 <em>대표원장</em></b>
+            <p>교정과 전문의. 성인 교정과 재교정을 주로 봅니다.</p>
+            <div class="tg"><span>치아교정</span><span>재교정</span></div></div></article>
+        <article class="doc">
+          <div class="hdd"><span class="en">Implant</span><span class="ko">임플란트</span></div>
+          <div class="tx"><b>이하람 <em>원장</em></b>
+            <p>임플란트와 뼈이식. 다른 곳에서 어렵다고 한 경우를 많이 봅니다.</p>
+            <div class="tg"><span>임플란트</span><span>골이식</span></div></div></article>
+        <article class="doc">
+          <div class="hdd"><span class="en">Sedation</span><span class="ko">진정</span></div>
+          <div class="tx"><b>정유진 <em>원장</em></b>
+            <p>진정치료 담당. 치과 공포가 심한 분과 아이를 봅니다.</p>
+            <div class="tg"><span>수면치료</span><span>소아</span></div></div></article>
+        <article class="doc">
+          <div class="hdd"><span class="en">Prostho</span><span class="ko">보철</span></div>
+          <div class="tx"><b>한소윤 <em>원장</em></b>
+            <p>심미 보철. 앞니와 색 맞추는 작업을 주로 합니다.</p>
+            <div class="tg"><span>라미네이트</span><span>보철</span></div></div></article>
+        <article class="doc">
+          <div class="hdd"><span class="en">Perio</span><span class="ko">치주</span></div>
+          <div class="tx"><b>배주원 <em>원장</em></b>
+            <p>잇몸 치료와 정기 관리. 오래 지켜보는 진료를 합니다.</p>
+            <div class="tg"><span>치주</span><span>예방</span></div></div></article>
+      </div>
+    </div>
+    <div class="docnav">
+      <button id="docP" aria-label="이전">&larr;</button>
+      <button id="docN" aria-label="다음">&rarr;</button>
+    </div>
+  </section>
+
+  <section class="fac" id="fac">
+    <div class="ttl"><span class="eb">Inside</span><h2>둘러보기</h2></div>
+    <div class="facwrap">
+      <div class="factrack" id="factrack">
+        <figure><div class="ph"><img src="../media/tpl/dt-fac1.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>상담실</span><span>01</span></figcaption></figure>
+        <figure class="w"><div class="ph"><img src="../media/tpl/dt-fac2.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>진료실</span><span>02</span></figcaption></figure>
+        <figure><div class="ph"><img src="../media/tpl/dt-fac3.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>기구실</span><span>03</span></figcaption></figure>
+        <figure class="w"><div class="ph"><img src="../media/tpl/dt-fac4.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>촬영실</span><span>04</span></figcaption></figure>
+        <figure><div class="ph"><img src="../media/tpl/dt-fac5.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>진료실 B</span><span>05</span></figcaption></figure>
+        <figure class="w"><div class="ph"><img src="../media/tpl/dt-fac6.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>유닛 체어</span><span>06</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec flow" id="flow">
+    <div class="stick">
+      <span class="eb">Process</span>
+      <h2>오시면<br>이렇게 진행됩니다</h2>
+      <p>첫날에 치료부터 시작하지 않습니다. 보고, 설명하고, 정한 뒤에 시작합니다.</p>
+    </div>
+    <div>
+      <div class="fstep"><small>STEP 01</small><h4>접수 · 문진</h4>
+        <p>불편한 곳과 지금 드시는 약을 확인합니다. 3분이면 끝납니다.</p></div>
+      <div class="fstep"><small>STEP 02</small><h4>촬영</h4>
+        <p>파노라마와 필요한 경우 3D 촬영을 합니다. 촬영본은 그 자리에서 함께 봅니다.</p></div>
+      <div class="fstep"><small>STEP 03</small><h4>설명</h4>
+        <p>지금 상태를 화면으로 보여 드리고, 선택지가 여럿이면 전부 말씀드립니다.</p></div>
+      <div class="fstep"><small>STEP 04</small><h4>비용 안내</h4>
+        <p>총액과 회당 금액, 보험 적용 여부를 종이로 드립니다. 여기서 결정하지 않으셔도 됩니다.</p></div>
+      <div class="fstep"><small>STEP 05</small><h4>치료</h4>
+        <p>정하신 순서대로 진행합니다. 매번 시작 전에 오늘 할 일을 다시 말씀드립니다.</p></div>
+      <div class="fstep"><small>STEP 06</small><h4>정기 점검</h4>
+        <p>끝난 뒤에도 정해진 주기로 연락드립니다. 오래 쓰는 것이 목적이기 때문입니다.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="hours">
+    <div class="hd">
+      <span class="eb">Hours &amp; Location</span>
+      <h2>진료시간과 오시는 길</h2>
+    </div>
+    <div class="hours">
+      <div>
+        <table class="htab" id="htab">
+          <tbody>
+            <tr data-d="1"><th>월요일</th><td>09:30 &ndash; 18:30</td></tr>
+            <tr data-d="2"><th>화요일</th><td>09:30 &ndash; 18:30</td></tr>
+            <tr data-d="3"><th>수요일</th><td>09:30 &ndash; 18:30</td></tr>
+            <tr data-d="4"><th>목요일</th><td>09:30 &ndash; 21:00 <small>야간</small></td></tr>
+            <tr data-d="5"><th>금요일</th><td>09:30 &ndash; 18:30</td></tr>
+            <tr data-d="6"><th>토요일</th><td>09:30 &ndash; 14:00</td></tr>
+            <tr data-d="0" class="off"><th>일요일 · 공휴일</th><td>휴진</td></tr>
+          </tbody>
+        </table>
+        <p class="hnote">점심시간 13:00 &ndash; 14:00 (토요일은 점심시간 없이 진료)<br>
+          목요일은 21시까지 야간 진료합니다. 예약제로 운영합니다.</p>
+      </div>
+      <div>
+        <div class="map">
+          <img src="../media/tpl/dt-fac1.jpg" alt="병원 위치" loading="lazy" style="opacity:.4">
+          <span class="pin"></span>
+          <div class="lb"><b>서울 서대문구 신촌로 00, 5층</b><br>
+            신촌역 2번 출구에서 도보 3분 · 건물 지하 주차 2시간 무료</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="hd">
+      <span class="eb">FAQ</span>
+      <h2>자주 묻는 질문</h2>
+    </div>
+    <div class="qa"><button class="q">예약 없이 가도 되나요<i>+</i></button>
+      <div class="a"><p>가능하지만 기다리실 수 있습니다. 예약하신 분을 먼저 봅니다.
+        급한 통증은 언제든 오세요. 순서와 상관없이 먼저 확인해 드립니다.</p></div></div>
+    <div class="qa"><button class="q">비용은 언제 알 수 있나요<i>+</i></button>
+      <div class="a"><p>첫날 촬영과 설명이 끝나면 종이로 드립니다.
+        총액, 회당 금액, 보험 적용 여부가 적혀 있습니다. 그 자리에서 결정하지 않으셔도 됩니다.</p></div></div>
+    <div class="qa"><button class="q">치과가 너무 무섭습니다<i>+</i></button>
+      <div class="a"><p>말씀해 주세요. 손을 드시면 바로 멈춥니다.
+        많이 힘드신 분은 진정치료로 편하게 받으실 수 있고, 담당 원장이 따로 있습니다.</p></div></div>
+    <div class="qa"><button class="q">주차는 되나요<i>+</i></button>
+      <div class="a"><p>건물 지하 주차장을 2시간 무료로 쓰실 수 있습니다.
+        접수처에 차량 번호를 말씀해 주세요.</p></div></div>
+    <div class="qa"><button class="q">아이도 진료 보나요<i>+</i></button>
+      <div class="a"><p>봅니다. 소아를 담당하는 원장이 따로 있습니다.
+        처음 오는 아이는 기구를 만져보고 익숙해지는 시간부터 갖습니다.</p></div></div>
+    <div class="qa"><button class="q">다른 곳에서 어렵다고 했습니다<i>+</i></button>
+      <div class="a"><p>촬영본을 가져오시면 함께 보겠습니다.
+        저희도 어려우면 어렵다고 말씀드리고, 가능한 곳을 안내해 드립니다.</p></div></div>
+  </section>
+
+</main>
+
+<!-- 예약 팝업 -->
+<div class="mod" id="mod">
+  <div class="card">
+    <button class="x" data-modx>&times;</button>
+    <div class="form">
+      <h3>예약하기</h3>
+      <p class="lead">확인 후 문자로 알려드립니다. 급하시면 전화가 빠릅니다.</p>
+      <div class="row">
+        <div class="f"><label>이름</label><input type="text" placeholder="성함"></div>
+        <div class="f"><label>연락처</label><input type="text" placeholder="010-0000-0000"></div>
+      </div>
+      <div class="f"><label>진료과목</label>
+        <select id="mKind">
+          <option>치아교정</option><option>임플란트</option><option>수면 · 진정치료</option>
+          <option>심미 · 보철</option><option>잇몸 · 예방</option><option>통증 · 응급</option>
+        </select></div>
+      <div class="row">
+        <div class="f"><label>희망 날짜</label><input type="date" id="mDate"></div>
+        <div class="f"><label>처음이신가요</label>
+          <select><option>처음입니다</option><option>전에 온 적 있습니다</option></select></div>
+      </div>
+      <div class="f"><label>희망 시간</label>
+        <div class="slots" id="slots"></div></div>
+      <div class="f"><label>남기실 말</label>
+        <textarea rows="3" placeholder="불편한 곳, 드시는 약이 있으면 적어 주세요"></textarea></div>
+      <label class="agree"><input type="checkbox" id="mAgree">
+        <span>진료 예약을 위한 개인정보 수집·이용에 동의합니다. (견본 화면입니다)</span></label>
+      <button class="go" id="mGo">예약 신청</button>
+    </div>
+    <div class="ok"><b>신청이 접수되었습니다</b>
+      <p>확인 후 문자로 알려드리겠습니다.<br>
+        <small>(견본 화면입니다. 실제로 전송되지 않습니다.)</small></p></div>
+  </div>
+</div>
+
+<!-- 공지 팝업 -->
+<div class="pop" id="pop">
+  <div class="ph"><img src="../media/tpl/dt-fac2.jpg" alt="" loading="lazy"></div>
+  <div class="tx"><b>목요일 야간 진료 안내</b>
+    <p>매주 목요일 21시까지 진료합니다. 퇴근 후에도 오실 수 있습니다.</p></div>
+  <div class="bar">
+    <button id="popToday">오늘 하루 안 보기</button>
+    <button id="popClose">닫기</button>
+  </div>
+</div>
+
+<button class="up" id="up">&uarr;</button>
+
+<div class="demo">이 화면은 <b>Perfect_Web 참고 디자인 견본</b>입니다. 실제 병원이 아닙니다.
+  <a href="../index.html#design">&larr; 목록으로</a></div>
+
+<div class="bbar">
+  <a href="#hours">오시는 길</a>
+  <a href="#faq">자주 묻는 질문</a>
+  <button data-book>예약하기</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function(id){ return document.getElementById(id); };
+  var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+
+  /* ══ 04. 진료과목 탭 내용 ══ */
+  var CARE = [
+    {t:'치아교정', d:'교정은 오래 걸리는 대신 되돌리기 어렵습니다. 그래서 시작 전에 끝 그림을 먼저 보여 드립니다.',
+     li:['3D 촬영으로 끝난 모습을 미리 확인','투명 · 설측 · 부분 교정 중에서 선택','장치가 떨어지면 예약 없이 바로 방문'],
+     m:[['치료 기간','12 ~ 24개월'],['내원 주기','4 ~ 6주']]},
+    {t:'임플란트', d:'뼈가 부족하다고 다른 곳에서 어렵다는 말을 들으셨다면, 촬영본을 가져오세요. 함께 보겠습니다.',
+     li:['심기 전 3D 로 신경 위치까지 확인','뼈가 부족하면 이식을 함께 계획','심고 나서도 정해진 주기로 점검'],
+     m:[['치료 기간','3 ~ 6개월'],['보증','정기 점검 시 5년']]},
+    {t:'수면 · 진정치료', d:'무서워서 못 오시는 분이 많습니다. 잠깐 잠든 사이에 끝내는 방법이 있습니다.',
+     li:['담당 원장이 따로 있습니다','생체 신호를 계속 보면서 진행','끝나고 두 시간 정도 쉬고 귀가'],
+     m:[['소요','상담 포함 반나절'],['동반','보호자 동반 권장']]},
+    {t:'심미 · 보철', d:'앞니는 모양보다 색이 어렵습니다. 옆 치아와 맞추는 데 시간을 더 씁니다.',
+     li:['색은 자연광에서 다시 확인','라미네이트 · 크라운 중 상태에 맞게','완성 전에 임시로 써 보고 결정'],
+     m:[['치료 기간','2 ~ 4주'],['내원','3 ~ 4회']]},
+    {t:'잇몸 · 예방', d:'가장 싸게 끝나는 치료는 아직 치료가 아닐 때 오는 것입니다.',
+     li:['스케일링은 보험 적용 (연 1회)','잇몸 상태를 사진으로 기록해 비교','다음 점검일을 문자로 알려 드림'],
+     m:[['주기','6개월'],['보험','스케일링 적용']]}
+  ];
+  (function careTabs(){
+    var tx = $('careTx'), imgs = $$('#carePh img'), btns = $$('#careTabs button');
+    function draw(k){
+      var c = CARE[k];
+      tx.innerHTML = '<h3>' + c.t + '</h3><p>' + c.d + '</p><ul>' +
+        c.li.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ul>' +
+        '<div class="meta">' + c.m.map(function(p){
+          return '<div><small>' + p[0] + '</small><b>' + p[1] + '</b></div>';
+        }).join('') + '</div>';
+      imgs.forEach(function(im, i){ im.classList.toggle('on', i === k); });
+      btns.forEach(function(b, i){ b.classList.toggle('on', i === k); });
+      if(window.gsap) gsap.fromTo(tx, {y:14, opacity:0}, {y:0, opacity:1, duration:.5, ease:'power2.out'});
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ draw(+b.dataset.k); }); });
+    draw(0);
+  })();
+
+  /* ══ 05·06. 지금 진료 중인가 ══
+     ⚠ 서울 기준으로 본다. 해외에서 열어도 병원 시간이 흔들리면 안 된다. */
+  (function openNow(){
+    var TB = {1:[570,1110], 2:[570,1110], 3:[570,1110], 4:[570,1260], 5:[570,1110], 6:[570,840], 0:null};
+    var LUNCH = [780, 840];   // 13:00~14:00 (토요일 제외)
+    function seoul(){
+      var s = new Date().toLocaleString('en-US', {timeZone:'Asia/Seoul'});
+      return new Date(s);
+    }
+    function paint(){
+      var d = seoul(), day = d.getDay(), min = d.getHours() * 60 + d.getMinutes();
+      var b = $('liveB'), s = $('liveS'), span = TB[day];
+      $$('#htab tr').forEach(function(tr){ tr.classList.toggle('today', +tr.dataset.d === day); });
+      function hhmm(m){ return String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'); }
+      if(!span){
+        b.className = 'off'; b.innerHTML = '<span class="d"></span>오늘은 휴진입니다';
+        s.textContent = '월요일 09:30 에 다시 엽니다';
+        return;
+      }
+      var lunch = (day !== 6) && min >= LUNCH[0] && min < LUNCH[1];
+      if(min >= span[0] && min < span[1] && !lunch){
+        b.className = ''; b.innerHTML = '<span class="d"></span>지금 진료 중입니다';
+        s.textContent = '오늘 ' + hhmm(span[0]) + ' ~ ' + hhmm(span[1]) + ' 까지';
+      } else if(lunch){
+        b.className = 'off'; b.innerHTML = '<span class="d"></span>점심시간입니다';
+        s.textContent = '14:00 부터 다시 진료합니다';
+      } else {
+        b.className = 'off'; b.innerHTML = '<span class="d"></span>진료 시간이 아닙니다';
+        s.textContent = min < span[0]
+          ? '오늘 ' + hhmm(span[0]) + ' 에 엽니다'
+          : '내일 09:30 에 엽니다';
+      }
+    }
+    paint(); setInterval(paint, 30000);
+  })();
+
+  /* ══ 12. 질문 접기 ══ */
+  $$('.qa').forEach(function(qa){
+    qa.querySelector('.q').addEventListener('click', function(){
+      var open = qa.classList.contains('on');
+      $$('.qa.on').forEach(function(o){
+        o.classList.remove('on'); o.querySelector('.a').style.height = '0px';
+      });
+      if(!open){
+        qa.classList.add('on');
+        var p = qa.querySelector('.a'); p.style.height = p.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ══ 08. 의료진 좌우 넘기기 ══ */
+  (function docSlider(){
+    var track = $('doctrack');
+    if(!track) return;
+    var i = 0;
+    function step(){
+      var card = track.children[0];
+      if(!card) return 0;
+      var gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    }
+    function go(n){
+      var per = Math.max(1, Math.floor(track.parentElement.clientWidth / step()));
+      var max = Math.max(0, track.children.length - per);
+      i = Math.min(max, Math.max(0, n));
+      track.style.transform = 'translateX(' + (-i * step()) + 'px)';
+    }
+    $('docP').addEventListener('click', function(){ go(i - 1); });
+    $('docN').addEventListener('click', function(){ go(i + 1); });
+    addEventListener('resize', function(){ go(i); });
+  })();
+
+  /* ══ 13. 예약 팝업 ══ */
+  (function booking(){
+    var m = $('mod');
+    var TIMES = ['09:30','10:30','11:30','14:00','15:00','16:00','17:00','18:00','19:30','20:30'];
+    (function slots(){
+      var box = $('slots');
+      TIMES.forEach(function(t, i){
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = t;
+        if(i === 3 || i === 6) b.disabled = true;   // 이미 찬 자리를 보여준다
+        b.addEventListener('click', function(){
+          [].forEach.call(box.children, function(c){ c.classList.remove('on'); });
+          b.classList.add('on');
+        });
+        box.appendChild(b);
+      });
+    })();
+    // 오늘 이전 날짜는 못 고르게 한다
+    (function minDate(){
+      var d = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Seoul'}));
+      var s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' +
+              String(d.getDate()).padStart(2,'0');
+      $('mDate').min = s; $('mDate').value = s;
+    })();
+    function open(kind){
+      if(kind) $('mKind').value = kind;
+      m.classList.add('on');
+      if(window.__lenis) window.__lenis.stop();
+    }
+    function close(){ m.classList.remove('on'); if(window.__lenis) window.__lenis.start(); }
+    $$('[data-book]').forEach(function(b){ b.addEventListener('click', function(){ open(); }); });
+    m.querySelector('[data-modx]').addEventListener('click', close);
+    m.addEventListener('click', function(e){ if(e.target === m) close(); });
+    addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+    // ⚠ 견본이라 실제로 보내지 않는다. alert 는 화면을 멈추므로 쓰지 않는다.
+    $('mGo').addEventListener('click', function(){
+      if(!$('mAgree').checked){ $('mAgree').focus(); return; }
+      m.classList.add('sent');
+    });
+  })();
+
+  /* ══ 02. 공지 팝업 ══ */
+  (function notice(){
+    var p = $('pop');
+    var key = 'onbareun-pop';
+    var hide = false;
+    try { hide = localStorage.getItem(key) === new Date().toDateString(); } catch(e){}
+    if(!hide) setTimeout(function(){ p.classList.add('on'); }, 1900);
+    $('popClose').addEventListener('click', function(){ p.classList.remove('on'); });
+    $('popToday').addEventListener('click', function(){
+      try { localStorage.setItem(key, new Date().toDateString()); } catch(e){}
+      p.classList.remove('on');
+    });
+  })();
+
+  /* ══ 03·16. 진행 막대 · 상단 바 · 맨 위로 ══ */
+  (function chrome(){
+    var up = $('up'), top = $('top'), prog = $('prog');
+    up.addEventListener('click', function(){
+      if(window.__lenis) window.__lenis.scrollTo(0, {duration:1.2});
+      else scrollTo({top:0, behavior:'smooth'});
+    });
+    function paint(){
+      up.classList.toggle('on', scrollY > 700);
+      top.classList.toggle('solid', scrollY > innerHeight * 0.78);
+      var h = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+    }
+    addEventListener('scroll', paint, {passive:true});
+    paint();
+  })();
+
+  /* 첫 화면 글자를 세운다 (CSS 가 맡는다) */
+  addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){ document.body.classList.add('ready'); }, 120);
+  });
+  if(document.readyState !== 'loading') document.body.classList.add('ready');
+
+  /* ─────────────────────────────────────────────
+     아래는 GSAP 이 있어야 하는 것들.
+     못 올라와도 위 기능(탭·예약·진료시간·질문)은 그대로 돈다.
+     ───────────────────────────────────────────── */
+  var ok = window.gsap && window.ScrollTrigger;
+  if(!ok || reduce) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var lenis = null;
+  if(window.Lenis){
+    lenis = new Lenis({duration:1.1, smoothWheel:true,
+      easing:function(t){ return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    window.__lenis = lenis;
+    // ⚠ Lenis 를 쓰면 브라우저 기본 앵커 이동이 안 먹는다.
+    $$('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href'); if(id.length < 2) return;
+        var el = document.querySelector(id); if(!el) return;
+        e.preventDefault(); lenis.scrollTo(el, {offset:-70, duration:1.3});
+      });
+    });
+  }
+
+  /* 01. 배경 영상이 줄어들며 어두워진다 */
+  gsap.to('#vw', {scale:1.18, ease:'none',
+    scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+  gsap.to('.hero .in', {y:-60, opacity:.15, ease:'none',
+    scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+
+  /* 10. 두 번째 영상 — 보일 때만 재생한다(배터리) */
+  (function v2(){
+    var v = $('v2');
+    ScrollTrigger.create({trigger:'#vid2', start:'top 90%', end:'bottom 10%',
+      onEnter:function(){ v.play().catch(function(){}); },
+      onEnterBack:function(){ v.play().catch(function(){}); },
+      onLeave:function(){ v.pause(); }, onLeaveBack:function(){ v.pause(); }});
+    gsap.fromTo(v, {scale:1.22}, {scale:1, ease:'none',
+      scrollTrigger:{trigger:'#vid2', start:'top bottom', end:'bottom top', scrub:true}});
+  })();
+
+  /* 07. 숫자 올라가기
+     🚨 Lenis 로 건너뛰면 scroll 이벤트도 IntersectionObserver 도 놓친다.
+        gsap.ticker 로 매 프레임 본다. HTML 에 값이 박혀 있어 안 돌아도 숫자는 보인다. */
+  (function counter(){
+    var els = $$('.nums b'), done = els.map(function(){ return false; });
+    var tick = function(){
+      var all = true;
+      els.forEach(function(el, i){
+        if(done[i]) return;
+        all = false;
+        if(el.getBoundingClientRect().top < innerHeight * 0.92){
+          done[i] = true;
+          var to = parseInt(el.dataset.n, 10) || 0, o = {v:0};
+          gsap.to(o, {v:to, duration:1.9, ease:'power2.out',
+            onUpdate:function(){
+              el.textContent = to >= 10000
+                ? Math.floor(o.v).toLocaleString('ko-KR')
+                : Math.floor(o.v);
+            },
+            onComplete:function(){
+              el.textContent = to >= 10000 ? to.toLocaleString('ko-KR') : to;
+              if(to >= 10000) el.innerHTML = el.textContent + '<i>+</i>';
+            }});
+        }
+      });
+      if(all) gsap.ticker.remove(tick);
+    };
+    gsap.ticker.add(tick);
+  })();
+
+  /* 09. 시설 사진이 옆으로 밀린다 */
+  (function horiz(){
+    var track = $('factrack'), sec = $('fac');
+    if(!track) return;
+    var dist = function(){ return Math.max(0, track.scrollWidth - innerWidth + 40); };
+    gsap.to(track, {x:function(){ return -dist(); }, ease:'none',
+      scrollTrigger:{trigger:sec, start:'top top', end:function(){ return '+=' + dist(); },
+        pin:true, scrub:1, invalidateOnRefresh:true}});
+  })();
+
+  /* 11. 치료 과정이 하나씩 올라온다
+     ⚠ gsap.from + once 는 트리거를 놓치면 opacity:0 인 채로 굳는다.
+        fromTo + immediateRender:false 로 잠근다. */
+  gsap.utils.toArray('.fstep').forEach(function(s){
+    gsap.fromTo(s, {x:22, opacity:0}, {x:0, opacity:1, duration:.85, ease:'expo.out',
+      immediateRender:false,
+      scrollTrigger:{trigger:s, start:'top 90%', once:true}});
+  });
+
+  /* 제목·설명이 드러난다 */
+  gsap.utils.toArray('.sec > .hd, .rv, .doc, .htab, .map').forEach(function(el){
+    gsap.fromTo(el, {y:26, opacity:0}, {y:0, opacity:1, duration:1, ease:'expo.out',
+      immediateRender:false,
+      scrollTrigger:{trigger:el, start:'top 88%', once:true}});
+  });
+
+  addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  addEventListener('resize', function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>

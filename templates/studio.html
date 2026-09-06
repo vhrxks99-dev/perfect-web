@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>무명공방 | Perfect_Web 참고 디자인</title>
+<meta name="description" content="스튜디오·공방·작가 홈페이지 참고 디자인.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!--
+  2026-09-06 — B유형 견본 (확장판).
+  원장님 지시: "너무 심플하다. 기능을 더 많이 넣어라."
+  뼈대(가운데 큰 타이포 + 흰 여백)는 그대로 두고 볼거리를 얹었다.
+
+  넣은 것 14가지
+   01 로딩 화면 (숫자 0→100 + 커튼 열림)
+   02 마우스를 따라다니는 동그란 커서 (목록 위에서 VIEW 로 변함)
+   03 맨 위 스크롤 진행 막대
+   04 스크롤하면 배경이 생기는 상단 바
+   05 제목 글자 한 자씩 세워 올리기
+   06 끝없이 흐르는 글자 띠 (마퀴)
+   07 작업 목록 + 분류 단추 (전체/도자/나무)
+   08 목록을 누르면 뜨는 사진 확대창 (좌우 넘기기)
+   09 옆으로 밀리는 사진 갤러리 (화면을 붙잡고 가로로 흐른다)
+   10 숫자가 올라가는 실적 칸
+   11 만드는 순서 (왼쪽이 붙어 있는 채로 오른쪽만 넘어간다)
+   12 유약 전 / 후 비교 슬라이더 (가운데 손잡이를 끈다)
+   13 자주 묻는 질문 접었다 펴기
+   14 문의하기 팝업창 + 맨 위로 단추 + 서울 현재 시각
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF8;
+  --ink:#101010;
+  --mute:#9A968E;
+  --line:#E4E1DA;
+  --warm:#F2F0EA;
+  --pad:clamp(20px,5vw,80px);
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Pretendard Variable',system-ui,sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;width:100%;height:100%;object-fit:cover}
+::selection{background:var(--ink);color:var(--bg)}
+.se{font-family:'Instrument Serif',serif;font-weight:400;font-style:normal}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ══ 01. 로딩 화면 ══ */
+#load{position:fixed;inset:0;z-index:200;background:var(--ink);color:#F2F0EA;
+  display:grid;place-items:center;transition:opacity .5s .35s;overflow:hidden}
+#load .num{font-size:clamp(56px,16vw,190px);line-height:1;letter-spacing:-.05em;
+  font-variant-numeric:tabular-nums}
+#load .cap{position:absolute;left:var(--pad);bottom:26px;font-size:11.5px;
+  letter-spacing:.24em;text-transform:uppercase;opacity:.5}
+#load .cur{position:absolute;inset:0;background:var(--bg);transform:scaleY(0);
+  transform-origin:bottom;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+#load.done .cur{transform:scaleY(1)}
+#load.gone{opacity:0;pointer-events:none}
+
+/* ══ 02. 동그란 커서 ══ */
+.cur1{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--ink);
+  z-index:150;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
+.cur2{position:fixed;top:0;left:0;width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(16,16,16,.45);z-index:149;pointer-events:none;
+  transform:translate(-50%,-50%);display:grid;place-items:center;
+  font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:transparent;
+  transition:width .3s,height .3s,background .3s,color .3s,border-color .3s}
+.cur2.on{width:86px;height:86px;background:var(--ink);color:#F2F0EA;border-color:var(--ink)}
+@media (max-width:900px){.cur1,.cur2{display:none}}
+
+/* ══ 03. 진행 막대 ══ */
+.prog{position:fixed;inset:0 auto auto 0;height:2px;width:100%;z-index:120;
+  background:var(--ink);transform:scaleX(0);transform-origin:left}
+
+/* ══ 04. 상단 바 ══ */
+.top{position:fixed;inset:0 0 auto 0;z-index:110;display:flex;justify-content:space-between;
+  align-items:center;padding:18px var(--pad);transition:background .4s,padding .4s,color .4s}
+.top a{color:inherit;text-decoration:none;font-size:12.5px;letter-spacing:.16em;
+  text-transform:uppercase;opacity:.9}
+.top .who{font-weight:600}
+.top nav{display:flex;gap:clamp(12px,2.2vw,30px);align-items:center}
+.top.solid{background:rgba(250,250,248,.9);backdrop-filter:blur(9px);
+  padding-top:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.top .ask{border:1px solid currentColor;border-radius:999px;padding:7px 15px;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase}
+
+/* ══ 05. 첫 화면 ══ */
+.hero{min-height:100svh;display:grid;place-items:center;text-align:center;padding:0 var(--pad);
+  position:relative}
+.hero h1{font-size:clamp(46px,13vw,190px);line-height:.94;letter-spacing:-.045em;font-weight:400}
+.hero h1 .c{display:inline-block;transform:translateY(105%);opacity:0;
+  transition:transform .95s cubic-bezier(.16,1,.3,1),opacity .7s}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom}
+body.ready .hero h1 .c{transform:translateY(0);opacity:1}
+.hero h1 .it{font-style:italic;letter-spacing:-.02em}
+.hero .sub{margin-top:clamp(18px,3vh,34px);font-size:13px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--mute);opacity:0;transition:opacity .8s 1.1s}
+body.ready .hero .sub{opacity:1}
+.hero .scr{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
+  opacity:0;transition:opacity .8s 1.35s}
+body.ready .hero .scr{opacity:1}
+.hero .scr i{display:block;width:1px;height:34px;background:var(--line);margin:10px auto 0;
+  position:relative;overflow:hidden}
+.hero .scr i::after{content:'';position:absolute;inset:0;background:var(--ink);
+  animation:drip 2.1s infinite}
+@keyframes drip{0%{transform:translateY(-100%)}60%,100%{transform:translateY(100%)}}
+
+/* ══ 06. 흐르는 글자 띠 ══ */
+.mq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;
+  padding:clamp(12px,1.6vh,18px) 0;background:var(--warm)}
+.mq .rail{display:flex;gap:44px;width:max-content;will-change:transform}
+.mq span{font-size:clamp(13px,1.15vw,18px);letter-spacing:.2em;text-transform:uppercase;
+  color:#6F6B63;white-space:nowrap;display:flex;gap:44px;align-items:center}
+.mq span::after{content:'\25CF';font-size:6px;color:var(--mute)}
+
+/* ══ 한 줄 ══ */
+.line{padding:clamp(80px,14vh,180px) var(--pad);max-width:900px;margin:0 auto;text-align:center}
+.line p{font-size:clamp(17px,2vw,27px);line-height:1.95;letter-spacing:-.01em;color:#2B2B2B}
+.line p b{font-weight:600}
+
+/* ══ 07. 작업 목록 + 분류 단추 ══ */
+.wtabs{display:flex;gap:8px;padding:0 var(--pad) 22px;justify-content:center;flex-wrap:wrap}
+.wtabs button{border:1px solid var(--line);border-radius:999px;padding:8px 18px;font-size:12px;
+  letter-spacing:.1em;color:#6F6B63;transition:background .3s,color .3s,border-color .3s}
+.wtabs button.on{background:var(--ink);color:#F5F3EE;border-color:var(--ink)}
+.works{border-top:1px solid var(--line)}
+.wrow{display:grid;grid-template-columns:56px 1fr auto auto;gap:18px;align-items:center;
+  padding:clamp(20px,3.2vw,40px) var(--pad);border-bottom:1px solid var(--line);
+  color:inherit;position:relative;transition:background .35s;
+  width:100%;text-align:left;isolation:isolate}
+.wrow::before{content:'';position:absolute;inset:0;background:var(--warm);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .45s cubic-bezier(.76,0,.24,1);z-index:-1}
+.wrow:hover::before{transform:scaleY(1);transform-origin:top}
+.wrow .idx{font-size:11.5px;letter-spacing:.14em;color:var(--mute)}
+.wrow .ttl{font-size:clamp(20px,2.9vw,42px);letter-spacing:-.03em;line-height:1.16}
+.wrow .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+  border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.wrow .yr{font-size:12px;letter-spacing:.14em;color:var(--mute)}
+.wrow.hide{display:none}
+.hoverimg{position:fixed;top:0;left:0;width:clamp(180px,20vw,290px);aspect-ratio:4/5;
+  pointer-events:none;z-index:50;opacity:0;overflow:hidden;
+  transform:translate(-50%,-50%) scale(.94);will-change:transform,opacity}
+
+/* ══ 09. 옆으로 밀리는 갤러리 ══ */
+.hsec{position:relative;background:var(--ink);color:#F2F0EA;overflow:hidden}
+.hwrap{height:100svh;display:flex;align-items:center}
+.htrack{display:flex;gap:clamp(16px,3vw,46px);padding:0 var(--pad);will-change:transform}
+.htrack .hcard{flex:0 0 auto;width:clamp(230px,26vw,400px)}
+.htrack .hcard .ph{aspect-ratio:3/4;overflow:hidden;background:#1C1C1C}
+.htrack .hcard.tall .ph{aspect-ratio:2/3}
+.htrack .hcard.wide{width:clamp(300px,38vw,560px)}
+.htrack .hcard.wide .ph{aspect-ratio:4/3}
+.htrack figcaption{margin-top:12px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:#8C877E;display:flex;justify-content:space-between}
+.hsec .htit{position:absolute;left:var(--pad);top:clamp(56px,10vh,96px);z-index:2;
+  font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:#8C877E}
+
+/* ══ 10. 숫자 ══ */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.nums div{padding:clamp(34px,6vw,70px) 18px;text-align:center;border-right:1px solid var(--line)}
+.nums div:last-child{border-right:0}
+.nums b{display:block;font-size:clamp(30px,5vw,66px);letter-spacing:-.04em;font-weight:400;
+  font-variant-numeric:tabular-nums}
+.nums small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mute)}
+
+/* ══ 11. 만드는 순서 ══ */
+.proc{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(20px,4vw,70px);
+  padding:clamp(70px,12vh,150px) var(--pad);align-items:start}
+.proc .stick{position:sticky;top:22vh}
+.proc .stick h3{font-size:clamp(26px,4.4vw,64px);letter-spacing:-.04em;line-height:1.1}
+.proc .stick p{margin-top:16px;font-size:14px;line-height:1.9;color:#5C584F;max-width:34ch}
+.proc .steps{display:grid;gap:clamp(14px,2.4vw,26px)}
+.pstep{border:1px solid var(--line);padding:clamp(20px,3vw,34px);background:#fff;
+  display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.pstep .no{font-size:11.5px;letter-spacing:.16em;color:var(--mute);padding-top:5px}
+.pstep h4{font-size:clamp(16px,1.9vw,24px);letter-spacing:-.02em}
+.pstep p{margin-top:8px;font-size:13.5px;line-height:1.85;color:#5C584F}
+
+/* ══ 12. 전/후 비교 ══ */
+.cmp{padding:clamp(70px,12vh,150px) var(--pad)}
+.cmp h3{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
+  margin-bottom:20px;text-align:center}
+.cmpbox{position:relative;max-width:980px;margin:0 auto;aspect-ratio:16/10;overflow:hidden;
+  background:#EDEAE3;cursor:ew-resize;user-select:none;touch-action:none}
+.cmpbox .b{position:absolute;inset:0}
+.cmpbox .a{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}
+.cmpbox .bar{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#FAFAF8;
+  transform:translateX(-1px);pointer-events:none}
+.cmpbox .bar::after{content:'';position:absolute;top:50%;left:50%;width:46px;height:46px;
+  border-radius:50%;background:#FAFAF8;transform:translate(-50%,-50%);
+  box-shadow:0 2px 14px rgba(0,0,0,.18)}
+.cmpbox .lb{position:absolute;bottom:14px;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);pointer-events:none}
+.cmpbox .lb.l{left:16px}.cmpbox .lb.r{right:16px}
+
+/* ══ 사진 세 장 ══ */
+.trio{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,2vw,28px);
+  padding:clamp(70px,12vh,150px) var(--pad)}
+.trio figure:nth-child(1){grid-column:1 / span 5}
+.trio figure:nth-child(2){grid-column:7 / span 4;margin-top:clamp(40px,8vh,110px)}
+.trio figure:nth-child(3){grid-column:2 / span 4;margin-top:clamp(20px,4vh,60px)}
+.trio .ph{overflow:hidden;background:#EDEAE3}
+.trio figure:nth-child(1) .ph{aspect-ratio:4/5}
+.trio figure:nth-child(2) .ph{aspect-ratio:3/4}
+.trio figure:nth-child(3) .ph{aspect-ratio:1/1}
+.trio figcaption{margin-top:12px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute)}
+
+/* ══ 인용 ══ */
+.quote{padding:clamp(80px,15vh,200px) var(--pad);text-align:center;border-top:1px solid var(--line)}
+.quote p{font-size:clamp(24px,4.6vw,72px);line-height:1.22;letter-spacing:-.035em;max-width:18ch;
+  margin:0 auto}
+.quote p .it{font-style:italic}
+
+/* ══ 13. 질문 접기 ══ */
+.faq{border-top:1px solid var(--line);padding:clamp(60px,10vh,120px) 0}
+.faq h3{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
+  padding:0 var(--pad);margin-bottom:26px}
+.qa{border-top:1px solid var(--line)}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa .q{width:100%;display:flex;justify-content:space-between;gap:18px;align-items:center;
+  padding:clamp(18px,2.6vw,30px) var(--pad);text-align:left;
+  font-size:clamp(15px,1.9vw,23px);letter-spacing:-.02em}
+.qa .q i{font-style:normal;font-size:20px;color:var(--mute);transition:transform .4s;flex:0 0 auto}
+.qa.on .q i{transform:rotate(45deg)}
+.qa .a{height:0;overflow:hidden;transition:height .5s cubic-bezier(.76,0,.24,1)}
+.qa .a p{padding:0 var(--pad) clamp(20px,3vw,32px);font-size:14px;line-height:1.95;
+  color:#5C584F;max-width:66ch}
+
+/* ══ 정보 ══ */
+.info{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.info div{padding:clamp(26px,4vw,52px) var(--pad);border-right:1px solid var(--line)}
+.info div:last-child{border-right:0}
+.info h4{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);
+  margin-bottom:14px}
+.info p{font-size:14.5px;line-height:1.85}
+.info .clock{font-variant-numeric:tabular-nums}
+
+/* ══ 맺음 ══ */
+.end{padding:clamp(90px,18vh,240px) var(--pad);text-align:center;border-top:1px solid var(--line)}
+.end button{display:inline-block;font-size:clamp(30px,7vw,110px);letter-spacing:-.04em;
+  line-height:1}
+.end button:hover{font-style:italic}
+.end .sm{margin-top:clamp(28px,5vh,60px);font-size:12.5px;letter-spacing:.14em;color:var(--mute);
+  line-height:2}
+
+/* ══ 08. 사진 확대창 ══ */
+.lb{position:fixed;inset:0;z-index:160;background:rgba(12,12,12,.94);display:grid;
+  place-items:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.lb.on{opacity:1;pointer-events:auto}
+.lb .frame{width:min(84vw,720px);aspect-ratio:4/5;overflow:hidden;background:#1C1C1C}
+.lb .cap{margin-top:16px;color:#EDEAE3;font-size:12.5px;letter-spacing:.16em;
+  text-transform:uppercase;text-align:center}
+.lb .x{position:absolute;top:20px;right:24px;color:#EDEAE3;font-size:26px;line-height:1}
+.lb .nv{position:absolute;top:50%;transform:translateY(-50%);color:#EDEAE3;font-size:15px;
+  letter-spacing:.16em;text-transform:uppercase;padding:14px}
+.lb .nv.p{left:14px}.lb .nv.n{right:14px}
+
+/* ══ 14. 문의 팝업 ══ */
+.mod{position:fixed;inset:0;z-index:170;display:grid;place-items:center;
+  background:rgba(12,12,12,.55);opacity:0;pointer-events:none;transition:opacity .4s}
+.mod.on{opacity:1;pointer-events:auto}
+.mod .card{background:var(--bg);width:min(92vw,540px);padding:clamp(26px,5vw,46px);
+  transform:translateY(18px);transition:transform .5s cubic-bezier(.16,1,.3,1);position:relative}
+.mod.on .card{transform:translateY(0)}
+.mod h3{font-size:clamp(24px,3.4vw,38px);letter-spacing:-.035em;margin-bottom:8px}
+.mod .lead{font-size:13.5px;color:#5C584F;line-height:1.85;margin-bottom:24px}
+.mod label{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:7px}
+.mod .f{margin-bottom:16px}
+.mod input,.mod textarea,.mod select{width:100%;border:1px solid var(--line);background:#fff;
+  padding:12px 14px;font:inherit;font-size:14px;border-radius:0}
+.mod textarea{min-height:96px;resize:vertical}
+.mod .go{width:100%;background:var(--ink);color:#F5F3EE;padding:15px;font-size:13px;
+  letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
+.mod .x{position:absolute;top:14px;right:18px;font-size:24px;line-height:1;color:var(--mute)}
+.mod .ok{display:none;text-align:center;padding:24px 0}
+.mod .ok b{display:block;font-size:clamp(20px,3vw,30px);letter-spacing:-.03em;margin-bottom:10px}
+.mod .ok p{font-size:13.5px;color:#5C584F;line-height:1.9}
+.mod.sent .form{display:none}
+.mod.sent .ok{display:block}
+
+/* ══ 맨 위로 ══ */
+.up{position:fixed;right:22px;bottom:52px;z-index:100;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(250,250,248,.9);backdrop-filter:blur(6px);
+  display:grid;place-items:center;font-size:15px;opacity:0;pointer-events:none;
+  transition:opacity .4s,transform .4s;transform:translateY(10px)}
+.up.on{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+.rv{}
+
+.demo{position:fixed;inset:auto 0 0 0;z-index:130;background:#101010;color:#F2F0EA;
+  font-size:11.5px;padding:8px 16px;display:flex;gap:9px;justify-content:center;align-items:center;
+  flex-wrap:wrap}
+.demo b{font-weight:700}
+.demo a{color:#F2F0EA;text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:820px){
+  .trio{grid-template-columns:1fr}
+  .trio figure{grid-column:1 / -1 !important;margin-top:0 !important}
+  .info,.nums{grid-template-columns:1fr 1fr}
+  .info div{border-right:0;border-bottom:1px solid var(--line)}
+  .hoverimg{display:none}
+  .wrow{grid-template-columns:auto 1fr auto;gap:12px}
+  .wrow .yr{display:none}
+  .proc{grid-template-columns:1fr}
+  .proc .stick{position:static}
+  .top .ask{display:none}
+}
+/* 썸네일 캡처용. ?shot=1 이면 로딩 화면을 통째로 지운다.
+   opacity 만으로 숨기면 헤드리스에서 전환이 안 끝나 검은 화면이 찍힌다. */
+body.shot #load{display:none!important}
+body.shot .hero h1 .c{transform:none!important;opacity:1!important;transition:none!important}
+body.shot .hero .sub,body.shot .hero .scr{opacity:1!important;transition:none!important}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .rv,.hero .sub,.hero .scr{opacity:1;transform:none}
+  .hero h1 .c{opacity:1;transform:none}
+  #load{display:none}
+}
+</style>
+</head>
+<body>
+<script>if(location.search.indexOf('shot')>=0)document.body.className='shot';</script>
+
+<div id="load"><div class="num" id="loadN">0</div>
+  <div class="cap">무명공방 &mdash; 불러오는 중</div><div class="cur"></div></div>
+
+<div class="cur1" id="cur1"></div>
+<div class="cur2" id="cur2">View</div>
+<div class="prog" id="prog"></div>
+
+<div class="top" id="top">
+  <a class="who" href="#tp">무명공방</a>
+  <nav>
+    <a href="#works">Works</a>
+    <a href="#proc">Process</a>
+    <a href="#faq">FAQ</a>
+    <button class="ask" data-open>문의</button>
+  </nav>
+</div>
+
+<main id="tp">
+
+  <section class="hero">
+    <div>
+      <h1 id="heroH1">무명<span class="it se">공방</span></h1>
+      <div class="sub">Ceramic &middot; Wood &middot; Seoul</div>
+    </div>
+    <div class="scr">Scroll<i></i></div>
+  </section>
+
+  <div class="mq"><div class="rail" id="rail">
+    <span>손으로 빚습니다</span><span>Handmade in Seoul</span><span>물레 4주 과정</span>
+    <span>Since 2016</span><span>개별 주문 제작</span><span>Ceramic &middot; Wood</span>
+  </div></div>
+
+  <section class="line">
+    <p class="rv">쓰다 보면 손에 익는 물건을 만듭니다.<br>
+      <b>모양보다 오래 쓰는 것</b>을 먼저 생각합니다.</p>
+  </section>
+
+  <section id="works">
+    <div class="wtabs">
+      <button class="on" data-cat="all">전체</button>
+      <button data-cat="cer">도자</button>
+      <button data-cat="wood">나무</button>
+    </div>
+    <div class="works">
+      <button class="wrow" data-cat="cer" data-img="../media/tpl/st-a.jpg">
+        <span class="idx">01</span><span class="ttl">달항아리 연작</span>
+        <span class="tag">도자</span><span class="yr">2026</span></button>
+      <button class="wrow" data-cat="cer" data-img="../media/tpl/st-b.jpg">
+        <span class="idx">02</span><span class="ttl">무유 찻잔</span>
+        <span class="tag">도자</span><span class="yr">2025</span></button>
+      <button class="wrow" data-cat="wood" data-img="../media/tpl/st-c.jpg">
+        <span class="idx">03</span><span class="ttl">참죽 도마</span>
+        <span class="tag">나무</span><span class="yr">2025</span></button>
+      <button class="wrow" data-cat="cer" data-img="../media/tpl/st-d.jpg">
+        <span class="idx">04</span><span class="ttl">쌓는 그릇</span>
+        <span class="tag">도자</span><span class="yr">2024</span></button>
+      <button class="wrow" data-cat="cer" data-img="../media/tpl/st-e.jpg">
+        <span class="idx">05</span><span class="ttl">기명 화병</span>
+        <span class="tag">도자</span><span class="yr">2024</span></button>
+      <button class="wrow" data-cat="wood" data-img="../media/tpl/st-f.jpg">
+        <span class="idx">06</span><span class="ttl">느티 소반</span>
+        <span class="tag">나무</span><span class="yr">2023</span></button>
+    </div>
+  </section>
+  <div class="hoverimg" id="hov"><img alt="" id="hovImg"></div>
+
+  <section class="hsec" id="hsec">
+    <div class="htit">Gallery &mdash; 옆으로 넘어갑니다</div>
+    <div class="hwrap">
+      <div class="htrack" id="htrack">
+        <figure class="hcard"><div class="ph"><img src="../media/tpl/st-a.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>달항아리</span><span>01</span></figcaption></figure>
+        <figure class="hcard wide"><div class="ph"><img src="../media/tpl/st-f.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>작업대</span><span>02</span></figcaption></figure>
+        <figure class="hcard tall"><div class="ph"><img src="../media/tpl/st-b.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>무유 찻잔</span><span>03</span></figcaption></figure>
+        <figure class="hcard"><div class="ph"><img src="../media/tpl/st-c.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>참죽 도마</span><span>04</span></figcaption></figure>
+        <figure class="hcard wide"><div class="ph"><img src="../media/tpl/st-d.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>쌓는 그릇</span><span>05</span></figcaption></figure>
+        <figure class="hcard tall"><div class="ph"><img src="../media/tpl/st-e.jpg" alt="" loading="lazy"></div>
+          <figcaption><span>기명 화병</span><span>06</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="nums">
+    <div><b data-n="2016">2016</b><small>문을 연 해</small></div>
+    <div><b data-n="1840">1840</b><small>구운 그릇</small></div>
+    <div><b data-n="126">126</b><small>수업 기수</small></div>
+    <div><b data-n="9">9</b><small>다루는 흙</small></div>
+  </section>
+
+  <section class="proc" id="proc">
+    <div class="stick">
+      <h3 class="rv">만드는<br>순서</h3>
+      <p class="rv">흙을 고르는 데 하루, 마르기를 기다리는 데 열흘.
+        굽는 시간은 그중 가장 짧습니다.</p>
+    </div>
+    <div class="steps">
+      <div class="pstep"><span class="no">01</span><div>
+        <h4>흙 고르기</h4><p>쓸 자리에 맞춰 흙을 정합니다. 매일 쓰는 그릇과 한 해에 몇 번 쓰는 그릇은 흙부터 다릅니다.</p></div></div>
+      <div class="pstep"><span class="no">02</span><div>
+        <h4>물레</h4><p>같은 모양을 열 번 올려 그중 둘을 남깁니다. 남는 쪽이 손에 붙는 쪽입니다.</p></div></div>
+      <div class="pstep"><span class="no">03</span><div>
+        <h4>깎기</h4><p>굽을 깎아 무게를 잡습니다. 들었을 때 가볍다고 느끼는 자리가 따로 있습니다.</p></div></div>
+      <div class="pstep"><span class="no">04</span><div>
+        <h4>말리기</h4><p>그늘에서 열흘. 서두르면 이때 갈라집니다. 가장 오래 기다리는 구간입니다.</p></div></div>
+      <div class="pstep"><span class="no">05</span><div>
+        <h4>초벌</h4><p>800도에서 한 번. 여기서 살아남은 것만 유약을 입힙니다.</p></div></div>
+      <div class="pstep"><span class="no">06</span><div>
+        <h4>유약 &middot; 재벌</h4><p>1250도에서 열두 시간. 가마 문을 여는 순간까지 결과를 모릅니다.</p></div></div>
+    </div>
+  </section>
+
+  <section class="cmp">
+    <h3>유약 전 &mdash; 후 (가운데를 끌어 보세요)</h3>
+    <div class="cmpbox" id="cmp">
+      <div class="b"><img src="../media/tpl/st-d.jpg" alt="유약을 입힌 뒤"></div>
+      <div class="a" id="cmpA"><img src="../media/tpl/st-b.jpg" alt="유약을 입히기 전"></div>
+      <div class="bar" id="cmpBar"></div>
+      <span class="lb l">Before</span><span class="lb r">After</span>
+    </div>
+  </section>
+
+  <section class="trio">
+    <figure class="rv"><div class="ph"><img src="../media/tpl/st-a.jpg" alt="" loading="lazy"></div>
+      <figcaption>Wheel throwing</figcaption></figure>
+    <figure class="rv"><div class="ph"><img src="../media/tpl/st-f.jpg" alt="" loading="lazy"></div>
+      <figcaption>Glazing</figcaption></figure>
+    <figure class="rv"><div class="ph"><img src="../media/tpl/st-c.jpg" alt="" loading="lazy"></div>
+      <figcaption>Finished</figcaption></figure>
+  </section>
+
+  <section class="quote">
+    <p class="rv">잘 만든 것은 <span class="it se">조용합니다.</span></p>
+  </section>
+
+  <section class="faq" id="faq">
+    <h3>자주 묻는 질문</h3>
+    <div class="qa"><button class="q">수업은 처음이어도 되나요<i>+</i></button>
+      <div class="a"><p>대부분 처음 오십니다. 첫 주에는 흙을 만지는 것만 합니다.
+        네 주 과정이 끝나면 본인 그릇 두세 점을 가져가십니다.</p></div></div>
+    <div class="qa"><button class="q">주문 제작은 얼마나 걸리나요<i>+</i></button>
+      <div class="a"><p>말리고 두 번 굽는 시간이 있어 보통 4주에서 6주입니다.
+        수량이 많으면 나눠서 보내드립니다.</p></div></div>
+    <div class="qa"><button class="q">그릇이 깨지면 고칠 수 있나요<i>+</i></button>
+      <div class="a"><p>금이 간 정도는 금계(킨츠기)로 손봐 드립니다.
+        조각이 남아 있으면 가져오세요. 비용은 상태를 보고 말씀드립니다.</p></div></div>
+    <div class="qa"><button class="q">식기세척기에 넣어도 되나요<i>+</i></button>
+      <div class="a"><p>유약을 입힌 것은 괜찮습니다. 무유(유약 없는 것)는 손으로 씻어 주세요.
+        전자레인지는 금선이 들어간 것만 피하시면 됩니다.</p></div></div>
+  </section>
+
+  <section class="info">
+    <div class="rv"><h4>공방</h4><p>서울 성북구<br>평일 11:00&ndash;18:00<br>
+      지금 서울 <span class="clock" id="clock">--:--</span></p></div>
+    <div class="rv"><h4>수업</h4><p>물레 4주 과정<br>주 1회 &middot; 3인 이하<br>매달 첫 주 모집</p></div>
+    <div class="rv"><h4>주문</h4><p>개별 제작 문의<br>납기 4&ndash;6주<br>수량에 따라 조정</p></div>
+  </section>
+
+  <section class="end" id="end">
+    <button class="se" data-open>문의하기</button>
+    <div class="sm rv">무명공방 &middot; 서울 성북구<br>02-000-0000</div>
+  </section>
+
+</main>
+
+<div class="lb" id="lb">
+  <button class="x" data-lbx>&times;</button>
+  <button class="nv p" data-lbp>Prev</button>
+  <button class="nv n" data-lbn>Next</button>
+  <div>
+    <div class="frame"><img id="lbImg" alt=""></div>
+    <div class="cap" id="lbCap"></div>
+  </div>
+</div>
+
+<div class="mod" id="mod">
+  <div class="card">
+    <button class="x" data-modx>&times;</button>
+    <div class="form">
+      <h3>무엇을 만들까요</h3>
+      <p class="lead">수업이든 주문이든 편하게 남겨 주세요. 하루 안에 답을 드립니다.</p>
+      <div class="f"><label>이름</label><input type="text" placeholder="성함"></div>
+      <div class="f"><label>연락처</label><input type="text" placeholder="010-0000-0000"></div>
+      <div class="f"><label>무엇이 궁금하신가요</label>
+        <select><option>물레 수업</option><option>개별 주문 제작</option>
+          <option>수리 (킨츠기)</option><option>그 밖에</option></select></div>
+      <div class="f"><label>내용</label><textarea placeholder="쓰실 자리, 수량, 원하시는 시기"></textarea></div>
+      <button class="go" id="mGo">보내기</button>
+    </div>
+    <div class="ok"><b>받았습니다</b><p>남겨 주신 연락처로 하루 안에 답을 드리겠습니다.<br>
+      <small>(견본 화면입니다. 실제로 전송되지 않습니다.)</small></p></div>
+  </div>
+</div>
+
+<button class="up" id="up">&uarr;</button>
+
+<div class="demo">이 화면은 <b>Perfect_Web 참고 디자인 견본</b>입니다. 실제 공방이 아닙니다.
+  <a href="../index.html#design">&larr; 목록으로</a></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function(id){ return document.getElementById(id); };
+  var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+
+  /* ══ 제목을 한 글자씩 쪼갠다 ══
+     움직임은 CSS transition 이 맡는다. GSAP 이 없어도 돈다.
+     ⚠ innerHTML 에 정규식을 걸면 <span class="it"> 같은 태그까지 글자로 잡혀 깨진다.
+        텍스트 노드만 골라 감싼다. */
+  (function splitChars(){
+    var h = $('heroH1');
+    var walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    var i = 0;
+    nodes.forEach(function(n){
+      var frag = document.createDocumentFragment();
+      n.textContent.split('').forEach(function(ch){
+        var w = document.createElement('span'); w.className = 'w';
+        var s = document.createElement('span'); s.className = 'c'; s.textContent = ch;
+        s.style.transitionDelay = (0.30 + i * 0.055).toFixed(3) + 's';
+        w.appendChild(s); frag.appendChild(w); i++;
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+  })();
+
+  function startPage(){
+    document.body.classList.add('ready');
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+
+  /* ══ 01. 로딩 화면 ══ */
+  (function loader(){
+    var box = $('load'), n = $('loadN');
+    // 썸네일 캡처용. 주소 뒤에 ?shot=1 이면 로딩 화면을 건너뛴다.
+    var shot = location.search.indexOf('shot') >= 0;
+    if(reduce || shot){ box.classList.add('gone'); startPage(); return; }
+    var v = 0;
+    var t = setInterval(function(){
+      v += Math.random() * 14 + 5;
+      if(v >= 100){
+        v = 100; clearInterval(t);
+        setTimeout(function(){
+          box.classList.add('done');
+          setTimeout(function(){ box.classList.add('gone'); startPage(); }, 760);
+        }, 240);
+      }
+      n.textContent = Math.floor(v);
+    }, 95);
+    // 무슨 일이 있어도 3초 뒤에는 화면을 연다 (로딩에 갇히면 안 된다)
+    setTimeout(function(){
+      if(!box.classList.contains('gone')){
+        clearInterval(t); box.classList.add('done');
+        setTimeout(function(){ box.classList.add('gone'); startPage(); }, 760);
+      }
+    }, 3000);
+  })();
+
+  /* ══ 02. 동그란 커서 ══ */
+  (function cursor(){
+    if(matchMedia('(max-width:900px)').matches) return;
+    var c1 = $('cur1'), c2 = $('cur2'), x = 0, y = 0, tx = 0, ty = 0;
+    addEventListener('mousemove', function(e){
+      x = e.clientX; y = e.clientY;
+      c1.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%)';
+    }, {passive:true});
+    (function loop(){
+      tx += (x - tx) * 0.16; ty += (y - ty) * 0.16;
+      c2.style.transform = 'translate(' + tx + 'px,' + ty + 'px) translate(-50%,-50%)';
+      requestAnimationFrame(loop);
+    })();
+    $$('.wrow, .hcard, .end button, .top .ask').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ c2.classList.add('on'); });
+      el.addEventListener('mouseleave', function(){ c2.classList.remove('on'); });
+    });
+  })();
+
+  /* ══ 서울 현재 시각 ══ */
+  (function clock(){
+    var el = $('clock'); if(!el) return;
+    function tick(){
+      el.textContent = new Date().toLocaleTimeString('ko-KR',
+        {timeZone:'Asia/Seoul', hour:'2-digit', minute:'2-digit', hour12:false});
+    }
+    tick(); setInterval(tick, 20000);
+  })();
+
+  /* ══ 13. 질문 접기 ══ */
+  $$('.qa').forEach(function(qa){
+    var btn = qa.querySelector('.q'), pan = qa.querySelector('.a');
+    btn.addEventListener('click', function(){
+      var open = qa.classList.contains('on');
+      $$('.qa.on').forEach(function(o){
+        o.classList.remove('on'); o.querySelector('.a').style.height = '0px';
+      });
+      if(!open){ qa.classList.add('on'); pan.style.height = pan.scrollHeight + 'px'; }
+    });
+  });
+
+  /* ══ 12. 전/후 비교 ══ */
+  (function compare(){
+    var box = $('cmp'), a = $('cmpA'), bar = $('cmpBar');
+    if(!box) return;
+    var on = false;
+    function set(clientX){
+      var r = box.getBoundingClientRect();
+      var p = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      a.style.clipPath = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
+      bar.style.left = (p * 100).toFixed(2) + '%';
+    }
+    box.addEventListener('pointerdown', function(e){
+      on = true; box.setPointerCapture(e.pointerId); set(e.clientX);
+    });
+    box.addEventListener('pointermove', function(e){ if(on) set(e.clientX); });
+    addEventListener('pointerup', function(){ on = false; });
+    box.addEventListener('pointerleave', function(){ on = false; });
+  })();
+
+  /* ══ 07. 분류 단추 ══ */
+  $$('.wtabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('.wtabs button').forEach(function(o){ o.classList.remove('on'); });
+      b.classList.add('on');
+      var cat = b.dataset.cat;
+      $$('.wrow').forEach(function(r){
+        r.classList.toggle('hide', cat !== 'all' && r.dataset.cat !== cat);
+      });
+      if(window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+  });
+
+  /* ══ 08. 사진 확대창 ══ */
+  (function lightbox(){
+    var lb = $('lb'), img = $('lbImg'), cap = $('lbCap');
+    var rows = $$('.wrow'), cur = 0;
+    function visible(){ return rows.filter(function(r){ return !r.classList.contains('hide'); }); }
+    function show(i){
+      var vis = visible(); if(!vis.length) return;
+      cur = (i + vis.length) % vis.length;
+      var r = vis[cur];
+      img.src = r.dataset.img;
+      cap.textContent = r.querySelector('.ttl').textContent + ' · ' + r.querySelector('.yr').textContent;
+      lb.classList.add('on');
+      if(window.__lenis) window.__lenis.stop();
+    }
+    function hide(){ lb.classList.remove('on'); if(window.__lenis) window.__lenis.start(); }
+    rows.forEach(function(r){
+      r.addEventListener('click', function(){ show(visible().indexOf(r)); });
+    });
+    lb.querySelector('[data-lbx]').addEventListener('click', hide);
+    lb.querySelector('[data-lbp]').addEventListener('click', function(e){ e.stopPropagation(); show(cur - 1); });
+    lb.querySelector('[data-lbn]').addEventListener('click', function(e){ e.stopPropagation(); show(cur + 1); });
+    lb.addEventListener('click', function(e){ if(e.target === lb) hide(); });
+    addEventListener('keydown', function(e){
+      if(!lb.classList.contains('on')) return;
+      if(e.key === 'Escape') hide();
+      if(e.key === 'ArrowLeft') show(cur - 1);
+      if(e.key === 'ArrowRight') show(cur + 1);
+    });
+  })();
+
+  /* ══ 14. 문의 팝업 ══ */
+  (function modal(){
+    var m = $('mod');
+    function open(){ m.classList.add('on'); if(window.__lenis) window.__lenis.stop(); }
+    function close(){ m.classList.remove('on'); if(window.__lenis) window.__lenis.start(); }
+    $$('[data-open]').forEach(function(b){ b.addEventListener('click', open); });
+    m.querySelector('[data-modx]').addEventListener('click', close);
+    m.addEventListener('click', function(e){ if(e.target === m) close(); });
+    addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+    // ⚠ 견본이라 실제로 보내지 않는다. alert 를 쓰면 화면이 멈추므로 자체 안내로 대신한다.
+    $('mGo').addEventListener('click', function(){ m.classList.add('sent'); });
+  })();
+
+  /* ══ 03/04. 진행 막대 · 상단 바 · 맨 위로 ══ */
+  (function chrome(){
+    var b = $('up'), top = $('top'), prog = $('prog');
+    b.addEventListener('click', function(){
+      if(window.__lenis) window.__lenis.scrollTo(0, {duration:1.2});
+      else scrollTo({top:0, behavior:'smooth'});
+    });
+    function paint(){
+      b.classList.toggle('on', scrollY > 600);
+      top.classList.toggle('solid', scrollY > 90);
+      var h = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+    }
+    addEventListener('scroll', paint, {passive:true});
+    paint();
+  })();
+
+  /* ─────────────────────────────────────────────
+     여기서부터는 GSAP 이 있어야 하는 것들.
+     못 올라오면 위 기능들은 그대로 살아 있고 움직임만 없다.
+     ───────────────────────────────────────────── */
+  var ok = window.gsap && window.ScrollTrigger;
+  if(!ok || reduce) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var lenis = null;
+  if(window.Lenis){
+    lenis = new Lenis({duration:1.15, smoothWheel:true,
+      easing:function(t){ return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    window.__lenis = lenis;
+    // ⚠ Lenis 를 쓰면 브라우저 기본 앵커 이동이 안 먹는다.
+    $$('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href'); if(id.length < 2) return;
+        var el = document.querySelector(id); if(!el) return;
+        e.preventDefault(); lenis.scrollTo(el, {duration:1.4});
+      });
+    });
+  }
+
+  /* 제목이 위로 빠지며 흐려진다 */
+  gsap.to('.hero h1', {yPercent:-26, opacity:.08, ease:'none',
+    scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+
+  /* 06. 글자 띠 — 스크롤 방향에 따라 흐르는 쪽이 바뀐다 */
+  (function marquee(){
+    var rail = $('rail');
+    rail.innerHTML += rail.innerHTML;   // 끊기지 않게 두 벌
+    var w = rail.scrollWidth / 2, x = 0, dir = 1;
+    if(lenis) lenis.on('scroll', function(e){ if(e && e.direction) dir = e.direction; });
+    gsap.ticker.add(function(){
+      x -= 0.55 * (dir >= 0 ? 1 : -1);
+      if(x <= -w) x += w;
+      if(x > 0) x -= w;
+      rail.style.transform = 'translate3d(' + x + 'px,0,0)';
+    });
+  })();
+
+  /* 드러나기 — 개별 트리거라 하나가 실패해도 나머지는 산다 */
+  gsap.utils.toArray('.rv').forEach(function(el){
+    gsap.from(el, {opacity:0, y:24, duration:1.05, ease:'expo.out', immediateRender:false,
+      scrollTrigger:{trigger:el, start:'top 88%', once:true}});
+  });
+
+  /* 목록에 올리면 사진이 마우스를 따라온다 */
+  (function hoverPic(){
+    var hov = $('hov'), hovImg = $('hovImg');
+    var qx = gsap.quickTo(hov, 'x', {duration:.5, ease:'power3'}),
+        qy = gsap.quickTo(hov, 'y', {duration:.5, ease:'power3'});
+    $$('.wrow').forEach(function(row){
+      row.addEventListener('mouseenter', function(){
+        hovImg.src = row.dataset.img;
+        gsap.to(hov, {opacity:1, scale:1, duration:.45, ease:'expo.out'});
+      });
+      row.addEventListener('mouseleave', function(){
+        gsap.to(hov, {opacity:0, scale:.94, duration:.35});
+      });
+    });
+    addEventListener('mousemove', function(e){ qx(e.clientX); qy(e.clientY); }, {passive:true});
+  })();
+
+  /* 09. 옆으로 밀리는 갤러리 */
+  (function horiz(){
+    var track = $('htrack'), sec = $('hsec');
+    if(!track) return;
+    var dist = function(){ return Math.max(0, track.scrollWidth - innerWidth + 40); };
+    gsap.to(track, {x:function(){ return -dist(); }, ease:'none',
+      scrollTrigger:{trigger:sec, start:'top top', end:function(){ return '+=' + dist(); },
+        pin:true, scrub:1, invalidateOnRefresh:true}});
+    gsap.utils.toArray('.htrack img').forEach(function(im){
+      gsap.fromTo(im, {scale:1.14}, {scale:1, duration:1.2, ease:'power2.out',
+        immediateRender:false,
+        scrollTrigger:{trigger:sec, start:'top 70%', once:true}});
+    });
+  })();
+
+  /* 10. 숫자 올라가기
+     🚨 Lenis 로 스크롤을 건너뛰면 scroll 이벤트도 IntersectionObserver 도 놓친다.
+        gsap.ticker 로 매 프레임 직접 본다. HTML 에 값이 박혀 있어 안 돌아도 숫자는 보인다. */
+  (function counter(){
+    var els = $$('.nums b');
+    var done = els.map(function(){ return false; });
+    var tick = function(){
+      var all = true;
+      els.forEach(function(el, i){
+        if(done[i]) return;
+        all = false;
+        if(el.getBoundingClientRect().top < innerHeight * 0.9){
+          done[i] = true;
+          var to = parseInt(el.dataset.n, 10) || 0, o = {v:0};
+          gsap.to(o, {v:to, duration:1.8, ease:'power2.out',
+            onUpdate:function(){ el.textContent = Math.floor(o.v); },
+            onComplete:function(){ el.textContent = to; }});
+        }
+      });
+      if(all) gsap.ticker.remove(tick);
+    };
+    gsap.ticker.add(tick);
+  })();
+
+  /* 11. 순서 칸이 하나씩 올라온다
+     ⚠ gsap.from + once 는 트리거를 놓치면 opacity:0 인 채로 굳는다(실제로 굳은 적이 있다).
+        fromTo + immediateRender:false 로 잠근다. */
+  gsap.utils.toArray('.pstep').forEach(function(s){
+    gsap.fromTo(s, {y:34, opacity:0}, {y:0, opacity:1, duration:.9, ease:'expo.out',
+      immediateRender:false,
+      scrollTrigger:{trigger:s, start:'top 90%', once:true}});
+  });
+
+  /* 사진 세 장이 서로 다른 속도로 오른다 */
+  gsap.utils.toArray('.trio figure').forEach(function(f, i){
+    gsap.fromTo(f, {y:[0,70,34][i] || 0}, {y:[0,-70,-34][i] || 0, ease:'none',
+      scrollTrigger:{trigger:'.trio', start:'top bottom', end:'bottom top', scrub:.8}});
+    gsap.fromTo(f.querySelector('img'), {scale:1.16}, {scale:1, ease:'none',
+      scrollTrigger:{trigger:f, start:'top bottom', end:'bottom top', scrub:true}});
+  });
+
+  /* 인용문이 한 번에 커진다 */
+  gsap.fromTo('.quote p', {letterSpacing:'.06em', opacity:.25},
+    {letterSpacing:'-.035em', opacity:1, ease:'none',
+     scrollTrigger:{trigger:'.quote', start:'top 82%', end:'top 32%', scrub:.7}});
+
+  /* 비교 상자가 커지며 들어온다 */
+  gsap.fromTo('.cmpbox', {scale:.94, opacity:.4}, {scale:1, opacity:1, duration:1.1,
+    ease:'expo.out', immediateRender:false,
+    scrollTrigger:{trigger:'.cmpbox', start:'top 85%', once:true}});
+
+  addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  addEventListener('resize', function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>

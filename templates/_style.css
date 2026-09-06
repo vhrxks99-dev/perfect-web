@@ -1,0 +1,313 @@
+/* ══════════════════════════════════════════════════════════════
+   Perfect_Web 참고 디자인 — 데모 템플릿 공통 CSS
+   업종별 페이지가 이 파일 하나를 같이 씁니다.
+   색·글꼴만 각 페이지 맨 위 :root 에서 덮어씁니다.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --t-bg:#ffffff; --t-bg2:#f6f7f9; --t-ink:#16181d; --t-ink2:#5b6270;
+  --t-line:#e5e7ec; --t-accent:#2b62e0; --t-on:#ffffff;
+  --t-round:10px; --t-maxw:1120px; --t-pad:clamp(18px,4vw,40px);
+  --t-head:'Pretendard Variable',Pretendard,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--t-bg);color:var(--t-ink);
+  font-family:var(--t-head);font-size:16px;line-height:1.7;letter-spacing:-.015em}
+img{max-width:100%;display:block}
+a{color:inherit}
+.tw{max-width:var(--t-maxw);margin:0 auto;padding-inline:var(--t-pad)}
+h1,h2,h3{margin:0;line-height:1.25;letter-spacing:-.035em}
+p{margin:0}
+
+/* 머리말 */
+.th{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--t-line)}
+.th .tw{display:flex;align-items:center;gap:18px;height:64px}
+.th .lg{font-weight:800;font-size:18px;letter-spacing:-.04em;text-decoration:none}
+.th .lg span{color:var(--t-accent)}
+.th nav{margin-left:auto;display:flex;gap:4px}
+.th nav a{text-decoration:none;font-size:14px;color:var(--t-ink2);padding:8px 12px;border-radius:8px}
+.th nav a:hover{background:var(--t-bg2);color:var(--t-ink)}
+.th .cta{background:var(--t-accent);color:var(--t-on);font-weight:700;font-size:13.5px;
+  padding:10px 18px;border-radius:999px;text-decoration:none;white-space:nowrap}
+@media (max-width:760px){ .th nav{display:none} }
+
+/* 첫 화면 */
+.thero{padding:clamp(52px,7vw,96px) 0 clamp(44px,6vw,80px);background:var(--t-bg2)}
+.thero .tw{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:820px){ .thero .tw{grid-template-columns:1fr} }
+.thero .eb{font-size:12.5px;font-weight:800;letter-spacing:.16em;color:var(--t-accent);margin-bottom:16px}
+.thero h1{font-size:clamp(28px,4.4vw,50px)}
+.thero p.l{margin-top:18px;color:var(--t-ink2);font-size:clamp(15px,1.3vw,17px)}
+.thero .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.tb{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:14.5px;
+  padding:13px 24px;border-radius:999px;border:1px solid transparent}
+.tb.p{background:var(--t-accent);color:var(--t-on)}
+.tb.o{border-color:var(--t-line);background:#fff;color:var(--t-ink)}
+.tart{border-radius:var(--t-round);overflow:hidden;border:1px solid var(--t-line);background:#fff;
+  aspect-ratio:4/3;display:grid;place-items:center;position:relative}
+
+/* 공통 구역 */
+.ts{padding:clamp(48px,6.5vw,88px) 0}
+.ts.alt{background:var(--t-bg2)}
+.tsh{text-align:center;margin-bottom:clamp(28px,3.6vw,46px)}
+.tsh .eb{font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--t-accent);margin-bottom:12px}
+.tsh h2{font-size:clamp(22px,3vw,34px)}
+.tsh p{margin-top:12px;color:var(--t-ink2);font-size:15px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media (max-width:860px){ .g3,.g4{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:560px){ .g3,.g4,.g2{grid-template-columns:1fr} }
+.card{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);
+  padding:clamp(18px,2.2vw,26px)}
+.ts.alt .card{background:#fff}
+.card .ic{width:38px;height:38px;border-radius:10px;background:var(--t-accent);opacity:.12;margin-bottom:14px}
+.card h3{font-size:17px;margin-bottom:8px}
+.card p{color:var(--t-ink2);font-size:14.5px}
+
+/* 표 */
+.ttab{width:100%;border-collapse:collapse;font-size:15px;background:#fff;
+  border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden}
+.ttab th,.ttab td{padding:14px 16px;border-bottom:1px solid var(--t-line);text-align:left}
+.ttab th{background:var(--t-bg2);font-weight:700;font-size:14px}
+.ttab tr:last-child td{border-bottom:0}
+
+/* 사람 */
+.ppl{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:760px){ .ppl{grid-template-columns:1fr 1fr} }
+.pp{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden}
+.pp .ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--t-bg2),#e9ecf2)}
+.pp .in{padding:16px}
+.pp b{display:block;font-size:16px}
+.pp span{font-size:13.5px;color:var(--t-ink2)}
+
+/* 신청 */
+.tform{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);
+  padding:clamp(20px,2.6vw,32px);display:grid;gap:12px}
+.tform .r{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){ .tform .r{grid-template-columns:1fr} }
+.tform label{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+.tform input,.tform select,.tform textarea{width:100%;padding:12px 14px;border:1px solid var(--t-line);
+  border-radius:8px;font:inherit;font-size:14.5px;background:var(--t-bg2)}
+.tform textarea{min-height:96px;resize:vertical}
+
+/* 꼬리말 */
+.tf{background:var(--t-ink);color:rgba(255,255,255,.72);padding:clamp(34px,4vw,54px) 0;font-size:14px}
+.tf b{color:#fff;font-size:16px;display:block;margin-bottom:10px}
+.tf .tw{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between}
+.tf .mark{font-size:12.5px;color:rgba(255,255,255,.45)}
+
+/* 이 페이지가 견본이라는 띠 — 모든 데모 맨 위에 붙습니다 */
+.demo-bar{background:#6B52F2;color:#fff;font-size:13px;text-align:center;padding:9px 16px}
+.demo-bar a{color:#fff;font-weight:700}
+
+/* ── 관리자 화면 견본 전용 ──────────────────────────────────── */
+.dash{display:grid;grid-template-columns:212px 1fr;min-height:calc(100vh - 38px)}
+@media (max-width:820px){ .dash{grid-template-columns:1fr} .dside{display:none} }
+.dside{background:var(--t-ink);color:rgba(255,255,255,.72);padding:20px 14px}
+.dside .lg{color:#fff;font-weight:800;font-size:16px;letter-spacing:-.04em;
+  display:block;padding:6px 10px 18px}
+.dside .lg i{font-style:normal;color:var(--t-accent)}
+.dside a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  text-decoration:none;font-size:14px;color:rgba(255,255,255,.72)}
+.dside a.on,.dside a:hover{background:rgba(255,255,255,.10);color:#fff}
+.dside a u{width:6px;height:6px;border-radius:2px;background:currentColor;opacity:.6}
+.dside .grp{font-size:11px;letter-spacing:.14em;font-weight:800;
+  color:rgba(255,255,255,.34);padding:18px 12px 8px}
+.dmain{background:var(--t-bg2);padding:clamp(18px,2.4vw,30px);min-width:0}
+.dtop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.dtop h1{font-size:22px}
+.dtop .sp{margin-left:auto;display:flex;gap:8px}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media (max-width:900px){ .stat{grid-template-columns:1fr 1fr} }
+.stat .s{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);padding:18px}
+.stat .s span{font-size:13px;color:var(--t-ink2)}
+.stat .s b{display:block;font-size:28px;letter-spacing:-.04em;margin-top:6px}
+.stat .s i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--t-accent)}
+.dpanel{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden}
+.dpanel .ph{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--t-line)}
+.dpanel .ph b{font-size:15.5px}
+.dpanel .ph span{margin-left:auto;font-size:13px;color:var(--t-ink2)}
+.dpanel table{width:100%;border-collapse:collapse;font-size:14.5px}
+.dpanel th,.dpanel td{padding:13px 18px;border-bottom:1px solid var(--t-line);text-align:left}
+.dpanel th{font-size:12.5px;color:var(--t-ink2);font-weight:700;background:var(--t-bg2)}
+.dpanel tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.pill.a{background:#E8F5E9;color:#1B7A32}
+.pill.b{background:#FFF4E0;color:#9A6400}
+.pill.c{background:var(--t-bg2);color:var(--t-ink2)}
+
+/* ══════════════════════════════════════════════════════════════
+   2026-08-23 — 견본을 '진짜 완성된 홈페이지'처럼 보이게 (레퍼런스 참고)
+   글자만 있던 화면에 사진 첫 화면 · 숫자 띠 · 사진 카드를 더했습니다.
+   ══════════════════════════════════════════════════════════════ */
+
+/* 사진이 꽉 찬 첫 화면 */
+.phero{position:relative;isolation:isolate;color:#fff;overflow:hidden;
+  min-height:clamp(420px,54vw,600px);display:flex;align-items:flex-end}
+.phero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.phero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,12,16,.62) 0%,rgba(10,12,16,.28) 42%,rgba(10,12,16,.86) 100%)}
+.phero .tw{padding-block:clamp(34px,5vw,64px);width:100%}
+.phero .eb{font-size:12.5px;font-weight:800;letter-spacing:.18em;color:#fff;opacity:.82;margin-bottom:16px}
+.phero h1{font-size:clamp(28px,4.6vw,54px);color:#fff;text-shadow:0 2px 26px rgba(0,0,0,.35)}
+.phero p.l{margin-top:16px;max-width:52ch;color:rgba(255,255,255,.86);font-size:clamp(15px,1.3vw,17px)}
+.phero .btns{margin-top:26px}
+.phero .tb.o{border-color:rgba(255,255,255,.5);background:transparent;color:#fff}
+.phero .tb.o:hover{background:rgba(255,255,255,.14)}
+
+/* 색면으로 꽉 찬 첫 화면 (사진이 마땅치 않은 업종) */
+.chero{background:var(--t-accent);color:#fff;padding-block:clamp(52px,7vw,96px)}
+.chero .eb{color:rgba(255,255,255,.78);font-size:12.5px;font-weight:800;letter-spacing:.18em;margin-bottom:16px}
+.chero h1{font-size:clamp(28px,4.6vw,54px);color:#fff}
+.chero p.l{margin-top:16px;max-width:52ch;color:rgba(255,255,255,.84);font-size:clamp(15px,1.3vw,17px)}
+.chero .btns{margin-top:26px}
+.chero .tb.p{background:#fff;color:var(--t-ink)}
+.chero .tb.o{border-color:rgba(255,255,255,.5);color:#fff;background:transparent}
+
+/* 숫자 띠 */
+.statbar{background:var(--t-ink);color:#fff}
+.statbar .tw{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-block:clamp(22px,2.8vw,38px)}
+@media (max-width:640px){ .statbar .tw{grid-template-columns:1fr 1fr;gap:20px 10px} }
+.statbar div{text-align:center}
+.statbar b{display:block;font-size:clamp(24px,3vw,38px);letter-spacing:-.04em;line-height:1.1}
+.statbar b i{font-style:normal;font-size:.55em;color:var(--t-accent);margin-left:2px}
+.statbar span{display:block;margin-top:6px;font-size:13px;color:rgba(255,255,255,.62)}
+
+/* 사진이 들어간 카드 */
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:860px){ .pcards{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .pcards{grid-template-columns:1fr} }
+.pcard{background:#fff;border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden;min-width:0}
+.pcard>img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.pcard .ph{aspect-ratio:4/3;background:linear-gradient(150deg,var(--t-accent),var(--t-bg2));opacity:.85}
+.pcard .in{padding:clamp(16px,2vw,24px)}
+.pcard h3{font-size:17px;margin-bottom:8px}
+.pcard p{color:var(--t-ink2);font-size:14.5px}
+.pcard .tagline{display:inline-block;margin-bottom:10px;font-size:11.5px;font-weight:800;
+  letter-spacing:.1em;color:var(--t-accent)}
+
+/* ══════════════════════════════════════════════════════════════
+   2026-08-23 — 견본마다 글꼴과 글자 위치를 다르게
+   원장 지시: "글씨체를 각각 다르게 / 글씨 위치를 바꾸거나
+              어떠한 레퍼런스사이트는 글씨가 없어도 괜찮고"
+   글꼴은 각 페이지 :root 의 --t-head(본문) --t-title(제목) 로 정합니다.
+   ══════════════════════════════════════════════════════════════ */
+h1,h2,h3,.lg,.dealbox b{font-family:var(--t-title,var(--t-head))}
+.thero h1,.phero h1,.chero h1,.tsh h2{font-family:var(--t-title,var(--t-head))}
+
+/* 첫 화면 글자 위치 — 기본은 왼쪽 아래 */
+.phero.al-c,.chero.al-c{text-align:center}
+.phero.al-c{align-items:center}
+.phero.al-c .l,.chero.al-c .l{margin-inline:auto}
+.phero.al-c .btns,.chero.al-c .btns{justify-content:center}
+
+.phero.al-tl{align-items:flex-start}
+.phero.al-tl .tw{padding-block:clamp(40px,6vw,80px) 0}
+
+.chero.al-r{text-align:right}
+.chero.al-r .l{margin-left:auto}
+.chero.al-r .btns{justify-content:flex-end}
+
+/* 글자가 아예 없는 첫 화면 — 사진만 크게 */
+.phero.bare{min-height:clamp(320px,44vw,520px);align-items:stretch}
+.phero.bare::after{background:linear-gradient(180deg,rgba(10,12,16,.34),rgba(10,12,16,.06) 46%,rgba(10,12,16,.10))}
+.phero.bare .tw{display:none}
+/* 사진 바로 아래에서 말을 시작한다 */
+.bare-lead{padding-block:clamp(34px,5vw,68px)}
+.bare-lead .tw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+  gap:clamp(20px,4vw,60px);align-items:end}
+@media (max-width:820px){ .bare-lead .tw{grid-template-columns:1fr;gap:18px} }
+.bare-lead .eb{font-size:12.5px;font-weight:800;letter-spacing:.18em;color:var(--t-accent);margin-bottom:14px}
+.bare-lead h1{font-size:clamp(26px,3.8vw,46px);line-height:1.22}
+.bare-lead p{margin:0;color:var(--t-ink2);font-size:clamp(15px,1.3vw,17px);line-height:1.85}
+.bare-lead .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+/* ══════════════════════════════════════════════════════════════
+   2026-08-23 — 업종마다 '구역 종류' 자체를 다르게
+   원장 지시: "전부다 너무 '무엇을 만드냐?' 이런 느낌으로 통일되어있어"
+   그래서 카드 격자 말고 업종에 맞는 칸을 따로 만들었습니다.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ① 번호가 붙은 진행 단계 (진료 절차 · 상담 절차 · 시공 과정) */
+.steps4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;
+  border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden;background:#fff}
+.steps4 .st{padding:clamp(20px,2.4vw,28px);border-right:1px solid var(--t-line);position:relative;min-width:0}
+.steps4 .st:last-child{border-right:0}
+@media (max-width:860px){ .steps4 .st{border-right:0;border-bottom:1px solid var(--t-line)}
+  .steps4 .st:last-child{border-bottom:0} }
+.steps4 .no{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:var(--t-accent);color:#fff;font-size:12.5px;font-weight:800;margin-bottom:14px}
+.steps4 .st h3{font-size:16.5px;margin-bottom:8px}
+.steps4 .st p{font-size:14px;color:var(--t-ink2);line-height:1.75}
+.steps4 .st .tm{display:inline-block;margin-top:12px;font-size:12px;font-weight:700;
+  color:var(--t-accent);background:var(--t-bg2);padding:4px 10px;border-radius:999px}
+
+/* ② 항목 : 값 나열 (설비 목록 · 인증 · 견적 기준) */
+.spec{border-top:2px solid var(--t-ink)}
+.spec .row{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:clamp(12px,3vw,40px);
+  padding:clamp(16px,2vw,22px) 4px;border-bottom:1px solid var(--t-line)}
+@media (max-width:700px){ .spec .row{grid-template-columns:1fr;gap:6px} }
+.spec .row b{font-size:15.5px;letter-spacing:-.03em}
+.spec .row .v{color:var(--t-ink2);font-size:14.5px;line-height:1.8}
+.spec .row .v em{font-style:normal;color:var(--t-ink);font-weight:600}
+
+/* ③ 세로 연혁 */
+.tl{position:relative;padding-left:26px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--t-line)}
+.tl .it{position:relative;padding:0 0 clamp(20px,2.4vw,30px)}
+.tl .it:last-child{padding-bottom:0}
+.tl .it::before{content:"";position:absolute;left:-24px;top:7px;width:10px;height:10px;
+  border-radius:50%;background:var(--t-accent);box-shadow:0 0 0 4px var(--t-bg2)}
+.tl .yr{font-size:13px;font-weight:800;color:var(--t-accent);letter-spacing:.04em}
+.tl .it b{display:block;font-size:16px;margin:4px 0 5px}
+.tl .it p{margin:0;font-size:14px;color:var(--t-ink2);line-height:1.75}
+
+/* ④ 사례 목록 (해결 사례 · 시공 사례) */
+.cases{border-top:1px solid var(--t-line)}
+.cases .cs{display:grid;grid-template-columns:minmax(0,148px) minmax(0,1fr) minmax(0,200px);
+  gap:clamp(12px,2.4vw,32px);padding:clamp(18px,2.2vw,26px) 4px;border-bottom:1px solid var(--t-line);
+  align-items:start}
+@media (max-width:820px){ .cases .cs{grid-template-columns:1fr;gap:8px} }
+.cases .kind{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--t-accent);
+  background:var(--t-bg2);padding:5px 11px;border-radius:999px;justify-self:start}
+.cases .cs b{display:block;font-size:16px;margin-bottom:7px;letter-spacing:-.03em}
+.cases .cs p{margin:0;font-size:14px;color:var(--t-ink2);line-height:1.8}
+.cases .res{font-size:14px;font-weight:600;color:var(--t-ink);line-height:1.7}
+.cases .res span{display:block;font-size:12px;font-weight:700;color:var(--t-ink3);margin-bottom:4px}
+
+/* ⑤ 자주 묻는 질문 */
+.faq details{border-bottom:1px solid var(--t-line)}
+.faq summary{list-style:none;cursor:pointer;padding:clamp(16px,2vw,20px) 40px clamp(16px,2vw,20px) 4px;
+  font-size:15.5px;font-weight:600;position:relative;letter-spacing:-.03em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";position:absolute;right:8px;top:50%;translate:0 -50%;
+  color:var(--t-accent);font-weight:700}
+.faq details[open] summary::after{content:"－"}
+.faq .an{padding:0 40px clamp(18px,2.2vw,24px) 4px;color:var(--t-ink2);font-size:14.5px;line-height:1.85}
+
+/* ⑥ 요일 × 시간 격자 (진료시간·시간표) */
+.hours{width:100%;border-collapse:collapse;font-size:14.5px;background:#fff;
+  border:1px solid var(--t-line);border-radius:var(--t-round);overflow:hidden}
+.hours th,.hours td{padding:13px 10px;text-align:center;border-bottom:1px solid var(--t-line);
+  border-right:1px solid var(--t-line)}
+.hours th:last-child,.hours td:last-child{border-right:0}
+.hours tr:last-child td{border-bottom:0}
+.hours thead th{background:var(--t-ink);color:#fff;font-size:13px;font-weight:700}
+.hours tbody th{background:var(--t-bg2);font-weight:700;font-size:13.5px;text-align:left;padding-left:16px}
+.hours .off{color:var(--t-ink3)}
+.hours .hi{background:var(--t-bg2);font-weight:600}
+@media (max-width:640px){ .hours th,.hours td{padding:10px 5px;font-size:12.5px} }
+
+/* ⑦ 눈에 띄는 안내 상자 */
+.notice{border:1px solid var(--t-line);border-left:4px solid var(--t-accent);
+  background:#fff;border-radius:4px;padding:clamp(16px,2vw,22px) clamp(16px,2.2vw,24px)}
+.notice b{display:block;font-size:15px;margin-bottom:7px}
+.notice p{margin:0;font-size:14px;color:var(--t-ink2);line-height:1.85}
+
+/* ⑧ 작은 배지 줄 (인증·자격) */
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badges span{border:1px solid var(--t-line);background:#fff;border-radius:999px;
+  padding:9px 16px;font-size:13.5px;font-weight:600}
+.badges span i{font-style:normal;color:var(--t-accent);margin-right:6px;font-weight:800}

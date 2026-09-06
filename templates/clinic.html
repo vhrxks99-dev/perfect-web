@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>밝은미소치과 | Perfect_Web 참고 디자인</title>
+<meta name="description" content="병의원 홈페이지 참고 디자인 — 진료과목, 의료진, 진료시간, 예약.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_style.css">
+<style>
+/* 2026-09-06 — 이 견본만의 타이포그래피.
+   제목 크기·자간·여백을 따로 줘서 다른 견본과 겹치지 않게 한다. */
+:root{--t-accent:#0FA3A3;--t-bg2:#F1F8F8;--t-round:14px;--t-title:'Gowun Dodum',system-ui,sans-serif;}
+.phero h1,.chero h1{font-size:clamp(22px,2.7vw,34px);font-weight:400;letter-spacing:.045em;line-height:1.6}
+.bare-lead h1,.thero h1{font-size:clamp(21px,2.5vw,32px);font-weight:400;letter-spacing:.04em;line-height:1.62}
+.tsh h2{font-size:clamp(17px,1.9vw,24px);font-weight:400;letter-spacing:.05em}
+.eb{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;opacity:.75}
+.statbar b{font-family:'Inter',sans-serif;font-weight:300;letter-spacing:-.01em}
+.tagline{font-family:'Inter',sans-serif;letter-spacing:.2em;font-size:10.5px;font-weight:600}
+.ts{padding-block:clamp(72px,9.5vw,150px)}
+.tsh{margin-bottom:clamp(34px,4.5vw,66px)}
+</style>
+</head>
+<body>
+<div class="demo-bar">이 화면은 <b>Perfect_Web 참고 디자인 견본</b>입니다. 실제 업체가 아닙니다. &nbsp;<a href="../index.html#design">&larr; 목록으로</a></div>
+
+<header class="th">
+  <div class="tw">
+    <a class="lg" href="#top">밝은미소치과<span>.</span></a>
+    <nav><a href="#s1">진료과목</a><a href="#s2">의료진</a><a href="#s3">진료시간</a></nav>
+    <a class="cta" href="#apply">예약 문의</a>
+  </div>
+</header>
+
+<section class="phero al-c" id="top">
+  <img src="../media/tpl/clinic-hero.jpg" alt="" loading="eager" decoding="async">
+    <div class="tw">
+      <p class="eb">신촌역 2번 출구</p>
+      <h1>아프기 전에<br>한 번 더 봅니다.</h1>
+      <p class="l">치료보다 예방을 먼저 말씀드립니다. 필요 없는 치료는 권하지 않습니다.</p>
+      <div class="btns">
+        <a class="tb p" href="#apply">예약 문의</a>
+        <a class="tb o" href="#s1">진료과목 보기</a>
+      </div>
+    </div>
+</section>
+
+<section class="statbar"><div class="tw"><div><b>14<i>년</i></b><span>원장 진료 경력</span></div><div><b>4<i>대</i></b><span>진료 유닛</span></div><div><b>09:30<i>~</i></b><span>평일 진료 시작</span></div><div><b>토<i>요일</i></b><span>오전 진료</span></div></div></section>
+
+<section class="ts" id="s1">
+  <div class="tw">
+    <div class="tsh"><p class="eb">진료과목</p><h2>무엇을 보는 곳인가.</h2><p>과잉 진료를 하지 않는 것을 원칙으로 합니다.</p></div>
+    <div class="pcards"><div class="pcard"><img src="../media/tpl/clinic-a.jpg" alt="" loading="lazy" decoding="async"><div class="in"><span class="tagline">GENERAL</span><h3>일반 진료</h3><p>충치, 잇몸, 사랑니. 먼저 상태부터 설명드립니다.</p></div></div><div class="pcard"><img src="../media/tpl/clinic-b.jpg" alt="" loading="lazy" decoding="async"><div class="in"><span class="tagline">ORTHO</span><h3>교정</h3><p>시작 전에 기간과 비용을 모두 알려드립니다.</p></div></div><div class="pcard"><div class="ph"></div><div class="in"><span class="tagline">CHECK-UP</span><h3>정기 검진</h3><p>6개월에 한 번, 문자로 알려드립니다.</p></div></div></div>
+  </div>
+</section>
+
+<section class="ts alt" id="s4">
+  <div class="tw">
+    <div class="tsh"><p class="eb">진료 절차</p><h2>오시면 이렇게 진행됩니다.</h2><p>처음 오신 분은 30분 정도 걸립니다.</p></div>
+    <div class="steps4"><div class="st"><span class="no">1</span><h3>접수 · 문진</h3><p>어디가 불편한지, 지금까지 어떤 치료를 받으셨는지 여쭙습니다.</p><span class="tm">5분</span></div><div class="st"><span class="no">2</span><h3>검사</h3><p>파노라마 엑스레이를 찍고 구강 상태를 봅니다. 필요하면 3D 촬영을 합니다.</p><span class="tm">10분</span></div><div class="st"><span class="no">3</span><h3>설명 · 상담</h3><p>찍은 사진을 화면에 띄워 같이 보면서 설명드립니다. 치료 안 해도 되는 것은 안 한다고 말씀드립니다.</p><span class="tm">10분</span></div><div class="st"><span class="no">4</span><h3>치료 계획</h3><p>기간과 비용을 종이에 적어 드립니다. 그날 결정하지 않으셔도 됩니다.</p><span class="tm">5분</span></div></div>
+  </div>
+</section>
+
+<section class="ts" id="s3">
+  <div class="tw">
+    <div class="tsh"><p class="eb">진료시간</p><h2>언제 여나요.</h2><p>일요일·공휴일은 쉽니다.</p></div>
+    <table class="hours"><thead><tr><th></th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr><th>오전</th><td class="">09:30–13:00</td><td class="">09:30–13:00</td><td class="">09:30–13:00</td><td class="">09:30–13:00</td><td class="">09:30–13:00</td><td class="hi">09:30–13:00</td></tr><tr><th>오후</th><td class="">14:00–18:30</td><td class="">14:00–18:30</td><td class="hi">14:00–21:00</td><td class="">14:00–18:30</td><td class="">14:00–18:30</td><td class="off">휴진</td></tr></tbody></table><div class="notice" style="margin-top:16px"><p><b>수요일은 밤 9시까지</b> 봅니다. 직장 다니시는 분들을 위해 열어 두었습니다. 토요일은 점심시간 없이 오전만 진료합니다. 점심시간은 평일 13:00–14:00 입니다.</p></div>
+  </div>
+</section>
+
+<section class="ts alt" id="s2">
+  <div class="tw">
+    <div class="tsh"><p class="eb">의료진</p><h2>진료를 맡는 사람들.</h2><p>수납·상담·치료를 같은 사람이 끝까지 봅니다.</p></div>
+    <div class="ppl"><div class="pp"><div class="ph"></div><div class="in"><b>원장 정민호</b><span>보존과 전문의 · 14년</span></div></div><div class="pp"><div class="ph"></div><div class="in"><b>부원장 한수아</b><span>교정과 전문의 · 9년</span></div></div><div class="pp"><div class="ph"></div><div class="in"><b>실장 오지은</b><span>상담 · 11년</span></div></div></div>
+  </div>
+</section>
+
+<section class="ts" id="s5">
+  <div class="tw">
+    <div class="tsh"><p class="eb">비용 안내</p><h2>자주 묻는 항목만 적었습니다.</h2><p>건강보험이 안 되는 항목은 따로 표시했습니다.</p></div>
+    <div class="spec"><div class="row"><b>레진 (충치 1개)</b><div class="v"><em>10만 ~ 15만원</em> · 비급여 · 충치 크기에 따라 다릅니다</div></div><div class="row"><b>신경치료</b><div class="v"><em>보험 적용</em> · 본인부담금 3만원 안팎 · 치아 위치에 따라 다릅니다</div></div><div class="row"><b>크라운 (지르코니아)</b><div class="v"><em>45만 ~ 60만원</em> · 비급여</div></div><div class="row"><b>임플란트 (1개)</b><div class="v"><em>90만 ~ 140만원</em> · 비급여 · 뼈 상태에 따라 뼈이식이 추가될 수 있습니다</div></div><div class="row"><b>스케일링</b><div class="v"><em>보험 적용</em> · 연 1회 · 본인부담금 1만 5천원 안팎</div></div><div class="row"><b>교정 상담</b><div class="v"><em>무료</em> · 검사비는 별도입니다</div></div></div>
+  </div>
+</section>
+
+<section class="ts alt" id="s6">
+  <div class="tw">
+    <div class="tsh"><p class="eb">자주 묻는 질문</p><h2>오시기 전에 많이 물어보시는 것.</h2><p></p></div>
+    <div class="faq"><details open><summary>처음인데 뭘 가져가야 하나요</summary><div class="an">신분증만 가져오시면 됩니다. 다른 병원에서 찍은 엑스레이가 있으면 가져오시면 다시 안 찍어도 됩니다.</div></details><details><summary>예약 없이 가도 되나요</summary><div class="an">가능합니다. 다만 예약하신 분이 먼저라 기다리실 수 있습니다. 전화로 오시는 시간만 알려주셔도 대기가 줄어듭니다.</div></details><details><summary>치료비를 한 번에 못 내면 어떻게 하나요</summary><div class="an">임플란트·교정처럼 금액이 큰 치료는 치료 단계에 맞춰 나눠 내실 수 있습니다. 카드 무이자 할부도 됩니다.</div></details><details><summary>아이도 볼 수 있나요</summary><div class="an">만 6세부터 봅니다. 불소도포와 실런트는 보험이 됩니다.</div></details><details><summary>주차되나요</summary><div class="an">건물 지하에 대실 수 있고 2시간 무료입니다. 진료 끝나고 데스크에 주차권을 말씀해 주세요.</div></details></div>
+  </div>
+</section>
+
+<section class="ts alt" id="apply">
+  <div class="tw" style="max-width:720px">
+    <div class="tsh"><p class="eb">예약 문의</p><h2>진료 예약을 남겨주세요.</h2><p>확인 후 연락드려 시간을 확정합니다.</p></div>
+    <form class="tform" onsubmit="event.preventDefault();alert('견본 화면입니다. 실제로 접수되지 않습니다.')">
+      <div class="r">
+        <div><label>이름</label><input placeholder="성함"></div>
+        <div><label>연락처</label><input placeholder="010-0000-0000"></div>
+      </div>
+      <div class="r">
+        <div><label>진료 희망</label><select><option>일반 검진</option><option>충치 치료</option><option>교정 상담</option><option>임플란트 상담</option></select></div>
+        <div><label>희망 시간</label><input placeholder="예: 평일 저녁"></div>
+      </div>
+      <div><label>남기실 말씀</label><textarea placeholder="한두 문장이면 충분합니다."></textarea></div>
+      <button class="tb p" style="justify-content:center;border:0;cursor:pointer">예약 문의</button>
+    </form>
+  </div>
+</section>
+
+<footer class="tf">
+  <div class="tw">
+    <div><b>밝은미소치과</b>서울 서대문구 · 평일 09:30–18:30 / 토 09:30–13:00</div>
+    <div class="mark">이 페이지는 Perfect_Web 이 만든 <b style="display:inline;font-size:12.5px">참고 디자인 견본</b>입니다.<br>실제 업체·연락처가 아닙니다.</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# 백업본 — 내 컴퓨터에만 둔다
+*.bak_*
+*.bak
+index.html.bak*
+
+# 미리보기 서버 — 배포할 필요 없다
+_preview.js
+_preview_server.py
+_shot.html
+srv.log
+*.log
+
+# 내부 문서 — 가격과 응대 문안이라 공개 저장소에 올리지 않는다
+크몽_*.txt
+*.docx
+*.xlsx
+
+# 만들다 만 것
+kmong-detail/
+kmong-detail-v2/
+
+# 원본 소재 (용량만 차지)
+media/tpl/_raw*.mp4
+media/ref/_bak_0906/
+
+# 잡동사니
+Thumbs.db
+.DS_Store
+desktop.ini

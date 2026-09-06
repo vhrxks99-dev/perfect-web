@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /$
+Allow: /index.html
+Disallow: /templates/
+Sitemap: https://www.perfect-web.co.kr/sitemap.xml

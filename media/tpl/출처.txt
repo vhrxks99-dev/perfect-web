@@ -1,0 +1,31 @@
+이 폴더의 사진은 Openverse 에서 받은 CC0 / 퍼블릭도메인 이미지입니다.
+상업적 사용이 가능하고 출처를 표시할 의무는 없지만, 기록으로 남겨 둡니다.
+
+academy-hero : Proving What Was Learned / cc0 / flickr
+academy-a : 2008_07_18 / cc0 / flickr
+academy-b : Finally, the Final / cc0 / flickr
+clinic-hero : Chair Dentist / cc0 / stocksnap
+clinic-a : Chair Dentist / cc0 / stocksnap
+clinic-b : Chair Dentist / cc0 / stocksnap
+company-hero : 20200305-FNS-LSC-0934 / pdm / flickr
+company-a : 20200305-FNS-LSC-0921 / pdm / flickr
+company-b : Xintang, the Blue Jeans City / pdm / flickr
+interior-hero : Modern living room interior | Design Lof / pdm / flickr
+interior-a : Free modern living room interior / cc0 / rawpixel
+interior-b : Beautiful living-room. / pdm / flickr
+
+[2026-09-06] 아파트 견본(residence.html) 사진 4장
+  apt-hero.jpg / apt-a.jpg / apt-b.jpg / apt-c.jpg
+  Unsplash — 상업 이용 무료, 출처 표기 의무 없음 (Unsplash License)
+  견본용이며 실제 분양 단지와 무관합니다.
+
+── 2026-09-06 치과 견본(dental.html) 소재 ──
+전부 Pexels 무료 소재. 상업적 이용 가능, 출처 표기 의무 없음.
+영상  clinic-hero.mp4  https://www.pexels.com/video/5892117/
+      clinic-sub.mp4   https://www.pexels.com/video/4491005/
+      (4K 원본을 1920/1280 으로 줄이고 소리 제거)
+사진  dn-01 7800666 / dn-02 4269682 / dn-03 8260620 / dn-04 6502305 / dn-05 5619462
+      dn-06 8460095 / dn-07 6627284 / dn-08 7578798 / dn-09 3845729 / dn-10 287237
+      https://www.pexels.com/photo/{번호}/
+※ 참고한 신촌다인치과(ysdain.com)의 영상·사진은 저작권 때문에 일절 쓰지 않았다.
+   레이아웃과 움직임만 참고하고 소재는 전부 무료 소재로 새로 받았다.

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!--
+  관리자 화면 견본 — Perfect_Web 이 직접 만든 참고 디자인입니다.
+  다른 견본과 달리 이 페이지는 공용 _style.css 를 쓰지 않고 혼자 스타일을 갖습니다.
+  관리자 화면은 소개형 홈페이지와 구조가 완전히 다르기 때문입니다.
+  그래프는 라이브러리 없이 SVG 로 직접 그렸습니다 — 불러올 파일이 없어 빨리 뜹니다.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 화면 | Perfect_Web 참고 디자인</title>
+<meta name="description" content="홈페이지 관리자 화면 참고 디자인 — 신청 접수, 통계, 공지·자료실, 회원 관리.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --p:#6B52F2;            /* 포인트 보라 */
+  --p-soft:#F1EEFE;
+  --side:#15161F;         /* 왼쪽 메뉴 바탕 */
+  --side-2:#1E202C;
+  --bg:#F5F6F9;
+  --card:#fff;
+  --ink:#171923;
+  --ink2:#5A6072;
+  --ink3:#949AAB;
+  --line:#E7E9F0;
+  --ok:#12A150; --ok-s:#E7F7EE;
+  --wait:#B7791F; --wait-s:#FDF6E3;
+  --hold:#6B7280; --hold-s:#F1F2F5;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;
+  font-size:14px;line-height:1.6;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+.demo-bar{background:var(--p);color:#fff;font-size:13px;text-align:center;padding:9px 16px}
+.demo-bar a{color:#fff;font-weight:700}
+
+/* ── 뼈대 ─────────────────────────────────────────────── */
+.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
+
+/* ── 왼쪽 메뉴 ────────────────────────────────────────── */
+.side{background:var(--side);color:rgba(255,255,255,.66);
+  display:flex;flex-direction:column;padding:18px 14px}
+.side .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 22px;color:#fff}
+.side .brand .mk{width:30px;height:30px;border-radius:9px;background:var(--p);
+  display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff}
+.side .brand b{font-size:15.5px;letter-spacing:-.04em}
+.side .brand span{display:block;font-size:11px;color:rgba(255,255,255,.42);font-weight:400;letter-spacing:0}
+.grp{font-size:10.5px;font-weight:800;letter-spacing:.15em;color:rgba(255,255,255,.3);
+  padding:16px 10px 7px}
+.side nav a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;
+  font-size:13.5px;color:rgba(255,255,255,.66);position:relative}
+.side nav a svg{width:16px;height:16px;flex:none;opacity:.75}
+.side nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.side nav a.on{background:rgba(107,82,242,.22);color:#fff;font-weight:600}
+.side nav a.on svg{opacity:1;color:#A896FF}
+.side nav a .cnt{margin-left:auto;background:var(--p);color:#fff;font-size:11px;
+  font-weight:800;border-radius:999px;padding:1px 7px}
+.side .me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:11px 10px;
+  border-top:1px solid rgba(255,255,255,.08);margin-top:auto}
+.side .me .av{width:32px;height:32px;border-radius:50%;background:#3A3F55;color:#fff;
+  display:grid;place-items:center;font-size:12.5px;font-weight:700}
+.side .me b{display:block;color:#fff;font-size:13px}
+.side .me span{font-size:11.5px;color:rgba(255,255,255,.4)}
+/* 좁은 화면에서는 왼쪽 메뉴를 가로 줄로 눕힌다.
+   (이 규칙은 위 .side 규칙들보다 뒤에 있어야 먹는다 — 순서 중요) */
+@media (max-width:1000px){
+  .app{grid-template-columns:1fr}
+  .side{flex-direction:row;align-items:center;gap:6px;padding:10px 12px;
+        overflow-x:auto;scrollbar-width:none}
+  .side::-webkit-scrollbar{display:none}
+  .side .brand{padding:0 12px 0 2px;white-space:nowrap}
+  .side .grp,.side .me{display:none}
+  .side nav{display:flex;gap:4px}
+  .side nav a{white-space:nowrap;padding:8px 12px}
+}
+
+/* ── 위쪽 줄 ──────────────────────────────────────────── */
+.main{min-width:0;display:flex;flex-direction:column}
+.top{background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:14px;padding:0 clamp(16px,2.2vw,28px);height:62px}
+.top .bc{font-size:13px;color:var(--ink3)}
+.top .bc b{color:var(--ink);font-weight:600}
+.top .find{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--bg);
+  border:1px solid var(--line);border-radius:9px;padding:8px 12px;width:min(260px,32vw)}
+.top .find input{border:0;outline:0;background:transparent;font:inherit;font-size:13px;width:100%}
+.top .bell{position:relative;width:36px;height:36px;border-radius:9px;border:1px solid var(--line);
+  display:grid;place-items:center}
+.top .bell i{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;
+  background:#E8452C;border:2px solid #fff}
+.top .av{width:34px;height:34px;border-radius:50%;background:var(--p-soft);color:var(--p);
+  display:grid;place-items:center;font-size:12.5px;font-weight:800}
+@media (max-width:620px){ .top .find{display:none} }
+
+/* ── 내용 ─────────────────────────────────────────────── */
+.body{padding:clamp(16px,2.2vw,26px);display:grid;gap:clamp(14px,1.6vw,18px)}
+.hd{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hd h1{margin:0;font-size:21px;letter-spacing:-.045em}
+.hd p{margin:2px 0 0;font-size:13px;color:var(--ink3)}
+.hd .sp{margin-left:auto;display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:9px;font-size:13px;
+  font-weight:600;padding:9px 15px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.btn.p{background:var(--p);border-color:var(--p);color:#fff}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.4vw,16px)}
+@media (max-width:1100px){ .cards{grid-template-columns:1fr 1fr} }
+@media (max-width:520px){ .cards{grid-template-columns:1fr} }
+.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.c .r1{display:flex;align-items:center;gap:9px}
+.c .ic{width:30px;height:30px;border-radius:9px;background:var(--p-soft);color:var(--p);
+  display:grid;place-items:center}
+.c .ic svg{width:15px;height:15px}
+.c .lab{font-size:12.5px;color:var(--ink2)}
+.c .r2{display:flex;align-items:flex-end;gap:9px;margin-top:9px}
+.c b{font-size:27px;letter-spacing:-.05em;line-height:1}
+.c .dt{font-size:12px;font-weight:800;padding:2px 7px;border-radius:999px;
+  background:var(--ok-s);color:var(--ok)}
+.c .dt.w{background:var(--wait-s);color:var(--wait)}
+.c .spark{margin-top:12px}
+
+.two{display:grid;grid-template-columns:1.9fr 1fr;gap:clamp(12px,1.4vw,16px)}
+@media (max-width:1000px){ .two{grid-template-columns:1fr} }
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.panel .ph{display:flex;align-items:center;gap:10px;padding:15px 18px;border-bottom:1px solid var(--line)}
+.panel .ph b{font-size:14.5px}
+.panel .ph span{margin-left:auto;font-size:12.5px;color:var(--ink3)}
+.panel .pb{padding:18px}
+
+/* 막대그래프 */
+.bars{display:flex;align-items:flex-end;gap:clamp(8px,1.4vw,18px);height:170px;padding-top:6px}
+.bars .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;height:100%}
+.bars .b .v{font-size:11.5px;color:var(--ink3);font-weight:700}
+.bars .b .bar{width:100%;max-width:34px;border-radius:7px 7px 3px 3px;
+  background:linear-gradient(180deg,#8C79F7,#6B52F2)}
+.bars .b.dim .bar{background:#E3E5EE}
+.bars .b .d{font-size:11.5px;color:var(--ink3)}
+
+/* 도넛 */
+.donut{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.donut .lg{display:grid;gap:9px;font-size:13px;flex:1;min-width:130px}
+.donut .lg div{display:flex;align-items:center;gap:8px}
+.donut .lg i{width:9px;height:9px;border-radius:3px}
+.donut .lg b{margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* 표 */
+.tb{width:100%;border-collapse:collapse}
+.tb th,.tb td{padding:12px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.tb th{font-size:11.5px;font-weight:700;color:var(--ink3);background:#FAFBFC;
+  letter-spacing:.04em;text-transform:uppercase}
+.tb tr:last-child td{border-bottom:0}
+.tb tbody tr:hover{background:#FAFAFD}
+.who{display:flex;align-items:center;gap:10px}
+.who .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:700;color:#fff}
+.who b{font-size:13.5px;font-weight:600}
+.who span{display:block;font-size:11.5px;color:var(--ink3)}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px}
+.pill.a{background:var(--ok-s);color:var(--ok)}
+.pill.b{background:var(--wait-s);color:var(--wait)}
+.pill.c{background:var(--hold-s);color:var(--hold)}
+.tb .act{color:var(--p);font-weight:600;font-size:12.5px}
+@media (max-width:760px){ .tb .hideS{display:none} }
+
+/* 오늘 할 일 */
+.todo{display:grid;gap:2px}
+.todo a{display:flex;gap:11px;align-items:flex-start;padding:11px 10px;border-radius:10px}
+.todo a:hover{background:var(--bg)}
+.todo .dot{width:8px;height:8px;border-radius:50%;background:var(--p);margin-top:6px;flex:none}
+.todo .dot.g{background:var(--ok)} .todo .dot.y{background:#E0A63B}
+.todo b{display:block;font-size:13.5px;font-weight:600}
+.todo span{font-size:12px;color:var(--ink3)}
+.todo .t{margin-left:auto;font-size:11.5px;color:var(--ink3);white-space:nowrap}
+
+.foot{padding:18px clamp(16px,2.2vw,26px) 26px;font-size:12px;color:var(--ink3);line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="demo-bar">이 화면은 <b>Perfect_Web 참고 디자인 견본</b>입니다. 실제 업체가 아닙니다. &nbsp;<a href="../index.html#design">← 목록으로</a></div>
+
+<div class="app">
+
+  <aside class="side">
+    <div class="brand">
+      <span class="mk">한</span>
+      <b>한빛어학원<span>관리자</span></b>
+    </div>
+
+    <div class="grp">접수</div>
+    <nav>
+      <a class="on" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 5h16M4 12h16M4 19h10"/></svg>상담 신청<span class="cnt">5</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>예약 관리</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg>문의 메일<span class="cnt">2</span></a>
+    </nav>
+
+    <div class="grp">내용</div>
+    <nav>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 4h16v12H7l-3 3z"/></svg>공지사항</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7l3-3h5l2 3h8v13H3z"/></svg>자료실</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M3 17l5-4 4 3 3-2 6 5"/></svg>사진 관리</a>
+    </nav>
+
+    <div class="grp">설정</div>
+    <nav>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M17 9h5M19.5 6.5v5"/></svg>회원 관리</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>기본 정보</a>
+    </nav>
+
+    <div class="me">
+      <span class="av">김원</span>
+      <div><b>김원장</b><span>원장 · 전체 권한</span></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <div class="bc">접수 › <b>상담 신청</b></div>
+      <div class="find">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#949AAB" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input placeholder="이름·연락처로 찾기" aria-label="검색">
+      </div>
+      <div class="bell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6072" stroke-width="1.9"><path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 004 0"/></svg><i></i></div>
+      <div class="av">김원</div>
+    </div>
+
+    <div class="body">
+      <div class="hd">
+        <div>
+          <h1>접수 현황</h1>
+          <p>2026년 8월 23일 토요일 기준</p>
+        </div>
+        <div class="sp">
+          <button class="btn">엑셀 내보내기</button>
+          <button class="btn p">＋ 공지 쓰기</button>
+        </div>
+      </div>
+
+      <!-- 숫자 카드 4개 (작은 꺾은선은 SVG 로 직접 그렸습니다) -->
+      <div class="cards">
+        <div class="c">
+          <div class="r1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h9"/></svg></span><span class="lab">오늘 신청</span></div>
+          <div class="r2"><b>7</b><span class="dt">＋3</span></div>
+          <svg class="spark" viewBox="0 0 200 42" width="100%" height="42" preserveAspectRatio="none">
+            <path d="M0 34 L28 30 L56 32 L84 22 L112 26 L140 14 L168 18 L200 6" fill="none" stroke="#6B52F2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0 34 L28 30 L56 32 L84 22 L112 26 L140 14 L168 18 L200 6 L200 42 L0 42 Z" fill="#6B52F2" opacity=".08"/>
+          </svg>
+        </div>
+        <div class="c">
+          <div class="r1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span class="lab">이번 주</span></div>
+          <div class="r2"><b>34</b><span class="dt">＋12</span></div>
+          <svg class="spark" viewBox="0 0 200 42" width="100%" height="42" preserveAspectRatio="none">
+            <path d="M0 30 L28 26 L56 28 L84 18 L112 20 L140 12 L168 16 L200 8" fill="none" stroke="#12A150" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0 30 L28 26 L56 28 L84 18 L112 20 L140 12 L168 16 L200 8 L200 42 L0 42 Z" fill="#12A150" opacity=".08"/>
+          </svg>
+        </div>
+        <div class="c">
+          <div class="r1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="lab">처리 대기</span></div>
+          <div class="r2"><b>5</b><span class="dt w">확인 필요</span></div>
+          <svg class="spark" viewBox="0 0 200 42" width="100%" height="42" preserveAspectRatio="none">
+            <path d="M0 18 L28 22 L56 16 L84 24 L112 20 L140 26 L168 22 L200 28" fill="none" stroke="#E0A63B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0 18 L28 22 L56 16 L84 24 L112 20 L140 26 L168 22 L200 28 L200 42 L0 42 Z" fill="#E0A63B" opacity=".10"/>
+          </svg>
+        </div>
+        <div class="c">
+          <div class="r1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l5-6 4 3 4-6 5 5"/><path d="M3 21h18"/></svg></span><span class="lab">이번 달 방문</span></div>
+          <div class="r2"><b>2,418</b><span class="dt">＋18%</span></div>
+          <svg class="spark" viewBox="0 0 200 42" width="100%" height="42" preserveAspectRatio="none">
+            <path d="M0 36 L28 28 L56 30 L84 20 L112 22 L140 12 L168 14 L200 4" fill="none" stroke="#6B52F2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0 36 L28 28 L56 30 L84 20 L112 22 L140 12 L168 14 L200 4 L200 42 L0 42 Z" fill="#6B52F2" opacity=".08"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 막대그래프 + 도넛 -->
+      <div class="two">
+        <div class="panel">
+          <div class="ph"><b>요일별 상담 신청</b><span>최근 7일</span></div>
+          <div class="pb">
+            <div class="bars">
+              <div class="b dim"><span class="v">3</span><span class="bar" style="height:28%"></span><span class="d">월</span></div>
+              <div class="b dim"><span class="v">5</span><span class="bar" style="height:46%"></span><span class="d">화</span></div>
+              <div class="b dim"><span class="v">4</span><span class="bar" style="height:37%"></span><span class="d">수</span></div>
+              <div class="b"><span class="v">6</span><span class="bar" style="height:55%"></span><span class="d">목</span></div>
+              <div class="b"><span class="v">9</span><span class="bar" style="height:82%"></span><span class="d">금</span></div>
+              <div class="b"><span class="v">11</span><span class="bar" style="height:100%"></span><span class="d">토</span></div>
+              <div class="b"><span class="v">7</span><span class="bar" style="height:64%"></span><span class="d">일</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="ph"><b>어디로 들어왔나</b><span>이번 달</span></div>
+          <div class="pb">
+            <div class="donut">
+              <svg width="132" height="132" viewBox="0 0 42 42">
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#EFF0F5" stroke-width="6"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#6B52F2" stroke-width="6"
+                        stroke-dasharray="47 53" stroke-dashoffset="25" stroke-linecap="round"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#12A150" stroke-width="6"
+                        stroke-dasharray="28 72" stroke-dashoffset="-22" stroke-linecap="round"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#E0A63B" stroke-width="6"
+                        stroke-dasharray="15 85" stroke-dashoffset="-50" stroke-linecap="round"/>
+                <text x="21" y="20" text-anchor="middle" font-size="6.4" font-weight="800" fill="#171923">2,418</text>
+                <text x="21" y="25.6" text-anchor="middle" font-size="3.2" fill="#949AAB">방문</text>
+              </svg>
+              <div class="lg">
+                <div><i style="background:#6B52F2"></i>네이버 검색 <b>47%</b></div>
+                <div><i style="background:#12A150"></i>구글 검색 <b>28%</b></div>
+                <div><i style="background:#E0A63B"></i>블로그·SNS <b>15%</b></div>
+                <div><i style="background:#EFF0F5"></i>직접 방문 <b>10%</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 표 + 오늘 할 일 -->
+      <div class="two">
+        <div class="panel">
+          <div class="ph"><b>상담 신청 목록</b><span>엑셀로 내려받을 수 있습니다</span></div>
+          <table class="tb">
+            <thead><tr><th>신청자</th><th class="hideS">희망 과정</th><th class="hideS">신청일</th><th>상태</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><div class="who"><span class="av" style="background:#6B52F2">김</span><div><b>김○○</b><span>010-1234-****</span></div></div></td>
+                  <td class="hideS">기초 회화</td><td class="hideS">08-23 14:02</td><td><span class="pill b">대기</span></td><td><a class="act" href="#">보기</a></td></tr>
+              <tr><td><div class="who"><span class="av" style="background:#12A150">이</span><div><b>이○○</b><span>010-5678-****</span></div></div></td>
+                  <td class="hideS">시험 대비</td><td class="hideS">08-23 11:40</td><td><span class="pill a">연락 완료</span></td><td><a class="act" href="#">보기</a></td></tr>
+              <tr><td><div class="who"><span class="av" style="background:#E0A63B">박</span><div><b>박○○</b><span>010-2345-****</span></div></div></td>
+                  <td class="hideS">비즈니스</td><td class="hideS">08-22 19:15</td><td><span class="pill a">연락 완료</span></td><td><a class="act" href="#">보기</a></td></tr>
+              <tr><td><div class="who"><span class="av" style="background:#5A6072">최</span><div><b>최○○</b><span>010-8765-****</span></div></div></td>
+                  <td class="hideS">기초 회화</td><td class="hideS">08-22 16:31</td><td><span class="pill c">보류</span></td><td><a class="act" href="#">보기</a></td></tr>
+              <tr><td><div class="who"><span class="av" style="background:#8C79F7">정</span><div><b>정○○</b><span>010-3456-****</span></div></div></td>
+                  <td class="hideS">시험 대비</td><td class="hideS">08-22 09:08</td><td><span class="pill a">연락 완료</span></td><td><a class="act" href="#">보기</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="ph"><b>오늘 할 일</b><span>3건</span></div>
+          <div class="pb" style="padding:8px">
+            <div class="todo">
+              <a href="#"><span class="dot"></span><div><b>김○○ 배치 상담 전화</b><span>어제 신청 · 아직 연락 전</span></div><span class="t">오후 2시</span></a>
+              <a href="#"><span class="dot y"></span><div><b>9월 시간표 공지 올리기</b><span>공지사항</span></div><span class="t">오늘까지</span></a>
+              <a href="#"><span class="dot g"></span><div><b>8월 결제 내역 확인</b><span>회원 관리</span></div><span class="t">완료</span></a>
+            </div>
+          </div>
+          <div class="ph" style="border-top:1px solid var(--line);border-bottom:0"><b>최근 활동</b></div>
+          <div class="pb" style="padding:8px 8px 14px">
+            <div class="todo">
+              <a href="#"><span class="dot g"></span><div><b>공지 「추석 휴원 안내」 올림</b><span>김원장 · 방금</span></div></a>
+              <a href="#"><span class="dot"></span><div><b>자료실에 교재 3개 올림</b><span>김원장 · 1시간 전</span></div></a>
+              <a href="#"><span class="dot"></span><div><b>첫 화면 사진 바꿈</b><span>김원장 · 어제</span></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      이 페이지는 Perfect_Web 이 만든 <b>참고 디자인 견본</b>입니다. 실제 업체·연락처가 아니며, 숫자는 예시입니다.<br>
+      그래프는 별도 라이브러리 없이 SVG 로 직접 그렸습니다.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

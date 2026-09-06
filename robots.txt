@@ -1,5 +1,22 @@
+# 완벽한웹 www.perfect-web.co.kr
+
 User-agent: *
-Allow: /$
-Allow: /index.html
+Allow: /
 Disallow: /templates/
+
+# 네이버 검색봇
+User-agent: Yeti
+Allow: /
+Disallow: /templates/
+
+# 구글
+User-agent: Googlebot
+Allow: /
+Disallow: /templates/
+
+# 다음
+User-agent: Daumoa
+Allow: /
+Disallow: /templates/
+
 Sitemap: https://www.perfect-web.co.kr/sitemap.xml

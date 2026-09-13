@@ -160,6 +160,11 @@ section[id],main[id]{scroll-margin-top:84px}
 @media (max-width:940px){
   .nav-links{display:none}
   .nav-toggle{display:inline-block}
+  /* 폰에서는 헤더의 CONTACT 를 숨긴다 (2026-09-13 원장님 지시).
+     🚨 헤더가 space-between 이라 이것만 숨기면 MENU 가 저절로 오른쪽 끝에 붙는다.
+     🚨 상담 길은 안 막힌다 — 오른쪽 아래 「카카오톡 상담」 단추가 그대로 있다.
+     🚨 컴퓨터 화면에서는 그대로 둔다. 거기선 상담으로 가는 제일 큰 입구다. */
+  .nav .btn{display:none}
   .nav-links.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;
     background:var(--bg);border-bottom:var(--rule);padding:8px var(--pad) 20px}
   .nav-links.open a{padding-block:14px;border-bottom:var(--rule);font-size:14px;color:var(--ink)}

@@ -36,6 +36,10 @@ svg{display:block;flex:none}
 #root{bottom:calc(62px + var(--sb))}
 .pad-top{padding-top:var(--st)}
 
+.lgp{height:36px;border-radius:18px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:5px;padding:0 12px;font-size:13.5px;font-weight:800;color:#b3b8c0;flex:none}
+.lgp i{width:1px;height:12px;background:#d8dbe0}
+.lgp .on{color:var(--brand)}
+.toprow{display:flex;align-items:center;justify-content:space-between;padding-right:16px}
 /* 아래 탭 */
 .tabs{position:absolute;left:0;right:0;bottom:0;height:calc(62px + var(--sb));padding-bottom:var(--sb);background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(16px);border-top:.5px solid #e2e4e8;display:flex;z-index:20}
 .tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:#8d939d;position:relative}
@@ -618,7 +622,7 @@ function vHome(el) {
   if (S.filt === 'top') list = list.filter(r => r.r >= 4.7);
   const filters = [['free',t('free'),'tag'],['fast',L('Under 30 min','30분 이내'),'clock'],['top','4.7+','star'],['halal','Halal','leaf'],['vegan','Vegan','leaf']];
   el.innerHTML = `<div class="body" id="hb">
-   <div class="homehd"><button class="addrbtn" data-addr><small>${t('deliverTo')}</small><b><span>${a[1].split(',')[0]}</span>${ic('down',2.4)}</b></button><button class="bell" data-notifs>${ic('bell')}${S.notifs.length?'<i></i>':''}</button></div>
+   <div class="homehd"><button class="addrbtn" data-addr><small>${t('deliverTo')}</small><b><span>${a[1].split(',')[0]}</span>${ic('down',2.4)}</b></button>${langPill()}<button class="bell" data-notifs>${ic('bell')}${S.notifs.length?'<i></i>':''}</button></div>
    <div class="seg">${['delivery','pickup','market'].map(m => `<button data-mode="${m}" class="${S.mode===m?'on':''}">${ic(m==='delivery'?'bike':m==='pickup'?'bag':'cart')}${t(m)}</button>`).join('')}</div>
    <button class="sbar" data-tab="search">${ic('search')}${t('searchPh')}</button>
    ${S.mode === 'market' ? vMarket() : `
@@ -654,7 +658,7 @@ function cbar() {
 
 /* ── 검색 ── */
 function vSearch(el) {
-  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="big">${t('search')}</div>
+  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="toprow"><div class="big">${t('search')}</div>${langPill()}</div>
    <div class="sbar" style="margin-top:0">${ic('search')}<input id="q" placeholder="${t('searchPh')}" autocomplete="off"></div>
    <div id="sres"></div><div style="height:30px"></div></div>`;
   const q = el.querySelector('#q'); const draw = () => {
@@ -674,7 +678,7 @@ function vSearch(el) {
 /* ── 주문내역 ── */
 function vOrders(el) {
   const o = S.order;
-  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="big">${t('orders')}</div>
+  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="toprow"><div class="big">${t('orders')}</div>${langPill()}</div>
    ${o ? `<div class="oc live" data-track><div class="ph" style="background-image:url(${IMG(rest(o.rid).ph[0])})"></div><div class="tx"><b>${rest(o.rid).n}</b><small><span class="pulse"></span>${[t('orderPlaced'),t('accepted'),t('preparing'),t('onTheWay'),t('delivered')][o.st]}${o.st<4?` · ${t('arrivesIn')} ${o.eta} ${t('min')}`:''}</small></div><button class="rb">${L('Track','보기')}</button></div>` : ''}
    <div class="sec-h" style="padding-top:22px"><h2 style="font-size:16px">${L('Past orders','지난 주문')}</h2></div>
    ${S.past.map((p, i) => { const r = rest(p.rid); return `<div class="oc"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"></div><div class="tx"><b>${r.n}</b><small>${p.date} · ${p.items.map(x=>x[0]).join(', ')}</small><small>${won(p.total)}</small></div><button class="rb" data-reorder="${i}">${t('reorder')}</button></div>`; }).join('')}
@@ -684,14 +688,14 @@ function vOrders(el) {
 /* ── 찜 ── */
 function vSaved(el) {
   const list = R.filter(r => S.saved.has(r.id));
-  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="big">${t('saved')}</div>
+  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="toprow"><div class="big">${t('saved')}</div>${langPill()}</div>
    ${list.length ? `<div class="list" style="padding-top:4px">${list.map(rcard).join('')}</div>` : `<div class="empty">${ic('heart')}<b>${L('No favourites yet','찜한 식당이 없어요')}</b>${L('Tap the heart on any restaurant to save it here.','식당 사진의 하트를 누르면 여기 모여요.')}</div>`}</div>`;
 }
 
 /* ── 내 정보 ── */
 function vAccount(el) {
   const lg = LANGS.find(x => x[0] === S.lang)[1];
-  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="big">${t('account')}</div>
+  el.innerHTML = `<div class="body"><div style="padding-top:calc(var(--st) + 6px)"></div><div class="toprow"><div class="big">${t('account')}</div>${langPill()}</div>
    <div class="prof"><div class="av">AM</div><div><b>Alex Morgan</b><small>alex.morgan@email.com · +1 254 555 0142</small></div></div>
    <div class="wallet"><div><small>${t('credit')}</small><b>${won(8000)}</b></div><div data-go="invite"><small>${t('referral')}</small><b style="font-size:15px;margin-top:6px">${L('Get ₩5,000 each','한 명당 5,000원')} ›</b></div></div>
    <div class="grp">
@@ -701,6 +705,7 @@ function vAccount(el) {
    <div class="grp">${li('cog', t('settings'), '', 'data-go="settings"')}${li('out', t('logout'), '', 'data-logout')}</div>
    <p style="text-align:center;font-size:12px;color:var(--mute);padding:20px 0 34px">Wanto Delivery 1.0 (demo) · 10:00–22:00 KST · 1661-0000</p></div>`;
 }
+const langPill = () => `<button class="lgp" data-lgtoggle aria-label="Language"><span class="${S.lang==='ko'?'':'on'}">${S.lang==='ko'||S.lang==='en'?'EN':(LANGS.find(x=>x[0]===S.lang)[0]).toUpperCase()}</span><i></i><span class="${S.lang==='ko'?'on':''}">한</span></button>`;
 const li = (i, n, v, attr) => `<button class="li" ${attr}>${ic(i)}<span>${n}</span>${v !== '' ? `<em>${v}</em>` : ''}<svg class="chev flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">${P.chev}</svg></button>`;
 
 /* ── 식당 화면 ── */
@@ -1004,6 +1009,7 @@ document.addEventListener('click', e => {
   if ((b = g('[data-setaddr]'))) { S.addr = +b.dataset.setaddr; closeSheet(); refresh(); return; }
   if (g('[data-loc]')) { S.addr = 0; closeSheet(); refresh(); toast(L('Using your current location','현재 위치로 바꿨어요')); return; }
   if (g('[data-notifs]')) { openNotifs(); return; }
+  if (g('[data-lgtoggle]')) { setLang(S.lang === 'ko' ? 'en' : 'ko'); renderTabs(); refresh(); toast(S.lang === 'ko' ? '한국어' : 'English'); return; }
   if (g('[data-lang]')) { langSheet(); return; }
   if ((b = g('[data-setlang]'))) { setLang(b.dataset.setlang); closeSheet(); renderTabs(); refresh(); return; }
   if (g('[data-curr]')) { S.cur = S.cur === 'KRW' ? 'USD' : 'KRW'; refresh(); toast(S.cur === 'KRW' ? '₩ KRW' : '$ USD'); return; }

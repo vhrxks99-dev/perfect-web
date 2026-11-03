@@ -159,6 +159,32 @@ svg{display:block;flex:none}
 .banner.wide .bslide b{font-size:24px}
 .theme{width:118px;height:150px;border-radius:16px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#14161a;text-align:center}
 .theme span{font-size:40px}.theme b{font-size:14.5px;font-weight:800;line-height:1.3}
+.ts2{margin:-6px -18px 0;padding:16px 18px 18px;background:#14161a;color:#fff;position:relative;overflow:hidden}
+.ts2::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,19,.45),transparent 70%)}
+.ts2>*{position:relative;z-index:1}
+.ts2 .ts-x{color:#fff}
+.ts2 .lab{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.12em;color:var(--brand2);border:1.5px solid var(--brand2);border-radius:20px;padding:3px 10px}
+.ts2 .lab i{width:7px;height:7px;border-radius:4px;background:var(--brand2);animation:pl 1s infinite}
+.ts2 .row{display:flex;align-items:flex-end;justify-content:space-between;margin-top:14px;gap:10px}
+.ts2 .big{font-size:56px;font-weight:800;letter-spacing:-.04em;line-height:.9;font-variant-numeric:tabular-nums;padding:0}
+.ts2 .big small{font-size:15px;color:#9aa0aa;font-weight:600;letter-spacing:0;margin-left:4px}
+.ts2 .msg{text-align:right;font-size:13px;color:#cfd3da;line-height:1.4}.ts2 .msg b{display:block;font-size:20px;color:#fff;font-weight:800}
+.ts2 .msg b em{font-style:normal;color:var(--brand2)}
+.ts2 .bar{height:6px;border-radius:3px;background:rgba(255,255,255,.14);margin-top:14px;overflow:hidden}
+.ts2 .bar i{display:block;height:100%;background:linear-gradient(90deg,#ff3d00,var(--brand2));border-radius:3px;transition:width 1s linear}
+.ts2 .tk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.ts2 .tk div{background:#fff;color:var(--ink);border-radius:12px;padding:10px 8px 9px;text-align:center;position:relative}
+.ts2 .tk div::before,.ts2 .tk div::after{content:"";position:absolute;top:50%;width:10px;height:10px;border-radius:5px;background:#14161a;transform:translateY(-50%)}
+.ts2 .tk div::before{left:-5px}.ts2 .tk div::after{right:-5px}
+.ts2 .tk small{display:block;font-size:11.5px;color:var(--sub);font-weight:600}
+.ts2 .tk b{display:block;font-size:18px;font-weight:800;color:var(--brand);margin-top:1px}
+.ts2 .tk div.hot{background:var(--brand);color:#fff}.ts2 .tk div.hot small{color:rgba(255,255,255,.85)}.ts2 .tk div.hot b{color:#fff}
+.ts2 .tk div.hot span{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#fff;color:var(--brand);font-size:10px;font-weight:800;padding:1px 7px;border-radius:8px;white-space:nowrap}
+.offchip2{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11.5px;font-weight:800;color:var(--brand);border:1.5px solid #ffc9a8;background:var(--tint);padding:2px 8px;border-radius:7px;align-self:flex-start}
+.tsbar{background:#14161a;border-color:#14161a}.tsbar .tx{color:#fff}.tsbar .tx em{color:var(--brand2)}.tsbar .x{color:#fff}
+.tsbar .ts-clock b{background:var(--brand)}
+.tsbar .ts-clock i{color:#fff}
+.ts2>.ts-x{position:absolute;right:10px;top:8px;z-index:2}
 /* 아래 탭 */
 .tabs{position:absolute;left:0;right:0;bottom:0;height:calc(62px + var(--sb));padding-bottom:var(--sb);background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(16px);border-top:.5px solid #e2e4e8;display:flex;z-index:20}
 .tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:#8d939d;position:relative}
@@ -1199,17 +1225,17 @@ function timeSale() {
   const list = () => R.filter(r => !r.closed && r.id !== 12 && tsIn(r, tsCat));
   const art = `<svg class="ts-art" viewBox="0 0 88 88"><circle cx="44" cy="48" r="30" fill="#ff6a13"/><circle cx="44" cy="48" r="23" fill="#fff"/><path d="M22 20l-8 8M66 20l8 8" stroke="#ff6a13" stroke-width="7" stroke-linecap="round"/><path d="M28 80l5-7M60 80l-5-7" stroke="#c2410c" stroke-width="5" stroke-linecap="round"/><text x="44" y="57" text-anchor="middle" font-size="24" font-weight="800" fill="#14161a" font-family="Pretendard,sans-serif">%</text></svg>`;
   const draw = b => {
-    b.innerHTML = `<div class="ts-top"><button class="ts-x" data-close>${ic('x',2.2)}</button>
-      <div class="ts-clock" id="tsc"></div>
-      <div class="ts-h">${L('When the 15-minute time sale ends','15분 타임세일이 끝나면')} ${ic('info',2)}</div>
-      <div class="ts-big">${L('prices go up <em>₩7,358</em> on average','평균 <em>7,358원</em> 올라요')}</div>${art}
-      <div class="ts-tiers"><div><small>${L('₩20,000 order','2만원 주문')}</small><b>${won(5000)}<span> ${L('off','할인')}</span></b></div><div><small>${L('₩30,000 order','3만원 주문')}</small><b>${won(8000)}<span> ${L('off','할인')}</span></b></div><div><small>${L('₩40,000 order','4만원 주문')}</small><b>${won(12000)}<span> ${L('off','할인')}</span></b></div></div></div>
+    b.innerHTML = `<div class="ts2"><button class="ts-x" data-close>${ic('x',2.2)}</button>
+      <span class="lab"><i></i>TIME SALE</span>
+      <div class="row"><div class="big" id="tsc"></div><div class="msg">${L('After this, prices go up','끝나면 가격이 올라요')}<b>${L('avg. <em>+₩7,358</em>','평균 <em>+7,358원</em>')}</b></div></div>
+      <div class="bar"><i id="tsbarfill"></i></div>
+      <div class="tk"><div><small>${L('Order ₩20,000','2만원 주문')}</small><b>−${won(5000)}</b></div><div class="hot"><span>${L('Most picked','제일 많이 받음')}</span><small>${L('Order ₩30,000','3만원 주문')}</small><b>−${won(8000)}</b></div><div><small>${L('Order ₩40,000','4만원 주문')}</small><b>−${won(12000)}</b></div></div></div>
      <div class="ts-list"><h4>${L(`Time sale right now at ${list().length} restaurants`,`딱! 지금만 타임세일 중인 가게 ${list().length}개`)}</h4>
       <div class="chips">${TSCAT.map(([k, n]) => `<button class="chip ${tsCat===k?'on':''}" data-tscat="${k}">${n}</button>`).join('')}</div>
-      ${list().map(r => lrow(r, false, 'delivery', `<span class="offchip">${L('₩5,000–12,000 off','5,000원~12,000원 할인')}</span>`)).join('')}</div>`;
+      ${list().map(r => lrow(r, false, 'delivery', `<span class="offchip2">⏱ ${L('₩5,000–12,000 off','5,000원~12,000원 할인')}</span>`)).join('')}</div>`;
     tick();
   };
-  const tick = () => { const el = document.getElementById('tsc'); if (!el) return; const left = Math.max(0, tsEnd - Date.now()), m = Math.floor(left / 60000), sec = Math.floor(left / 1000) % 60; const d = String(m).padStart(2, '0') + String(sec).padStart(2, '0'); el.innerHTML = `<b>${d[0]}</b><b>${d[1]}</b><i>:</i><b>${d[2]}</b><b>${d[3]}</b>`; };
+  const tick = () => { const el = document.getElementById('tsc'); if (!el) return; const left = Math.max(0, tsEnd - Date.now()), m = Math.floor(left / 60000), sec = Math.floor(left / 1000) % 60; el.innerHTML = `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}<small>${L('left','남음')}</small>`; const f = document.getElementById('tsbarfill'); if (f) f.style.width = (left / 900000 * 100) + '%'; };
   $('sheet').classList.add('tall');
   sheet('', b => { draw(b); b.onclick = e => { const c = e.target.closest('[data-tscat]'); if (c) { tsCat = c.dataset.tscat; draw(b); } }; });
   clearInterval(tsT); tsT = setInterval(() => { if (!$('sheet').classList.contains('on')) { clearInterval(tsT); $('sheet').classList.remove('tall'); return; } tick(); }, 1000);

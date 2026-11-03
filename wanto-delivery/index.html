@@ -263,6 +263,21 @@ footer{background:#14171c;color:#b9bec8;margin-top:56px;padding:40px 0 100px;fon
   .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--sub);gap:2px}
   .tabbar a.on{color:var(--brand)}.tabbar i{font-style:normal;font-size:19px}
 }
+.pop{position:fixed;inset:0;z-index:80;background:rgba(10,12,16,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.pop.on{display:flex;animation:popIn .25s ease-out}
+@keyframes popIn{from{opacity:0}to{opacity:1}}
+.pop .pc{width:min(760px,100%);background:#fff;border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.pop .pi{background:center/cover;min-height:380px}
+.pop .pt{padding:34px 30px;display:flex;flex-direction:column;justify-content:center}
+.pop .eb{color:var(--brand);font-weight:800;font-size:13px;letter-spacing:.06em}
+.pop h2{font-size:30px;line-height:1.12;letter-spacing:-.6px;margin-top:8px}
+.pop p{color:var(--sub);margin-top:10px}
+.pop .code{margin-top:16px;border:2px dashed var(--brand);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:20px;letter-spacing:2px;color:var(--brand-d)}
+.pop .code button{font-size:12.5px;letter-spacing:0;background:var(--brand);color:#fff;border-radius:999px;padding:6px 12px}
+.pop .x{position:absolute;right:14px;top:12px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);font-size:18px;font-weight:700;z-index:2}
+.pop .stores{margin-top:16px}.pop .store{background:#14171c}
+.pop .no{margin-top:14px;font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:6px;cursor:pointer}
+@media (max-width:760px){.pop{align-items:flex-end;padding:0}.pop .pc{grid-template-columns:1fr;border-radius:20px 20px 0 0}.pop .pi{min-height:150px}.pop .pt{padding:22px 20px 28px}.pop h2{font-size:24px}}
 .hide{display:none!important}
 </style>
 </head>
@@ -284,6 +299,14 @@ footer{background:#14171c;color:#b9bec8;margin-top:56px;padding:40px 0 100px;fon
 </div></header>
 <div class="drawer" id="drawer"><nav></nav></div>
 
+<div class="pop" id="pop" role="dialog" aria-label="Welcome offer"><div class="pc"><button class="x" id="popX" aria-label="Close">✕</button>
+ <div class="pi" style="background-image:url(img/hero-poster.jpg)"></div>
+ <div class="pt"><span class="eb" data-t="popEb">WELCOME TO WANTO</span><h2 data-t="popH">₩5,000 off your first order</h2>
+  <p data-t="popP">Use this code at checkout on the web or in the app. English menus, card & PayPal, delivered to your door.</p>
+  <div class="code">WANTO5K <button id="popCopy" data-t="popCopy">Copy</button></div>
+  <div class="stores"><a class="store"> <span>Download on the<b>App Store</b></span></a><a class="store">▶ <span>GET IT ON<b>Google Play</b></span></a></div>
+  <a class="btn" id="popGo" style="margin-top:12px" data-t="popGo">Order on the web</a>
+  <label class="no"><input type="checkbox" id="popNo"> <span data-t="popNo">Don't show again today</span></label></div></div></div>
 <main id="v-home"></main>
 <main id="v-list" class="hide"></main>
 <main id="v-rest" class="hide"></main>
@@ -384,6 +407,7 @@ const addr = () => document.querySelector('.addrTxt').textContent;
 
 /* ── 한국어 전환 (머리·주요 버튼) ── */
 const KO = {delivery:'배달',pickup:'포장',search:'식당·메뉴 검색',login:'로그인',cart:'장바구니',home:'홈',browse:'둘러보기',orders:'주문',account:'내 정보',
+popEb:'완토에 오신 걸 환영해요',popH:'첫 주문 5,000원 할인',popP:'웹이나 앱에서 결제할 때 이 코드를 넣으세요. 영어 메뉴, 카드·PayPal, 문 앞까지 배달.',popCopy:'복사',popGo:'웹에서 주문하기',popNo:'오늘 하루 보지 않기',
  appbar:'앱 첫 주문 5,000원 할인',demo:'완토딜리버리 웹 시안 (Perfect_Web) — 식당·가격은 예시이며 실제 주문·결제는 되지 않습니다'};
 const EN = {};
 function tr(){ document.querySelectorAll('[data-t]').forEach(el => { const k = el.dataset.t; if (!(k in EN)) EN[k] = el.textContent; el.textContent = lang === 'ko' && KO[k] ? KO[k] : EN[k]; });
@@ -631,12 +655,23 @@ document.addEventListener('input', e => {
 });
 $('sortSel'); document.addEventListener('change', e => { if (e.target.id==='sortSel'){ sort = e.target.value; OPEN.list(); } });
 
+
+/* ── 첫 방문 팝업 (셔틀의 앱 할인 팝업 자리 — 화면 전체를 막지 않고 닫기 쉬운 상자) ── */
+function popShow(){ let off = ''; try { off = localStorage.getItem('wd_pop_off') || ''; } catch(e) {}
+  if (off === new Date().toDateString()) return; if (/[#&]nopop/.test(location.hash)) return; setTimeout(()=>$('pop').classList.add('on'), 1200); }
+function popClose(){ if ($('popNo').checked) { try { localStorage.setItem('wd_pop_off', new Date().toDateString()); } catch(e) {} } $('pop').classList.remove('on'); }
+document.addEventListener('click', e => {
+  if (e.target.id==='pop' || e.target.id==='popX' || e.target.closest('#popGo')) popClose();
+  if (e.target.id==='popCopy'){ try { navigator.clipboard.writeText('WANTO5K'); } catch(err) {} e.target.textContent = lang==='ko'?'복사됨':'Copied'; }
+});
+document.addEventListener('keydown', e => { if (e.key==='Escape') popClose(); });
 /* ── 시작 · 스크린샷용 주소(#rest #co #track #ko 등) ── */
 vHome(); langBtn();
 const h = location.hash.slice(1).split('-');
 if (h.includes('ko')) { lang = 'ko'; tr(); vHome(); langBtn(); }
 if (['rest','co','track'].includes(h[0])) { cart = [{n:'Classic Smash Burger',p:9900,e:'🍔',q:1},{n:'Loaded Fries',p:6500,e:'🍟',q:1}]; vRest(R[0], h[1]==='info'?'info':'menu'); if (h[0]!=='rest') vCo(); if (h[0]==='track') vTrack(); }
 else if (h[0] && OPEN[h[0]]) OPEN[h[0]]();
+if (!h[0] || h[0]==='home') popShow();
 </script>
 </body>
 </html>

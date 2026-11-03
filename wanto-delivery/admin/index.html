@@ -109,6 +109,7 @@ tr.tot td{font-weight:800;background:#fafbfc;border-top:2px solid var(--line)}
   <a data-v="rest">🍔 식당 · 정산</a>
   <a data-v="riders">🛵 기사 · 지급</a>
   <a data-v="apply">📥 입점 · 기사 신청 <span class="c">5</span></a>
+  <a data-v="ads">📣 광고 <span class="c" id="cAds">2</span></a>
   <div class="grp">고객</div>
   <a data-v="cust">👤 고객</a>
   <a data-v="promo">🎁 쿠폰 · 바우처 · 크레딧</a>
@@ -126,7 +127,7 @@ tr.tot td{font-weight:800;background:#fafbfc;border-top:2px solid var(--line)}
 </div>
 <script>
 /* ── 설정 (예시값) ── */
-const CFG = {commission:15, pg:3.0, riderBase:3000, riderKm:400, vat:10, withhold:3.3, usd:1400, minOrder:12000, hoursOpen:'10:00', hoursClose:'22:00'};
+const CFG = {commission:15, pg:3.0, riderBase:3000, riderKm:400, vat:10, withhold:3.3, usd:1400, minOrder:12000, hoursOpen:'10:00', hoursClose:'22:00', adTop:88000, adBanner:150000, adCpc:300, adPush:30};
 /* ── 예시 데이터: 같은 숫자가 나오도록 씨앗 고정 ── */
 let seed = 20261103; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
 const pick = a => a[Math.floor(rnd() * a.length)];
@@ -157,6 +158,22 @@ for (let d = DAYS - 1; d >= 0; d--) {
     orders.push({id: 'W-' + (20000 + orders.length), day, d, h, m: Math.floor(rnd() * 60), ri, rest: r[0], cuisine: r[1], rate: r[2], area: AREAS[ai], food, fee, km, pickup, pay, cur, coupon, st, rider: pickup ? '-' : pick(RIDERS), cust: pick(NAMES), stars: 3 + Math.floor(rnd() * 2.4)});
   }
 }
+
+/* ── 광고 (식당이 사는 자리) ── 상품: 목록 맨 위(월 정액) · 홈 배너(주 정액) · 검색 상단(클릭당) · 쿠폰 알림(받는 사람당) */
+const ADP = {top:['목록 맨 위', '월 정액'], banner:['홈 배너', '주 정액'], search:['검색 상단', '클릭당'], push:['쿠폰 알림', '받는 사람당']};
+const ADCAMP = [
+ // 식당, 상품, 지역, 기간, 노출, 클릭, 주문, 광고로 들어온 주문금액, 단위 수(월·주·클릭·명), 상태
+ ['Smokehouse 49','top','캠프 험프리스','10/6–11/5',12480,936,141,1742000,1,'live'],
+ ['Istanbul Grill','top','오산 공군기지','10/12–11/11',8210,574,77,1083000,1,'live'],
+ ['Taqueria Lucha','banner','캠프 험프리스','10/27–11/9',18400,1104,128,1896000,2,'live'],
+ ['Layer Cake Bakery','banner','이태원','10/30–11/12',9600,538,49,820000,2,'live'],
+ ['Tokyo Ramen Bar','banner','홍대','10/20–11/2',11200,610,58,912000,2,'end'],
+ ['K-Crunch Chicken','search','캠프 험프리스','10/1–상시',21600,2410,362,6130000,2410,'live'],
+ ['Napoli Slice Co.','push','오산 공군기지','11/1',3800,418,96,1540000,3800,'live'],
+ ['Bombay Spice House','top','캠프 험프리스','11/4–12/3',0,0,0,0,1,'wait'],
+ ['Rio Churrasco','banner','부산 해운대','11/10–11/16',0,0,0,0,1,'wait']];
+const adCost = c => ({top: CFG.adTop, banner: CFG.adBanner, search: CFG.adCpc, push: CFG.adPush})[c[1]] * c[8];
+const adMonth = () => ADCAMP.filter(c => c[9] !== 'wait').reduce((t, c) => t + adCost(c), 0);
 /* ── 계산 ── */
 const won = n => (n < 0 ? '− ' : '') + '₩' + Math.abs(Math.round(n)).toLocaleString();
 const man = n => Math.abs(n) >= 1e8 ? (n / 1e8).toFixed(2) + '억' : Math.abs(n) >= 1e4 ? Math.round(n / 1e4).toLocaleString() + '만' : Math.round(n).toLocaleString();
@@ -168,7 +185,8 @@ function calc(list) {
     s.food += o.food; s.fee += o.fee; s.comm += o.food * rate; s.pg += (o.food + o.fee) * CFG.pg / 100; s.coupon += o.coupon;
     if (!o.pickup) { s.rider += CFG.riderBase + Math.max(0, o.km - 1) * CFG.riderKm; s.deliv++; } else s.pickup++;
   }
-  s.gmv = s.food + s.fee; s.rev = s.comm + s.fee; s.vat = s.rev * CFG.vat / (100 + CFG.vat); s.wh = s.rider * CFG.withhold / 100;
+  s.days = new Set(list.map(o => o.d)).size; s.ad = adMonth() * s.days / DAYS;
+  s.gmv = s.food + s.fee; s.rev = s.comm + s.fee + s.ad; s.vat = s.rev * CFG.vat / (100 + CFG.vat); s.wh = s.rider * CFG.withhold / 100;
   s.net = s.rev - s.vat - s.pg - s.rider - s.coupon; s.aov = L.length ? s.food / L.length : 0; s.restPay = s.food - s.comm;
   return s;
 }
@@ -195,7 +213,7 @@ function vDash() {
   <div class="kpis">
    <div class="kpi"><span>배달·포장 건수 ${delta(s.orders, p.orders)}</span><b>${s.orders.toLocaleString()}건</b><small>배달 ${s.deliv.toLocaleString()} · 포장 ${s.pickup.toLocaleString()} · 취소 ${s.cxl}</small></div>
    <div class="kpi"><span>총 주문금액 (GMV) ${delta(s.gmv, p.gmv)}</span><b>${won(s.gmv)}</b><small>음식값 ${man(s.food)} + 배달비 ${man(s.fee)}</small></div>
-   <div class="kpi"><span>플랫폼 매출 ${delta(s.rev, p.rev)}</span><b>${won(s.rev)}</b><small>중개수수료 ${man(s.comm)} + 배달비 ${man(s.fee)}</small></div>
+   <div class="kpi"><span>플랫폼 매출 ${delta(s.rev, p.rev)}</span><b>${won(s.rev)}</b><small>중개수수료 ${man(s.comm)} + 배달비 ${man(s.fee)} + 광고 ${man(s.ad)}</small></div>
    <div class="kpi hl"><span>순이익 (예상) ${delta(s.net, p.net)}</span><b>${won(s.net)}</b><small>세금·결제수수료·기사비·쿠폰 뺀 금액</small></div>
    <div class="kpi"><span>객단가</span><b>${won(s.aov)}</b><small>음식값 기준 평균</small></div>
    <div class="kpi"><span>부가세 (매출세액)</span><b>${won(s.vat)}</b><small>플랫폼 매출 × ${CFG.vat}/${100 + CFG.vat}</small></div>
@@ -207,6 +225,7 @@ function vDash() {
    <div class="card"><h3>돈의 흐름 <small>${rangeLabel()}</small></h3><div class="wf">
     <div class="p"><span>중개수수료<small>음식값 × 수수료율 (식당 부담)</small></span><b>${won(s.comm)}</b></div>
     <div class="p"><span>배달비<small>고객 부담</small></span><b>${won(s.fee)}</b></div>
+    <div class="p"><span>광고 매출<small>식당이 산 광고 자리 · <a data-go="ads" style="color:var(--brand);cursor:pointer">광고 보기</a></small></span><b>${won(s.ad)}</b></div>
     <div class="m"><span>부가세<small>매출 × ${CFG.vat}/${100 + CFG.vat}, 분기마다 신고</small></span><b>− ${won(s.vat)}</b></div>
     <div class="m"><span>결제수수료<small>(음식값+배달비) × ${CFG.pg}%</small></span><b>− ${won(s.pg)}</b></div>
     <div class="m"><span>기사 지급 (세전)<small>건당 ${won(CFG.riderBase)} + km당 ${won(CFG.riderKm)}</small></span><b>− ${won(s.rider)}</b></div>
@@ -285,7 +304,7 @@ function vReviews() {
 }
 function vCs() {
   $('view').innerHTML = `<div class="top"><h1>고객문의</h1><div class="r"><span class="live">실시간 채팅 상담원 2명 접속</span></div></div><div class="card"><table><tr><th>시각</th><th>고객</th><th>채널</th><th>유형</th><th>내용</th><th>상태</th><th></th></tr>
-  ${[['18:42','Jake M.','채팅','배달 지연','Order W-24811 is 20 min late','new','새 문의'],['18:30','Amira S.','메신저','메뉴','Is the lamb kebab halal?','cook','답변 중'],['17:55','Tom H.','채팅','환불','Missing fries in my order','go','환불 검토'],['16:10','Olivia P.','이메일','바우처','Voucher code not working','done','해결'],['15:02','민지','채팅','주소','기지 안까지 배달되나요?','done','해결'],['13:40','Ethan J.','메신저','결제','PayPal charged twice','cook','답변 중'],['11:20','Grace Y.','이메일','제휴','Catering for 40 people','new','새 문의']].map(c => `<tr><td>${c[0]}</td><td>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td><td><span class="st ${c[5]}">${c[6]}</span></td><td><button class="btn sm ghost">열기</button></td></tr>`).join('')}</table></div>`;
+  ${[['18:42','Jake M.','채팅','배달 지연','Order W-24811 is 20 min late','new','새 문의'],['18:30','Amira S.','메신저','메뉴','Is the lamb kebab halal?','cook','답변 중'],['17:55','Tom H.','채팅','환불','Missing fries in my order','go','환불 검토'],['16:10','Olivia P.','이메일','바우처','Voucher code not working','done','해결'],['15:02','민지','채팅','주소','기지 안까지 배달되나요?','done','해결'],['13:40','Ethan J.','메신저','결제','PayPal charged twice','cook','답변 중'],['11:20','Grace Y.','이메일','제휴','Catering for 40 people','new','새 문의']].map(c => `<tr><td>${c[0]}</td><td>${c[1]}</td><td style="white-space:nowrap">${c[2]}</td><td style="white-space:nowrap">${c[3]}</td><td>${c[4]}</td><td><span class="st ${c[5]}">${c[6]}</span></td><td><button class="btn sm ghost">열기</button></td></tr>`).join('')}</table></div>`;
 }
 function vTax() {
   const months = [['2026-09', 31], ['2026-10', 0]];
@@ -296,7 +315,7 @@ function vTax() {
   $('view').innerHTML = `<div class="top"><h1>세금 · 리포트</h1><div class="r">${csvBtn('tax')}<button class="btn ghost">⬇ PDF 리포트</button></div></div>
   <div class="row r11" style="margin-top:0">
    <div class="card"><h3>월별 손익 <small>예시 데이터 (11월은 3일까지)</small></h3><table><tr><th></th><th class="n">10월</th><th class="n">11월 (1~3일)</th></tr>
-    ${line('주문 건수', oct.orders, nov.orders).replace(/₩/g, '')}${line('총 주문금액 (GMV)', oct.gmv, nov.gmv)}${line('중개수수료', oct.comm, nov.comm)}${line('배달비', oct.fee, nov.fee)}
+    ${line('주문 건수', oct.orders, nov.orders).replace(/₩/g, '')}${line('총 주문금액 (GMV)', oct.gmv, nov.gmv)}${line('중개수수료', oct.comm, nov.comm)}${line('배달비', oct.fee, nov.fee)}${line('광고 매출', oct.ad, nov.ad)}
     <tr class="tot"><td>플랫폼 매출</td><td class="n">${won(oct.rev)}</td><td class="n">${won(nov.rev)}</td></tr>
     ${line('부가세 (매출세액)', -oct.vat, -nov.vat, `매출 × ${CFG.vat}/${100 + CFG.vat}`)}${line('결제수수료', -oct.pg, -nov.pg, `${CFG.pg}% · 매입세액 공제 대상`)}${line('기사 지급 (세전)', -oct.rider, -nov.rider)}${line('쿠폰·크레딧', -oct.coupon, -nov.coupon)}
     <tr class="tot"><td>순이익 (예상)</td><td class="n">${won(oct.net)}</td><td class="n">${won(nov.net)}</td></tr></table></div>
@@ -314,20 +333,44 @@ function vSet() {
   const f = (k, label, unit, note) => `<label>${label}</label><div><input type="number" step="any" data-cfg="${k}" value="${CFG[k]}"> ${unit} ${note ? `<small>${note}</small>` : ''}</div>`;
   $('view').innerHTML = `<div class="top"><h1>설정</h1><div class="r"><span class="note">값을 바꾸면 대시보드·정산·세금이 바로 다시 계산됩니다</span></div></div>
   <div class="card"><h3>수수료 · 비용</h3><div class="form">${f('commission', '중개수수료율', '%', '15면 식당별 개별 요율(10~18%)을 씀, 다른 값이면 전 식당에 일괄 적용')}${f('pg', '결제수수료율', '%', '카드·PayPal 평균')}${f('riderBase', '기사 건당 기본료', '원')}${f('riderKm', '기사 km당 추가', '원', '1km 초과분')}${f('minOrder', '최소 주문금액', '원')}</div></div>
+  <div class="card" style="margin-top:14px"><h3>광고 가격</h3><div class="form">${f('adTop', '목록 맨 위', '원 / 월', '요리·지역마다 최대 2곳')}${f('adBanner', '홈 배너', '원 / 주', '지역마다 4자리')}${f('adCpc', '검색 상단', '원 / 클릭')}${f('adPush', '쿠폰 알림', '원 / 받는 사람')}</div></div>
   <div class="card" style="margin-top:14px"><h3>세금 · 환율</h3><div class="form">${f('vat', '부가세율', '%')}${f('withhold', '기사 원천세율', '%', '소득세 3% + 지방소득세 0.3%')}${f('usd', '달러 환율', '원 = $1', '고객 화면 USD 표시용')}</div></div>
   <div class="card" style="margin-top:14px"><h3>운영</h3><div class="form"><label>운영 시간</label><div><input value="${CFG.hoursOpen}" style="width:90px"> ~ <input value="${CFG.hoursClose}" style="width:90px"> <small>매일, 공휴일 포함</small></div><label>서비스 지역</label><div>${AREAS.map(a => `<span class="pill">${a}</span>`).join('')} <button class="btn sm ghost">＋ 지역</button></div><label>배달비 기준</label><div><small>1.5km 미만 ₩2,500 · 3km 미만 ₩3,500 · 그 이상 ₩4,000 (예시)</small></div></div></div>`;
+}
+
+function vAds() {
+  const run = ADCAMP.filter(c => c[9] !== 'wait');
+  const T = run.reduce((t, c) => ({imp: t.imp + c[4], clk: t.clk + c[5], ord: t.ord + c[6], amt: t.amt + c[7], cost: t.cost + adCost(c)}), {imp: 0, clk: 0, ord: 0, amt: 0, cost: 0});
+  const st = c => c[9] === 'live' ? '<span class="st done">진행 중</span>' : c[9] === 'end' ? '<span class="st cxl">종료</span>' : c[9] === 'ok' ? '<span class="st go">승인됨</span>' : c[9] === 'no' ? '<span class="st cxl">반려</span>' : '<span class="st new">심사 대기</span>';
+  const slots = [['캠프 험프리스', 1, 4], ['오산 공군기지', 0, 4], ['이태원', 1, 4], ['홍대', 0, 4], ['강남', 0, 4], ['부산 해운대', 0, 4]];
+  $('view').innerHTML = `<div class="top"><h1>광고</h1><span class="live">진행 중 ${ADCAMP.filter(c => c[9] === 'live').length}건</span><div class="r">${csvBtn('ads')}</div></div>
+  <div class="kpis">
+   <div class="kpi hl"><span>광고 매출 (최근 30일)</span><b>${won(T.cost)}</b><small>플랫폼 매출·순이익에 들어감</small></div>
+   <div class="kpi"><span>노출 · 클릭</span><b>${T.imp.toLocaleString()}</b><small>클릭 ${T.clk.toLocaleString()} · 클릭률 ${(T.clk / T.imp * 100).toFixed(1)}%</small></div>
+   <div class="kpi"><span>광고로 들어온 주문</span><b>${T.ord.toLocaleString()}건</b><small>${won(T.amt)} · 전환율 ${(T.ord / T.clk * 100).toFixed(1)}%</small></div>
+   <div class="kpi"><span>식당 광고 효율 (ROAS)</span><b>×${(T.amt / T.cost).toFixed(1)}</b><small>광고비 1원당 주문금액</small></div>
+  </div>
+  <div class="row r21">
+   <div class="card scroll"><h3>광고 목록 <small>심사 대기는 승인해야 노출 시작 · 결제는 승인 뒤</small></h3><table><tr><th>식당</th><th>상품</th><th>지역</th><th>기간</th><th class="n">노출</th><th class="n">클릭</th><th class="n">주문</th><th class="n">광고비</th><th class="n">ROAS</th><th>상태</th><th></th></tr>
+   ${ADCAMP.map((c, i) => `<tr><td style="white-space:nowrap"><b>${c[0]}</b></td><td style="white-space:nowrap">${ADP[c[1]][0]}<br><small style="color:var(--sub)">${ADP[c[1]][1]}</small></td><td>${c[2]}</td><td>${c[3]}</td><td class="n">${c[4].toLocaleString()}</td><td class="n">${c[5].toLocaleString()}</td><td class="n">${c[6]}</td><td class="n">${won(adCost(c))}</td><td class="n">${c[7] ? '×' + (c[7] / adCost(c)).toFixed(1) : '-'}</td><td>${st(c)}</td><td>${c[9] === 'wait' ? `<button class="btn sm" data-adok="${i}">승인</button> <button class="btn sm ghost" data-adno="${i}">반려</button>` : c[9] === 'live' ? '<button class="btn sm ghost">멈춤</button>' : ''}</td></tr>`).join('')}</table></div>
+   <div class="card"><h3>홈 배너 자리 <small>지역마다 4자리, 주 단위</small></h3>${slots.map(([a, u, n]) => { const used = ADCAMP.filter(c => c[1] === 'banner' && c[2] === a && c[9] === 'live').length; return `<div class="hbar"><span>${a}</span><i style="width:${used / n * 100}%"></i><span class="n">${used}/${n}</span></div>`; }).join('')}
+    <p class="note">빈자리가 많으면 첫 주 50% 할인 같은 판매 쿠폰으로 채우기</p>
+    <h3 style="margin-top:16px">상품 · 가격 <small>설정에서 바꿈</small></h3><table><tr><th>상품</th><th class="n">가격</th></tr><tr><td>목록 맨 위</td><td class="n">${won(CFG.adTop)} / 월</td></tr><tr><td>홈 배너</td><td class="n">${won(CFG.adBanner)} / 주</td></tr><tr><td>검색 상단</td><td class="n">${won(CFG.adCpc)} / 클릭</td></tr><tr><td>쿠폰 알림</td><td class="n">${won(CFG.adPush)} / 명</td></tr></table></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>광고 원칙 <small>고객 앱에 그대로 안내</small></h3><p class="note" style="margin:0;line-height:1.7">· 광고 자리는 모두 「광고」 표시 · 광고 아래 순서는 거리·별점·재주문율로만 정하고 돈으로 바꿀 수 없음 · 별점 4.0 미만·위생 지적 식당은 광고 심사 반려 · 광고 매출도 부가세 대상(매출 × 10/110)</p></div>`;
 }
 /* ── 내보내기 (CSV) ── */
 function csv(name) {
   let rows = [];
   if (name === 'orders') rows = [['주문번호','날짜','시','고객','식당','지역','방식','음식값','배달비','수수료','결제','통화','기사','상태'], ...orders.filter(inRange).map(o => [o.id, `${o.day.getMonth() + 1}/${o.day.getDate()}`, o.h, o.cust, o.rest, o.area, o.pickup ? '포장' : '배달', o.food, o.fee, Math.round(o.food * o.rate / 100), o.pay, o.cur, o.rider, o.st])];
+  else if (name === 'ads') rows = [['식당','상품','지역','기간','노출','클릭','주문','광고 주문금액','광고비','상태'], ...ADCAMP.map(c => [c[0], ADP[c[1]][0], c[2], c[3], c[4], c[5], c[6], c[7], adCost(c), c[9]])];
   else if (name === 'rest') rows = [['식당','주문','음식값','수수료율','수수료','정산액'], ...restRows().map(x => [x.r[0], x.s.orders, x.s.food, x.rate, Math.round(x.s.comm), Math.round(x.s.restPay)])];
   else { const s = calc(orders.filter(inRange)); rows = [['항목','금액'], ['건수', s.orders], ['GMV', s.gmv], ['중개수수료', Math.round(s.comm)], ['배달비', s.fee], ['플랫폼 매출', Math.round(s.rev)], ['부가세', Math.round(s.vat)], ['결제수수료', Math.round(s.pg)], ['기사 지급', Math.round(s.rider)], ['원천세', Math.round(s.wh)], ['쿠폰', s.coupon], ['순이익', Math.round(s.net)]]; }
   const blob = new Blob(['﻿' + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')], {type: 'text/csv'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `wanto_${name}_${range}.csv`; a.click();
 }
 /* ── 이동 ── */
-const V = {dash: vDash, orders: vOrders, rest: vRest, riders: vRiders, apply: vApply, cust: vCust, promo: vPromo, reviews: vReviews, cs: vCs, tax: vTax, set: vSet};
+const V = {ads: vAds, dash: vDash, orders: vOrders, rest: vRest, riders: vRiders, apply: vApply, cust: vCust, promo: vPromo, reviews: vReviews, cs: vCs, tax: vTax, set: vSet};
 let cur = 'dash';
 function go(v) { cur = V[v] ? v : 'dash'; document.querySelectorAll('#nav a[data-v]').forEach(a => a.classList.toggle('on', a.dataset.v === cur)); V[cur](); history.replaceState(null, '', '#' + cur); window.scrollTo(0, 0); }
 document.addEventListener('click', e => {
@@ -339,6 +382,7 @@ document.addEventListener('click', e => {
   if (t.dataset.op) { opage = Math.max(0, opage + +t.dataset.op); return vOrders(); }
   if (t.dataset.csv) return csv(t.dataset.csv);
 });
+document.addEventListener('click', e => { const a = e.target.closest('[data-adok],[data-adno]'); if (!a) return; const i = +(a.dataset.adok || a.dataset.adno); ADCAMP[i][9] = a.dataset.adok ? 'ok' : 'no'; $('cAds').textContent = ADCAMP.filter(c => c[9] === 'wait').length || ''; vAds(); });
 document.addEventListener('input', e => {
   if (e.target.id === 'oq') { oq = e.target.value; opage = 0; vOrders(); const i = $('oq'); i.focus(); i.setSelectionRange(oq.length, oq.length); }
   if (e.target.dataset.cfg) { const v = parseFloat(e.target.value); if (!isNaN(v)) CFG[e.target.dataset.cfg] = v; }

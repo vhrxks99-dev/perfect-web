@@ -40,6 +40,73 @@ svg{display:block;flex:none}
 .lgp i{width:1px;height:12px;background:#d8dbe0}
 .lgp .on{color:var(--brand)}
 .toprow{display:flex;align-items:center;justify-content:space-between;padding-right:16px}
+.svc{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;padding:12px 16px 0}
+.sv{border-radius:18px;background:var(--bg);text-align:left;padding:14px;position:relative;overflow:hidden;min-height:78px;display:flex;flex-direction:column;justify-content:flex-start}
+.sv b{font-size:17px;font-weight:800;letter-spacing:-.02em}.sv small{font-size:11.5px;color:var(--sub);margin-top:2px;font-weight:600}
+.sv svg{position:absolute;right:10px;bottom:10px;width:34px;height:34px;color:var(--brand);opacity:.9}
+.sv.big{grid-row:span 2;background:#333 center/cover;color:#fff;justify-content:flex-end;min-height:164px}
+.sv.big small{color:rgba(255,255,255,.88)}.sv.big b{font-size:24px}
+.sv.wide{grid-column:span 2;min-height:62px;background:var(--tint)}.sv.wide b{font-size:15.5px}
+.cgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px 4px;padding:18px 12px 0}
+.cgrid button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:#3a3f47;text-align:center;line-height:1.2}
+.ci2{width:54px;height:54px;border-radius:18px;background:var(--bg) center/cover;display:grid;place-items:center}
+.ci2.more{background:var(--bg);color:var(--sub)}.ci2.more svg{width:22px;height:22px}
+.banner{margin:20px 16px 0;height:118px;border-radius:16px;overflow:hidden;position:relative}
+.bs{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.bs::-webkit-scrollbar{display:none}
+.bslide{flex:0 0 100%;scroll-snap-align:start;background:#333 center/cover;color:#fff;text-align:left;padding:18px;display:flex;flex-direction:column;justify-content:center}
+.bslide small{font-size:12px;font-weight:700;opacity:.9}.bslide b{font-size:19px;font-weight:800;line-height:1.25;margin-top:3px;max-width:72%;letter-spacing:-.02em}
+.bad{position:absolute;left:10px;top:10px;font-size:9.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:5px;letter-spacing:.04em}
+.bno{position:absolute;right:10px;bottom:10px;font-size:11px;color:#fff;background:rgba(0,0,0,.45);padding:3px 9px;border-radius:10px}
+.cpn{width:210px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;padding:12px 10px 12px 14px;gap:8px;background:#fff;position:relative}
+.cpn::before{content:"";position:absolute;right:52px;top:8px;bottom:8px;border-left:1.5px dashed var(--line)}
+.cpn>div{flex:1;min-width:0}.cpn small{font-size:11.5px;color:var(--sub);font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cpn b{font-size:19px;font-weight:800;color:var(--brand);display:block;margin-top:2px}.cpn span{font-size:11.5px;color:var(--sub)}
+.cpn button{width:34px;height:34px;border-radius:17px;background:var(--brand);color:#fff;display:grid;place-items:center;flex:none}
+.cpn button svg{width:17px;height:17px}.cpn.got button{background:var(--bg);color:var(--ok)}
+.solo{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;padding:0 16px}
+.solo .ph{aspect-ratio:1.15;border-radius:14px;background:var(--bg) center/cover;position:relative}
+.solo .ft{position:absolute;left:0;right:0;bottom:0;background:rgba(20,22,26,.72);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:4px;border-radius:0 0 14px 14px}
+.solo b{display:block;font-size:14px;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.solo .pr{font-size:14.5px;font-weight:800;margin-top:2px}.solo .pr em{font-style:normal;color:var(--red)}.solo .pr s{font-size:11.5px;color:var(--mute);font-weight:500}
+.solo small{font-size:11.5px;color:var(--sub)}
+.lrow{display:flex;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer}
+.lrow .th{width:100px;height:100px;border-radius:14px;background:var(--bg) center/cover;flex:none;position:relative;overflow:hidden}
+.lrow .dl{position:absolute;left:0;right:0;bottom:0;background:var(--brand);color:#fff;font-size:11px;font-weight:800;text-align:center;padding:3px}
+.lrow .cl{position:absolute;inset:0;background:rgba(255,255,255,.65);display:grid;place-items:center;font-size:12px;font-weight:800}
+.lrow .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;justify-content:center}
+.lrow .rc2{font-size:11.5px;color:#2f80ed;font-weight:700;display:flex;align-items:center;gap:3px}.lrow .rc2 svg{width:13px;height:13px}
+.lrow .nm{display:flex;align-items:center;gap:6px}.lrow .nm b{font-size:16px;font-weight:800;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .ln{font-size:12.5px;display:flex;align-items:center;gap:4px;color:#3a3f47}.lrow .ln>svg{width:13px;height:13px;color:var(--sub)}
+.lrow .ln .st{display:flex;align-items:center;gap:2px;font-weight:800}.lrow .ln .st svg{width:13px;height:13px;color:#f5a524;fill:#f5a524}
+.mu{color:var(--sub)}.fr2{color:var(--ok);font-weight:700}
+.lrow .tagl{margin-top:3px}.lrow .tagl span.o{background:#14161a;color:#fff}
+.adtag{font-size:11px;color:var(--mute);font-weight:600;display:flex;align-items:center;gap:2px;flex:none}.adtag svg{width:12px;height:12px}
+.ltabs{display:flex;gap:2px;overflow-x:auto;padding:0 10px;border-bottom:1px solid var(--line);flex:none;scrollbar-width:none;background:#fff}
+.ltabs::-webkit-scrollbar{display:none}
+.ltabs button{flex:none;padding:10px 10px 11px;font-size:14.5px;font-weight:600;color:var(--sub);border-bottom:2.5px solid transparent;margin-bottom:-1px}
+.ltabs button.on{color:var(--ink);font-weight:800;border-color:var(--ink)}
+.club{margin:12px 16px 0;border-radius:14px;background:#ecfdf3;color:#166534;padding:12px 14px;display:flex;gap:10px;align-items:center}
+.club svg{width:28px;height:28px}.club b{font-size:14px;display:block}.club small{font-size:12px;color:#15803d}
+.sortr{display:flex;align-items:center;gap:8px;padding:12px 16px 6px;overflow:hidden}
+.sortr>button:first-child{display:flex;align-items:center;gap:3px;font-size:13.5px;font-weight:700;flex:none}.sortr>button svg{width:14px;height:14px}
+.sortr .mu2{color:var(--mute);flex:none}.sortr .chips{flex:1;min-width:0}
+.cn{position:absolute;top:4px;right:4px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 4px}
+.adhero{margin:6px 16px 0;border-radius:20px;background:linear-gradient(135deg,#14161a,#2d3139);color:#fff;padding:20px}
+.adhero small{font-size:12px;font-weight:700;color:var(--brand2)}.adhero>b{display:block;font-size:22px;font-weight:800;line-height:1.3;margin-top:6px;letter-spacing:-.02em}
+.adst{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.adst div{background:rgba(255,255,255,.08);border-radius:12px;padding:10px}
+.adst b{font-size:17px;display:block}.adst small{font-size:11px;color:#b8bdc6;font-weight:500}
+.adp{display:flex;gap:12px;align-items:center;margin:0 16px 8px;border:1.5px solid var(--line);border-radius:16px;padding:14px;width:calc(100% - 32px);text-align:left}
+.adp.on{border-color:var(--brand);background:var(--tint)}
+.adp .ic{width:42px;height:42px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none;border:1px solid var(--line)}.adp .ic svg{width:22px;height:22px;color:var(--brand)}
+.adp .tx{flex:1;min-width:0}.adp .tx b{font-size:15px;display:block}.adp .tx small{font-size:12px;color:var(--sub);line-height:1.4;display:block;margin-top:2px}
+.adp .pr{text-align:right;flex:none}.adp .pr b{font-size:15px;display:block}.adp .pr small{font-size:11px;color:var(--sub)}
+.adest{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 16px}.adest div{background:var(--bg);border-radius:14px;padding:12px;text-align:center}
+.adest b{font-size:18px;font-weight:800;display:block}.adest small{font-size:11.5px;color:var(--sub)}
+.lv{font-size:12px;color:var(--ok);font-weight:700}
+.rcpn{margin-top:12px;display:flex;align-items:center;justify-content:space-between;border:1.5px dashed #ffc9a8;background:var(--tint);border-radius:14px;padding:11px 14px;width:100%;text-align:left}
+.rcpn b{font-size:14.5px;color:#c2410c}.rcpn small{display:block;font-size:12px;color:#9a3412}
+.rcpn span.d{width:32px;height:32px;border-radius:16px;background:var(--brand);color:#fff;display:grid;place-items:center}.rcpn span.d svg{width:16px;height:16px}
+.rcpn.got span.d{background:#fff;color:var(--ok)}
 /* 아래 탭 */
 .tabs{position:absolute;left:0;right:0;bottom:0;height:calc(62px + var(--sb));padding-bottom:var(--sb);background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(16px);border-top:.5px solid #e2e4e8;display:flex;z-index:20}
 .tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:#8d939d;position:relative}
@@ -498,6 +565,8 @@ const P = {
  fire:'<path d="M12 21c-3.6 0-6-2.4-6-5.8 0-3.1 2.2-4.7 3.3-7.7.9 1.4 1.4 2.4 1.5 3.6C12.7 9 13.6 6 13 3c3.3 2.2 5 5.6 5 9.6C18 17.6 15.6 21 12 21Z"/>',
  leaf:'<path d="M5 19c0-8 5-13.5 14.5-14.5C19 14 13 19 5 19Z"/><path d="M5 19 13 11"/>',
  truck:'<path d="M2.5 6.5h11v10h-11zM13.5 10h4l3 3.5v3h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+ list:'<path d="M9 6.5h11M9 12h11M9 17.5h11"/><rect x="3.5" y="4.5" width="3.5" height="4" rx="1"/><path d="M4 12h2.5M4 17.5h2.5"/>',
+ banner:'<rect x="3" y="5.5" width="18" height="10" rx="2"/><path d="M7 19h10"/><path d="m6.5 13 3-3 2.5 2.5 2-2 3.5 3.5"/>',
  shield:'<path d="M12 3.5 19 6v5.5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>'
 };
 const ic = (n, sw = 1.9) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
@@ -541,7 +610,7 @@ const USD = 1400;
 const S = {lang:'en',cur:'KRW',mode:'delivery',tab:'home',addr:0,saved:new Set([3,6]),cart:{rid:null,items:[]},order:null,past:[
   {rid:3,items:[['Bibimbap',1,11000],['Kimchi pancake',1,9000]],total:21500,date:'Oct 30'},{rid:2,items:[['Margherita',1,18000]],total:20500,date:'Oct 24'}],
   notifs:[['🎉','₩5,000 off your first order','Use code WANTO5K at checkout.','now'],['🔥','Today\'s deals are live','Up to 30% off at 5 restaurants near you.','9:00 AM']],
-  pay:'card',tip:2000,useCredit:true,drop:'gate',fmode:'delivery',cuis:null,filt:null,mkcat:0};
+  pay:'card',tip:2000,coupons:new Set(),sort:'rec',lcat:'all',lmode:'delivery',useCredit:true,drop:'gate',fmode:'delivery',cuis:null,filt:null,mkcat:0};
 const store = {get(k,d){try{const v=localStorage.getItem('wa_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('wa_'+k,JSON.stringify(v))}catch(e){}}};
 S.lang = store.get('lang','en'); S.saved = new Set(store.get('saved',[3,6]));
 const $ = id => document.getElementById(id);
@@ -611,35 +680,128 @@ function mapSVG(seed = 1) {
 }
 
 /* ── 홈 ── */
+/* ── 광고 자리 (식당이 돈 내고 사는 자리) ── */
+const ADS = {
+  banner: [[4,'Taqueria Lucha','Birria tacos are back — 30% off today','버리아 타코 오늘 30% 할인','taco2'],[6,'Istanbul Grill','Halal mixed grill for two','할랄 모둠 그릴 2인 세트','kebab2'],[10,'Layer Cake Bakery','New: strawberry shortcake','신메뉴 딸기 쇼트케이크','cake2'],[13,'Tokyo Ramen Bar','Free gyoza with any ramen','라멘 시키면 교자 무료','ramen2']],
+  top: {all:[1,6], 'American & Grill':[1], 'Korean':[3], 'Mexican':[4], 'Chicken':[7], 'Arabic & Turkish':[6], 'Italian & Pizza':[2]},
+  search: [7]
+};
+const COUPONS = () => [[1,'₩3,000',L('Orders ₩18,000+','18,000원 이상')],[6,'₩2,000',L('Orders ₩15,000+','15,000원 이상')],[3,L('Free delivery','배달비 무료'),L('Any order','모든 주문')],[9,'10%',L('Up to ₩4,000','최대 4,000원')]];
+const SOLO = [[3,'Bibimbap bowl',8900,'korean2',20],[9,'Pho bo (solo)',8500,'pho1',15],[13,'Tonkotsu ramen',9500,'ramen1',10],[8,'Avocado grain bowl',8900,'salad1',25]];
+const adTag = () => `<button class="adtag" data-adinfo>${L('Ad','광고')} ${ic('info',2)}</button>`;
+const cartIcon = () => { const n = S.cart.items.reduce((a, x) => a + x.q, 0); return `<button class="bell" ${n ? 'data-cart' : ''}>${ic('cart')}${n ? `<b class="cn">${n}</b>` : ''}</button>`; };
+let bannerT;
+
 function vHome(el) {
+  S.mode = 'delivery';
   const a = ADDRS[S.addr];
   const deals = R.filter(r => r.deal && !r.closed);
-  let list = R.filter(r => (S.mode !== 'pickup' || r.pick) && (!S.cuis || r.c === S.cuis));
+  const list = R.filter(r => !r.closed);
+  el.innerHTML = `<div class="body" id="hb">
+   <div class="homehd"><button class="addrbtn" data-addr><small>${t('deliverTo')}</small><b><span>${a[1].split(',')[0]}</span>${ic('down',2.4)}</b></button>${langPill()}<button class="bell" data-notifs>${ic('bell')}${S.notifs.length?'<i></i>':''}</button></div>
+   <button class="sbar" data-tab="search">${ic('search')}${t('searchPh')}</button>
+   <div class="svc">
+     <button class="sv big" data-list="delivery" style="background-image:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.55)),url(${IMG('burger2')})"><b>${t('delivery')}</b><small>${L(`${list.length} restaurants near you`,`우리 동네 식당 ${list.length}곳`)}</small></button>
+     <button class="sv" data-list="pickup"><b>${t('pickup')}</b><small>${L('No delivery fee','배달비 없이')}</small>${ic('bag',1.6)}</button>
+     <button class="sv" data-market><b>${t('market')}</b><small>${t('nextDay')}</small>${ic('cart',1.6)}</button>
+     <button class="sv wide" data-go="gift"><b>${t('giftCard')}</b><small>${L('Send a meal to someone in Korea','한국에 있는 사람에게 밥 한 끼')}</small>${ic('gift',1.6)}</button>
+   </div>
+   <div class="cgrid">${CUIS.slice(0,9).map(([c,p]) => `<button data-list="delivery" data-lcat="${c}"><span class="ci2" style="background-image:url(${IMG(p)})"></span>${cname(c)}</button>`).join('')}<button data-list="delivery"><span class="ci2 more">${ic('plus',2)}</span>${L('More','더보기')}</button></div>
+   <div class="banner"><div class="bs" id="bs">${ADS.banner.map(([id,n,en,ko,ph],i) => `<button class="bslide" data-rest="${id}" style="background-image:linear-gradient(90deg,rgba(0,0,0,.62),rgba(0,0,0,.05) 70%),url(${IMG(ph)})"><small>${n}</small><b>${L(en,ko)}</b></button>`).join('')}</div><span class="bad">AD</span><span class="bno"><b id="bno">1</b> / ${ADS.banner.length}</span></div>
+   <div class="sec"><div class="sec-h"><h2>${L('Grab a coupon','쿠폰 받고 주문하기')}</h2></div><div class="hs">${COUPONS().map(([id,v,c]) => { const r = rest(id), got = S.coupons.has(id); return `<div class="cpn ${got?'got':''}"><div><small>${r.n}</small><b>${v}</b><span>${c}</span></div><button data-coupon="${id}">${ic(got?'check':'down',2.4)}</button></div>`; }).join('')}</div></div>
+   <div class="sec"><div class="sec-h"><h2>${L('Solo meals · no minimum','1인분 · 최소주문 없이')}</h2><button data-list="delivery">${L('See all','전체')} ›</button></div>
+    <div class="solo">${SOLO.map(([id,n,p,ph,d]) => `<div data-rest="${id}"><div class="ph" style="background-image:url(${IMG(ph)})"><span class="badge">${d}%</span><span class="ft">${L('Free delivery','배달비 무료')}</span></div><b>${n}</b><div class="pr"><em>${d}%</em> ${won(p*(100-d)/100)} <s>${won(p)}</s></div><small>${rest(id).n} · ★ ${rest(id).r}</small></div>`).join('')}</div></div>
+   <div class="sec"><div class="sec-h"><h2>${t('todayDeals')}</h2><button>${L('Ends midnight','자정까지')}</button></div><div class="hs">${deals.map(r => `<div class="deal" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"><span class="badge">−${r.deal}%</span></div><h3>${r.n}</h3><div class="meta">${star(r)}<i></i>${r.t} ${t('min')}<i></i>${fee(r)}</div></div>`).join('')}</div></div>
+   <div class="sec"><div class="sec-h"><h2>${t('picks')}</h2></div><div class="hs">${[3,6,10,1].map(rest).map(r => `<div class="pick" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[1])})">${r.only?'<span class="badge g">ONLY ON WANTO</span>':r.neu?'<span class="badge g">NEW</span>':''}<button class="heart ${S.saved.has(r.id)?'on':''}" data-save="${r.id}">${ic('heart',2)}</button><span class="eta">${r.t} ${t('min')}</span></div><h3>${r.n}</h3><div class="meta">${star(r)} <span style="color:var(--mute)">(${r.v.toLocaleString()})</span><i></i>${cname(r.c)}<i></i>${fee(r)}</div></div>`).join('')}</div></div>
+   <div class="sec"><div class="sec-h"><h2>${t('allRest')}</h2><button data-list="delivery">${L('See all','전체')} ›</button></div>${rowsHtml('all', 'delivery').slice(0, 6).join('')}</div>
+   <div style="height:80px"></div></div>${cbar()}`;
+  clearInterval(bannerT);
+  const bs = el.querySelector('#bs'); let bi = 0;
+  bs.addEventListener('scroll', () => { const i = Math.round(bs.scrollLeft / bs.clientWidth); bi = i; const n = el.querySelector('#bno'); if (n) n.textContent = i + 1; }, {passive:true});
+  bannerT = setInterval(() => { if (!document.body.contains(bs)) return clearInterval(bannerT); bi = (bi + 1) % ADS.banner.length; bs.scrollTo({left: bi * bs.clientWidth, behavior:'smooth'}); }, 3800);
+}
+/* 배민식 가게 줄: 왼쪽 네모 사진, 오른쪽 정보. 광고 산 가게는 맨 위에 「광고」 표시 */
+function rowsHtml(cat, mode) {
+  let list = R.filter(r => r.id !== 12 && (cat === 'all' || r.c === cat) && (mode !== 'pickup' || r.pick));
   if (S.filt === 'free') list = list.filter(r => !r.fee);
   if (S.filt === 'fast') list = list.filter(r => +r.t.split('–')[0] <= 25);
   if (S.filt === 'halal') list = list.filter(r => r.tags.includes('Halal'));
   if (S.filt === 'vegan') list = list.filter(r => r.tags.includes('Vegan'));
   if (S.filt === 'top') list = list.filter(r => r.r >= 4.7);
-  const filters = [['free',t('free'),'tag'],['fast',L('Under 30 min','30분 이내'),'clock'],['top','4.7+','star'],['halal','Halal','leaf'],['vegan','Vegan','leaf']];
-  el.innerHTML = `<div class="body" id="hb">
-   <div class="homehd"><button class="addrbtn" data-addr><small>${t('deliverTo')}</small><b><span>${a[1].split(',')[0]}</span>${ic('down',2.4)}</b></button>${langPill()}<button class="bell" data-notifs>${ic('bell')}${S.notifs.length?'<i></i>':''}</button></div>
-   <div class="seg">${['delivery','pickup','market'].map(m => `<button data-mode="${m}" class="${S.mode===m?'on':''}">${ic(m==='delivery'?'bike':m==='pickup'?'bag':'cart')}${t(m)}</button>`).join('')}</div>
-   <button class="sbar" data-tab="search">${ic('search')}${t('searchPh')}</button>
-   ${S.mode === 'market' ? vMarket() : `
-   ${S.mode === 'pickup' ? `<div class="mapc">${mapSVG(3)}<i class="me" style="left:50%;top:56%"></i>${R.filter(r=>r.pick).slice(0,5).map((r,i)=>`<button class="pin" data-rest="${r.id}" style="left:${[22,70,38,82,55][i]}%;top:${[30,28,80,62,40][i]}%"><img src="${IMG(r.ph[0])}" alt="">${r.t.split('–')[0]-10}′</button>`).join('')}</div>` : `
-   <div class="sec" style="padding-top:16px"><div class="hs">
-     <div class="promo o" style="background:linear-gradient(135deg,#ff6a13,#ff3d00)"><img class="ill" src="../img/logo.svg" alt="" style="width:76px;right:16px;top:16px;border-radius:18px;opacity:1;box-shadow:0 6px 16px rgba(0,0,0,.2)"><small>${L('New here?','처음이세요?')}</small><b>${t('newUser')}</b><code>WANTO5K</code></div>
-     <div class="promo" style="background-image:url(${IMG('taco1')})"><small>${t('todayDeals')}</small><b>${L('Up to 30% off,<br>every day','매일 바뀌는 할인<br>최대 30%')}</b></div>
-     <div class="promo" data-go="gift" style="background-image:url(${IMG('cake1')})"><small>${t('giftCard')}</small><b>${L('Send a meal to<br>someone in Korea','한국에 있는 사람에게<br>밥 한 끼 선물')}</b></div>
-   </div></div>`}
-   <div class="sec"><div class="hs">${CUIS.map(([c,p]) => `<button class="cat ${S.cuis===c?'on':''}" data-cuis="${c}"><div class="c" style="background-image:url(${IMG(p)})"></div>${cname(c)}</button>`).join('')}</div></div>
-   ${S.mode === 'delivery' && !S.cuis ? `<div class="sec"><div class="sec-h"><h2>${t('todayDeals')}</h2><button>${L('Ends midnight','자정까지')}</button></div><div class="hs">${deals.map(r => `<div class="deal" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"><span class="badge">−${r.deal}%</span></div><h3>${r.n}</h3><div class="meta">${star(r)}<i></i>${r.t} ${t('min')}<i></i>${fee(r)}</div></div>`).join('')}</div></div>
-   <div class="sec"><div class="sec-h"><h2>${t('picks')}</h2></div><div class="hs">${[3,6,10,1].map(rest).map(r => `<div class="pick" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[1])})">${r.only?'<span class="badge g">ONLY ON WANTO</span>':r.neu?'<span class="badge g">NEW</span>':''}<button class="heart ${S.saved.has(r.id)?'on':''}" data-save="${r.id}">${ic('heart',2)}</button><span class="eta">${r.t} ${t('min')}</span></div><h3>${r.n}</h3><div class="meta">${star(r)} <span style="color:var(--mute)">(${r.v.toLocaleString()})</span><i></i>${cname(r.c)}<i></i>${fee(r)}</div></div>`).join('')}</div></div>` : ''}
-   <div class="sec"><div class="sec-h"><h2>${S.cuis ? cname(S.cuis) : t('allRest')}</h2><button>${list.length}</button></div>
-     <div class="chips">${S.cuis?`<button class="chip on" data-cuis="${S.cuis}">${ic('x',2.4)}${cname(S.cuis)}</button>`:''}${filters.map(([k,n,i]) => `<button class="chip ${S.filt===k?'on':''}" data-filt="${k}">${ic(i,2)}${n}</button>`).join('')}</div>
-     <div class="list">${list.length ? list.map(rcard).join('') : `<div class="empty">${ic('search')}<b>${L('Nothing here yet','조건에 맞는 식당이 없어요')}</b></div>`}</div></div>`}
-   <div style="height:80px"></div></div>${cbar()}`;
+  if (S.sort === 'rating') list.sort((a, b) => b.r - a.r); else if (S.sort === 'fee') list.sort((a, b) => a.fee - b.fee); else if (S.sort === 'dist') list.sort((a, b) => a.dist - b.dist);
+  const ads = mode === 'pickup' ? [] : (ADS.top[cat] || []).filter(id => list.some(r => r.id === id));
+  const rest_ = list.filter(r => !ads.includes(r.id));
+  return [...ads.map(id => lrow(rest(id), true, mode)), ...rest_.map(r => lrow(r, false, mode))];
 }
+function lrow(r, ad, mode) {
+  const recent = S.past.filter(p => p.rid === r.id).length;
+  return `<div class="lrow ${r.closed?'closed':''}" data-rest="${r.id}"><div class="th" style="background-image:url(${IMG(r.ph[0])})">${r.deal?`<span class="dl">−${r.deal}% ${L('today','오늘')}</span>`:''}${r.closed?`<span class="cl">${L('Opens 11:00','11시 오픈')}</span>`:''}</div>
+   <div class="tx">${recent?`<small class="rc2">${ic('receipt',2)}${L(`Ordered ${recent}× before`,`최근 ${recent}번 주문한 가게`)}</small>`:''}<div class="nm"><b>${r.n}</b>${ad?adTag():''}</div>
+   <div class="ln">${star(r)}<span class="mu">(${r.v.toLocaleString()})</span>${mode==='pickup'?'':`<span class="mu">· ${t('minOrder')} ${won(r.min)}</span>`}</div>
+   <div class="ln">${ic('clock',2)}${mode==='pickup'?`${L('Ready in','준비')} ${r.t.split('–')[0]-10}–${r.t.split('–')[1]-15} ${t('min')} · ${r.dist} km`:`${r.t} ${t('min')} · ${r.fee?`${t('deliveryFee')} ${won(r.fee)}`:`<span class="fr2">${t('free')}</span>`}`}</div>
+   <div class="tagl">${r.only?'<span class="o">Only on Wanto</span>':''}${r.tags.filter(x=>x!=='Wanto Only').slice(0,2).map(x=>`<span>${x}</span>`).join('')}</div></div></div>`;
+}
+/* 목록 화면: 위에 요리 탭, 정렬, 가게 줄 */
+function openList(mode, cat) {
+  S.mode = mode;
+  S.lcat = cat || 'all'; S.lmode = mode;
+  const tabs = [['all', L('All','전체')], ...CUIS.filter(c => c[0] !== 'Grocery').map(c => [c[0], cname(c[0])])];
+  const draw = el => {
+    const rows = rowsHtml(S.lcat, S.lmode);
+    el.innerHTML = `<div class="hd pad-top" style="padding-top:calc(var(--st) + 4px)"><button class="ib flip" data-back>${ic('back',2.2)}</button><h1>${S.lmode==='pickup'?t('pickup'):t('delivery')}</h1>${cartIcon()}</div>
+     <div class="ltabs" id="lt">${tabs.map(([k, n]) => `<button data-ltab="${k}" class="${S.lcat===k?'on':''}">${n}</button>`).join('')}</div>
+     <div class="body" id="lb">
+      ${S.lmode==='pickup' ? `<div class="mapc" style="margin-top:12px">${mapSVG(3)}<i class="me" style="left:50%;top:56%"></i>${R.filter(r=>r.pick).slice(0,5).map((r,i)=>`<button class="pin" data-rest="${r.id}" style="left:${[22,70,38,82,55][i]}%;top:${[30,28,80,62,40][i]}%"><img src="${IMG(r.ph[0])}" alt="">${r.t.split('–')[0]-10}′</button>`).join('')}</div>` : `<div class="club">${ic('bike',1.8)}<div><b>${L('Free delivery on 6 restaurants today','오늘 배달비 무료 식당 6곳')}</b><small>${L('Look for the green tag','초록 글씨를 찾아보세요')}</small></div></div>`}
+      <div class="sortr"><button data-sortsheet>${[['rec',L('Recommended','기본순')],['rating',L('Top rated','별점 높은 순')],['fee',L('Lowest fee','배달팁 낮은 순')],['dist',L('Nearest','가까운 순')]].find(x=>x[0]===(S.sort||'rec'))[1]} ${ic('down',2.4)}</button><button class="mu2" data-rankinfo>${ic('info',2)}</button>
+       <div class="chips" style="padding:0">${[['free',t('free')],['fast',L('Under 30 min','30분 이내')],['top','★ 4.7+'],['halal','Halal'],['vegan','Vegan']].map(([k,n]) => `<button class="chip ${S.filt===k?'on':''}" data-filt="${k}">${n}</button>`).join('')}</div></div>
+      ${rows.length ? rows.join('') : `<div class="empty">${ic('search')}<b>${L('Nothing here yet','조건에 맞는 식당이 없어요')}</b></div>`}
+      <div style="height:90px"></div></div>${cbar()}`;
+    const on = el.querySelector('#lt .on'); if (on) on.scrollIntoView({inline:'center', block:'nearest'});
+  };
+  push('', {mount: draw, re: draw});
+}
+function openMarket() {
+  const draw = el => { el.innerHTML = hd(t('market'), cartIcon()) + `<div class="body">${vMarket()}<div style="height:90px"></div></div>${cbar()}`; };
+  push('', {mount: draw, re: draw});
+}
+/* 사장님 광고 신청 */
+function openAds() {
+  const P_ = [['top',L('Top of the list','목록 맨 위 노출'),L('Shown first in your category and area, marked “Ad”.','내 요리 목록 맨 위에 「광고」 표시와 함께 나와요.'),88000,L('/ month','/ 월'),'list'],
+              ['banner',L('Home banner','홈 배너'),L('Big photo banner on the home screen. 4 slots per area.','홈 화면 큰 사진 배너. 지역마다 4자리.'),150000,L('/ week','/ 주'),'banner'],
+              ['search',L('Search boost','검색 상단'),L('First result when people search your food. Pay only per tap.','손님이 음식을 검색하면 맨 위. 누를 때만 돈이 나가요.'),300,L('/ tap','/ 클릭'),'search'],
+              ['push',L('Coupon push','쿠폰 알림'),L('Send your coupon as a notification to nearby customers.','근처 손님에게 내 가게 쿠폰을 알림으로 보내요.'),30,L('/ person','/ 명'),'bell']];
+  let pick = 'top', area = 0, weeks = 4, budget = 50000, done = false;
+  const est = () => { const w = weeks; if (pick === 'top') return [3100 * w, 230 * w, 34 * w, 88000 * w / 4]; if (pick === 'banner') return [9000 * w, 520 * w, 61 * w, 150000 * w]; if (pick === 'search') { const c = Math.round(budget / 300); return [c * 9, c, Math.round(c * .16), budget]; } const p = Math.round(budget / 30); return [p, Math.round(p * .11), Math.round(p * .035), budget]; };
+  const draw = el => {
+    const [im, cl, od, cost] = est();
+    el.innerHTML = hd(L('Advertise on Wanto','완토 광고 신청')) + `<div class="body">
+     <div class="adhero"><small>${L('For restaurant owners','사장님 전용')}</small><b>${L('Put your restaurant in front of<br>foreign customers first','외국인 손님에게<br>우리 가게를 먼저 보여 주세요')}</b><div class="adst"><div><b>82%</b><small>${L('order in English','영어로 주문')}</small></div><div><b>₩26,700</b><small>${L('avg. order','평균 주문금액')}</small></div><div><b>68%</b><small>${L('reorder in 30 days','30일 안에 재주문')}</small></div></div></div>
+     ${done ? `<div class="card" style="border-color:#bbf7d0;background:#f0fdf4"><h4 style="color:#166534">${ic('check',2.4).replace('<svg','<svg style="width:20px;height:20px"')} ${L('Application sent','신청 완료')}</h4><p style="font-size:13.5px;color:#166534;line-height:1.5">${L('We review ads within 1 business day. You pay only after approval. (Demo — nothing was charged.)','1영업일 안에 심사하고, 승인된 뒤에만 결제돼요. (시안이라 결제되지 않았어요)')}</p></div>` : ''}
+     <div class="sec-h" style="padding-top:20px"><h2 style="font-size:17px">${L('1. Choose an ad','1. 광고 고르기')}</h2></div>
+     ${P_.map(([k, n, d, p, u, i]) => `<button class="adp ${pick===k?'on':''}" data-adp="${k}"><span class="ic">${ic(i)}</span><span class="tx"><b>${n}</b><small>${d}</small></span><span class="pr"><b>${won(p)}</b><small>${u}</small></span></button>`).join('')}
+     <div class="sec-h" style="padding-top:20px"><h2 style="font-size:17px">${L('2. Where and how long','2. 지역과 기간')}</h2></div>
+     <div class="chips" style="flex-wrap:wrap">${AREAS.map((a, i) => `<button class="chip ${area===i?'on':''}" data-adarea="${i}">${a}</button>`).join('')}</div>
+     ${pick==='search'||pick==='push' ? `<div class="fl"><label>${L('Budget','예산')} · <b style="color:var(--ink)">${won(budget)}</b></label><input type="range" min="10000" max="300000" step="10000" value="${budget}" data-adbud style="width:100%;margin-top:10px;accent-color:#ff6a13"></div>` :
+       `<div class="chips" style="margin-top:12px">${(pick==='top'?[4,8,12]:[1,2,4]).map(w => `<button class="chip ${weeks===w?'on':''}" data-adw="${w}">${pick==='top'?L(`${w/4} month${w>4?'s':''}`,`${w/4}개월`):L(`${w} week${w>1?'s':''}`,`${w}주`)}</button>`).join('')}</div>`}
+     <div class="sec-h" style="padding-top:20px"><h2 style="font-size:17px">${L('3. What to expect','3. 예상 효과')}</h2><button>${L('estimate','추정치')}</button></div>
+     <div class="adest"><div><b>${im.toLocaleString()}</b><small>${L('views','노출')}</small></div><div><b>${cl.toLocaleString()}</b><small>${L('taps','클릭')}</small></div><div><b>${od.toLocaleString()}</b><small>${L('orders','주문')}</small></div></div>
+     <p style="font-size:12px;color:var(--mute);padding:8px 20px 0;line-height:1.5">${L('Based on similar restaurants in this area over the last 30 days. Real results vary.','이 지역 비슷한 가게의 최근 30일 기준이에요. 실제 결과는 달라질 수 있어요.')}</p>
+     <div class="sec-h" style="padding-top:22px"><h2 style="font-size:17px">${L('Running now (example)','운영 중인 광고 (예시)')}</h2></div>
+     <div class="card" style="margin-top:0"><h4>Smokehouse 49 · ${L('Top of the list','목록 맨 위 노출')}<span class="lv">● ${L('Live','진행 중')}</span></h4>
+      <div class="adest" style="margin:6px 0 0;grid-template-columns:repeat(4,1fr)"><div><b>12,480</b><small>${L('views','노출')}</small></div><div><b>936</b><small>${L('taps','클릭')}</small></div><div><b>141</b><small>${L('orders','주문')}</small></div><div><b>×19.8</b><small>ROAS</small></div></div>
+      <p style="font-size:12.5px;color:var(--sub);margin-top:8px">${L('Spent ₩88,000 · ad orders ₩1,742,000 · Oct 6 – Nov 5','광고비 88,000원 · 광고로 들어온 주문 1,742,000원 · 10/6~11/5')}</p></div>
+     <div style="height:110px"></div></div>
+     <div class="foot"><button class="btn" data-adapply>${L('Apply','광고 신청하기')} · ${won(cost)}</button></div>`;
+  };
+  const el = push('', {mount: draw, re: draw});
+  el.addEventListener('click', e => { const g = s => e.target.closest(s); let b;
+    if ((b = g('[data-adp]'))) { pick = b.dataset.adp; weeks = pick === 'top' ? 4 : 1; draw(el); }
+    else if ((b = g('[data-adarea]'))) { area = +b.dataset.adarea; draw(el); }
+    else if ((b = g('[data-adw]'))) { weeks = +b.dataset.adw; draw(el); }
+    else if (g('[data-adapply]')) { done = true; draw(el); el.querySelector('.body').scrollTo({top:0, behavior:'smooth'}); } });
+  el.addEventListener('change', e => { if (e.target.dataset.adbud !== undefined) { budget = +e.target.value; draw(el); } });
+}
+
 function rcard(r) {
   return `<div class="rc ${r.closed?'closed':''}" data-rest="${r.id}"><div class="ph" data-closed="${L('Opens at 11:00','11시에 열어요')}" style="background-image:url(${IMG(r.ph[0])})">${r.deal?`<span class="badge">−${r.deal}%</span>`:r.only?'<span class="badge g">ONLY ON WANTO</span>':r.neu?'<span class="badge g">NEW</span>':''}<button class="heart ${S.saved.has(r.id)?'on':''}" data-save="${r.id}">${ic('heart',2)}</button></div>
    <div class="row"><div style="min-width:0"><h3>${r.n}</h3><div class="meta">${S.mode==='pickup'?`${L('Ready in','준비')} ${r.t.split('–')[0]-10}–${r.t.split('–')[1]-15} ${t('min')}<i></i>${r.dist} km`:`${r.t} ${t('min')}<i></i>${fee(r)}<i></i>${r.dist} km`}</div><div class="tagl">${r.tags.slice(0,2).map(x=>`<span>${x}</span>`).join('')}</div></div><span class="rt">★ ${r.r}</span></div></div>`;
@@ -666,8 +828,9 @@ function vSearch(el) {
     if (!v) { el.querySelector('#sres').innerHTML = `<div class="sec"><div class="sec-h"><h2>${L('Popular','많이 찾는')}</h2></div><div class="chips" style="flex-wrap:wrap">${['Burger','Pizza','Halal','Pho','Vegan','Chicken','Ramen','Tacos'].map(x=>`<button class="chip" data-q="${x}">${x}</button>`).join('')}</div></div>
       <div class="sec"><div class="sec-h"><h2>${t('categories')}</h2></div><div class="tgrid">${CUIS.slice(0,12).map(([c,p]) => `<button class="tile" data-cuisgo="${c}" style="background-image:url(${IMG(p)})"><span>${cname(c)}</span></button>`).join('')}</div></div>`; return; }
     const rs = R.filter(r => (r.n + r.c + r.tags.join()).toLowerCase().includes(v));
+    const sp = ADS.search.map(rest).filter(r => !rs.includes(r) && v.length > 1);
     const ms = []; MENU.forEach(([c, items]) => items.forEach(m => { if (m[0].toLowerCase().includes(v)) ms.push(m); }));
-    el.querySelector('#sres').innerHTML = `<div style="padding-top:10px">${rs.map(r => `<button class="sr" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"></div><div><b>${r.n}</b><small>★ ${r.r} · ${cname(r.c)} · ${r.t} ${t('min')}</small></div></button>`).join('')}
+    el.querySelector('#sres').innerHTML = `<div style="padding-top:10px">${sp.map(r => `<button class="sr" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"></div><div style="flex:1"><b>${r.n}</b><small>★ ${r.r} · ${cname(r.c)} · ${r.t} ${t('min')}</small></div>${adTag()}</button>`).join('')}${rs.map(r => `<button class="sr" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"></div><div><b>${r.n}</b><small>★ ${r.r} · ${cname(r.c)} · ${r.t} ${t('min')}</small></div></button>`).join('')}
       ${ms.length ? `<div class="sec-h" style="padding-top:14px"><h2 style="font-size:16px">${L('Dishes','메뉴')}</h2></div>` + ms.slice(0,6).map(m => `<button class="sr" data-rest="1"><div class="ph" style="background-image:url(${m[3]?IMG(m[3]):''})"></div><div><b>${m[0]}</b><small>Smokehouse 49 · ${won(m[2])}</small></div></button>`).join('') : ''}
       ${!rs.length && !ms.length ? `<div class="empty">${ic('search')}<b>${L('No results','검색 결과가 없어요')}</b>${L('Try another word','다른 단어로 찾아보세요')}</div>` : ''}</div>`;
   };
@@ -701,7 +864,7 @@ function vAccount(el) {
    <div class="grp">
      ${li('receipt', t('orders'), '', 'data-tab="orders"')}${li('pin', L('Saved addresses','주소록'), ADDRS.length, 'data-addr')}${li('card', L('Payment methods','결제수단'), 'Visa •••• 4242', 'data-go="paym"')}${li('gift', t('giftCard'), '', 'data-go="gift"')}${li('people', t('referral'), '', 'data-go="invite"')}${li('tag', L('Promo codes','쿠폰'), 'WANTO5K', 'data-go="promo"')}</div>
    <div class="grp">${li('globe', t('language'), lg, 'data-lang')}${li('coin', t('currency'), S.cur === 'KRW' ? '₩ KRW' : '$ USD', 'data-curr')}${li('bell', t('notifications'), L('On','켜짐'), 'data-notifs')}</div>
-   <div class="grp">${li('chat', t('liveChat'), L('~1 min','약 1분'), 'data-go="chat"')}${li('help', 'FAQ', '', 'data-go="faq"')}${li('shield', L('Terms & privacy','약관·개인정보'), '', 'data-go="terms"')}${li('bike', L('Become a rider','배달 기사 지원'), '', 'data-go="rider"')}${li('door', L('Add your restaurant','식당 입점 신청'), '', 'data-go="partner"')}</div>
+   <div class="grp">${li('chat', t('liveChat'), L('~1 min','약 1분'), 'data-go="chat"')}${li('help', 'FAQ', '', 'data-go="faq"')}${li('shield', L('Terms & privacy','약관·개인정보'), '', 'data-go="terms"')}${li('bike', L('Become a rider','배달 기사 지원'), '', 'data-go="rider"')}${li('door', L('Add your restaurant','식당 입점 신청'), '', 'data-go="partner"')}${li('fire', L('Advertise on Wanto','사장님 광고 신청'), L('New','새 기능'), 'data-go="ads"')}</div>
    <div class="grp">${li('cog', t('settings'), '', 'data-go="settings"')}${li('out', t('logout'), '', 'data-logout')}</div>
    <p style="text-align:center;font-size:12px;color:var(--mute);padding:20px 0 34px">Wanto Delivery 1.0 (demo) · 10:00–22:00 KST · 1661-0000</p></div>`;
 }
@@ -718,6 +881,7 @@ function openRest(id) {
       <div class="meta" style="margin-top:4px">${cname(r.c)}<i></i>${r.dist} km<i></i>${r.tags.join(' · ')}</div>
       <div class="rstats"><div><b><svg viewBox="0 0 24 24">${P.star}</svg>${r.r}</b><small>${r.v.toLocaleString()} ${L('ratings','리뷰')}</small></div><div><b>${S.fmode==='pickup'?`${r.t.split('–')[0]-10}–${r.t.split('–')[1]-15}`:r.t}</b><small>${t('min')}</small></div><div><b>${S.fmode==='pickup'?'—':r.fee?won(r.fee):'₩0'}</b><small>${t('deliveryFee')}</small></div><div><b>${won(r.min)}</b><small>${t('minOrder')}</small></div></div>
       ${r.pick ? `<div class="mode"><button data-fmode="delivery" class="${S.fmode==='delivery'?'on':''}">${ic('bike')}<span><b>${t('delivery')}</b><small>${r.t} ${t('min')}</small></span></button><button data-fmode="pickup" class="${S.fmode==='pickup'?'on':''}">${ic('bag')}<span><b>${t('pickup')}</b><small>${r.t.split('–')[0]-10}–${r.t.split('–')[1]-15} ${t('min')}</small></span></button></div>` : ''}
+      ${COUPONS().find(c => c[0] === r.id) ? (() => { const c = COUPONS().find(c => c[0] === r.id), got = S.coupons.has(r.id); return `<button class="rcpn ${got?'got':''}" data-coupon="${r.id}"><span><b>${c[1]} ${L('coupon','할인 쿠폰')}</b><small>${c[2]}${got?' · '+L('saved','받음'):''}</small></span><span class="d">${ic(got?'check':'down',2.4)}</span></button>`; })() : ''}
       ${r.deal ? `<div class="dealbar">${ic('tag',2)}${L(`Today only: ${r.deal}% off the whole menu`,`오늘만 전 메뉴 ${r.deal}% 할인`)}</div>` : ''}
       <div class="note">${ic('globe')}<span>${t('menuNote')}. ${L('Write requests in English — we translate them to Korean for the kitchen.','요청사항은 영어로 쓰면 한국어로 바꿔 주방에 전달해요.')}</span></div>
       <button class="note" data-rinfo style="color:var(--ink);font-weight:700">${ic('info')}<span>${L('Hours, address & info','영업시간·주소·정보')} ›</span></button>
@@ -986,6 +1150,14 @@ document.addEventListener('click', e => {
   if ((b = g('[data-filt]'))) { S.filt = S.filt === b.dataset.filt ? null : b.dataset.filt; refresh(); return; }
   if ((b = g('[data-mkcat]'))) { S.mkcat = +b.dataset.mkcat; refresh(); return; }
   if ((b = g('[data-mkadd]'))) { addCart('market', {n:b.dataset.mkadd, p:+b.dataset.p, q:1, opt:'', note:''}); return; }
+  if (g('[data-adinfo]')) { e.stopPropagation(); sheet(`<h3>${L('About this ad','이 광고에 대해')}</h3><p class="lead">${L('This restaurant paid to be shown at the top. Everything below the ads is ranked by distance, rating and how often people reorder — restaurants cannot pay to change that order.','이 가게는 돈을 내고 맨 위에 나와요. 광고 아래 가게들은 거리·별점·재주문율로 정렬되고, 돈을 내도 그 순서는 바뀌지 않아요.')}</p><button class="btn ghost" style="margin-top:16px" data-close>${L('OK','확인')}</button>`); return; }
+  if (g('[data-rankinfo]')) { sheet(`<h3>${L('How we sort','정렬 기준')}</h3><p class="lead">${L('Recommended = distance, rating, reorder rate and delivery time. Restaurants marked “Ad” paid for the top spots.','기본순 = 거리·별점·재주문율·배달 시간. 「광고」 표시 가게는 돈을 내고 맨 위 자리를 산 곳이에요.')}</p><button class="btn ghost" style="margin-top:16px" data-close>${L('OK','확인')}</button>`); return; }
+  if (g('[data-sortsheet]')) { sheet(`<h3>${L('Sort by','정렬')}</h3>${[['rec',L('Recommended','기본순')],['rating',L('Top rated','별점 높은 순')],['fee',L('Lowest delivery fee','배달팁 낮은 순')],['dist',L('Nearest','가까운 순')]].map(([k,n]) => `<button class="opt ${S.sort===k?'on':''}" data-setsort="${k}"><span class="tx"><b>${n}</b></span><span class="ra"></span></button>`).join('')}`); return; }
+  if ((b = g('[data-setsort]'))) { S.sort = b.dataset.setsort; closeSheet(); refresh(); return; }
+  if ((b = g('[data-coupon]'))) { const id = +b.dataset.coupon; if (!S.coupons.has(id)) { S.coupons.add(id); toast(L('Coupon saved — applied at checkout','쿠폰 받았어요 — 결제할 때 자동 적용')); } refresh(); return; }
+  if ((b = g('[data-list]'))) { S.filt = null; openList(b.dataset.list, b.dataset.lcat); return; }
+  if (g('[data-market]')) { openMarket(); return; }
+  if ((b = g('[data-ltab]'))) { S.lcat = b.dataset.ltab; refresh(); return; }
   if ((b = g('[data-rest]'))) { if (+b.dataset.rest === 12) return; if (rest(+b.dataset.rest).closed) { toast(L('Opens at 11:00 — you can still browse','11시에 열어요 — 메뉴는 볼 수 있어요')); } openRest(+b.dataset.rest); return; }
   if (g('[data-rinfo]')) { const id = +topEl().querySelector('[data-save]').dataset.save; restInfo(rest(id)); return; }
   if ((b = g('[data-mjump]'))) { const el = topEl(); const tg = el.querySelector('#mc' + b.dataset.mjump); el.querySelectorAll('[data-mjump]').forEach(x => x.classList.toggle('on', x === b)); el.querySelector('.body').scrollTo({top: tg.offsetTop - 56, behavior:'smooth'}); return; }
@@ -1019,6 +1191,7 @@ document.addEventListener('click', e => {
   if ((b = g('[data-go]'))) {
     const k = b.dataset.go;
     if (k === 'chat') openChat();
+    else if (k === 'ads') openAds();
     else if (k === 'gift') openGift();
     else if (k === 'settings') openSettings();
     else if (k === 'faq') openSimple('FAQ', faqBody());
@@ -1053,7 +1226,11 @@ if (qs.has('skip') || store.get('ob', 0)) $('ob').classList.add('out'); else onb
 const sc = qs.get('s');
 if (sc) {
   $('ob').classList.add('out');
-  if (sc === 'market' || sc === 'pickup') { S.mode = sc; renderTab(); }
+  if (sc === 'market') openMarket();
+  if (sc === 'pickup') openList('pickup');
+  if (sc === 'list') openList('delivery');
+  if (sc === 'ads') openAds();
+  if (sc === 'home2') setTimeout(() => $('root').querySelector('.body').scrollTo(0, 720), 300);
   if (sc === 'account' || sc === 'orders' || sc === 'search' || sc === 'saved') { S.tab = sc; renderTab(); }
   if (['rest','cart','item'].includes(sc)) { S.cart = {rid:1, items:[{n:'Classic Smash Burger',p:7920,q:2,opt:'Extra cheese',note:'no pickles'},{n:'Loaded Fries',p:5200,q:1,opt:'',note:''}]}; openRest(1); }
   if (sc === 'item') setTimeout(() => openItem(rest(1), MENU[0][1][0]), 400);

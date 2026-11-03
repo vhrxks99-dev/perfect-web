@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{font-family:Inter,'Noto Sans KR',system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.45}
-body.ko{font-family:'Noto Sans KR',Inter,system-ui,sans-serif}
+body.ko{font-family:'Noto Sans KR',Inter,system-ui,sans-serif;word-break:keep-all}
 button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 input,select,textarea{font:inherit;color:inherit}
 a{color:inherit;text-decoration:none;cursor:pointer}
@@ -42,6 +42,8 @@ header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid 
 .cart-btn{display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:9px 16px;border-radius:999px;font-weight:700}
 .cart-btn b{background:#fff;color:var(--ink);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px}
 .menu-btn{display:none;font-size:22px;padding:4px}
+.lang-m{display:none;border:1.5px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800;font-size:12.5px;flex:none}
+.lang-m b{color:var(--brand)}
 /* 공통 */
 .sec-t{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:30px 0 14px}
 .sec-t h2{font-size:23px;letter-spacing:-.4px}
@@ -244,7 +246,7 @@ footer{background:#14171c;color:#b9bec8;margin-top:56px;padding:40px 0 100px;fon
   .hero{min-height:520px}.rs-hero{height:230px}
   .rs-hero .cap b{font-size:24px}
   .appbar{display:flex}
-  .hd{height:58px;gap:10px}.mode,.search,.hd-r .pill,.cart-btn .t{display:none}.menu-btn{display:block}
+  .hd{height:58px;gap:10px}.mode,.search,.hd-r .pill,.cart-btn .t{display:none}.menu-btn,.lang-m{display:block}
   .addr-chip{max-width:none;flex:1;font-size:13px}
   .hero{padding:30px 0 44px}.hero h1{font-size:32px}.hero p{font-size:15px}
   .addr{flex-direction:column}.addr .go{height:52px}.stores{display:none}
@@ -278,7 +280,7 @@ footer{background:#14171c;color:#b9bec8;margin-top:56px;padding:40px 0 100px;fon
     <a class="pill" data-go="login" id="hdLogin" data-t="login">Log in</a>
     <button class="cart-btn" id="cartBtn">🛒 <span class="t" data-t="cart">Cart</span> <b id="cartN">0</b></button>
   </div>
-  <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  <button class="lang-m" id="langM" aria-label="Language">EN | 한</button><button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
 </div></header>
 <div class="drawer" id="drawer"><nav></nav></div>
 
@@ -388,6 +390,7 @@ function tr(){ document.querySelectorAll('[data-t]').forEach(el => { const k = e
   const q = $('q'); q.placeholder = lang === 'ko' ? KO.search : 'Search restaurants or food'; document.body.classList.toggle('ko', lang === 'ko'); document.documentElement.lang = lang; }
 const L = (en, ko) => lang === 'ko' ? ko : en;
 
+function langBtn(){ const m=document.getElementById('langM'); if(m) m.innerHTML = lang==='en'?'<b>EN</b> | 한':'EN | <b>한</b>'; const d=document.getElementById('lang'); if(d) d.innerHTML = lang==='en'?'<b>English</b> · 한국어':'English · <b>한국어</b>'; }
 /* ── 카드 ── */
 function card(r){
   const b = (r.only ? `<span class="badge only">${L('ONLY ON WANTO','완토 단독')}</span>` : '') + (r.neu ? `<span class="badge new">NEW</span>` : '') + (!r.fee ? `<span class="badge free">${L('Free delivery','배달비 무료')}</span>` : '');
@@ -589,7 +592,7 @@ const OPEN = {home:()=>{vHome();go('home')},list:()=>{vList();go('list')},track:
 function refresh(){ const v = VIEWS.find(k=>!$('v-'+k).classList.contains('hide')) || 'home'; if (v==='rest') vRest(rest); else if (v==='co') vCo(); else if (v==='account') vAccount(); else (OPEN[v]||OPEN.home)(); vHome(); }
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-go],[data-cat],[data-catset],[data-tag],[data-tagset],[data-r],[data-add],[data-m],[data-p],[data-cur],[data-pickset],[data-mode],[data-tab],[data-acc],[data-amt],[data-faq],[data-area],#toCo,#place,#cur,#lang,#findBtn,#cartBtn,#allTags,#more,#clear,#menuBtn,#drawer');
+  const t = e.target.closest('[data-go],[data-cat],[data-catset],[data-tag],[data-tagset],[data-r],[data-add],[data-m],[data-p],[data-cur],[data-pickset],[data-mode],[data-tab],[data-acc],[data-amt],[data-faq],[data-area],#toCo,#place,#cur,#lang,#langM,#findBtn,#cartBtn,#allTags,#more,#clear,#menuBtn,#drawer');
   if (!t) return;
   if (t.id==='drawer'){ if (e.target===t) t.classList.remove('on'); return; }
   if (t.dataset.go){ e.preventDefault(); if (t.dataset.catset){cat=t.dataset.catset;tags.clear();} if (t.dataset.tagset){tags=new Set([t.dataset.tagset]);cat=null;} if (t.dataset.pick){pick=1;}
@@ -613,7 +616,7 @@ document.addEventListener('click', e => {
   if (t.id==='toCo' && !t.disabled) return vCo();
   if (t.id==='place') return vTrack();
   if (t.id==='cur'){ cur = cur==='KRW'?'USD':'KRW'; t.textContent = cur==='KRW'?'₩ KRW':'$ USD'; return refresh(); }
-  if (t.id==='lang'){ lang = lang==='en'?'ko':'en'; tr(); return refresh(); }
+  if (t.id==='lang'||t.id==='langM'){ lang = lang==='en'?'ko':'en'; tr(); langBtn(); return refresh(); }
   if (t.id==='cartBtn'){ return cart.length ? vRest(rest) : OPEN.list(); }
   if (t.id==='allTags'){ allTags = !allTags; return refresh(); }
   if (t.id==='more'){ shown += 8; return OPEN.list(); }
@@ -629,9 +632,9 @@ document.addEventListener('input', e => {
 $('sortSel'); document.addEventListener('change', e => { if (e.target.id==='sortSel'){ sort = e.target.value; OPEN.list(); } });
 
 /* ── 시작 · 스크린샷용 주소(#rest #co #track #ko 등) ── */
-vHome();
+vHome(); langBtn();
 const h = location.hash.slice(1).split('-');
-if (h.includes('ko')) { lang = 'ko'; tr(); vHome(); }
+if (h.includes('ko')) { lang = 'ko'; tr(); vHome(); langBtn(); }
 if (['rest','co','track'].includes(h[0])) { cart = [{n:'Classic Smash Burger',p:9900,e:'🍔',q:1},{n:'Loaded Fries',p:6500,e:'🍟',q:1}]; vRest(R[0], h[1]==='info'?'info':'menu'); if (h[0]!=='rest') vCo(); if (h[0]==='track') vTrack(); }
 else if (h[0] && OPEN[h[0]]) OPEN[h[0]]();
 </script>

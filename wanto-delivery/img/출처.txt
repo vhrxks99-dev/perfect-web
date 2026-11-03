@@ -1,0 +1,43 @@
+위키미디어 공용 CC0 / 퍼블릭 도메인 사진 (상업적 사용 가능, 출처 표기 의무 없음). 640x400 으로 잘라 씀.
+
+burger1.jpg : File:Cheeseburger 2.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Cheeseburger_2.jpg
+burger2.jpg : File:Cheeseburger maison.jpg | public domain | https://commons.wikimedia.org/wiki/File:Cheeseburger_maison.jpg
+burger3.jpg : File:Cheeseburger and fries 4.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Cheeseburger_and_fries_4.jpg
+pizza1.jpg : File:Pizza 14.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Pizza_14.jpg
+pizza2.jpg : File:Pepperoni pizza- boella co. 2024-02-17.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Pepperoni_pizza-_boella_co._2024-02-17.jpg
+pizza3.jpg : File:Nanuet Hotel Pepperoni Pizza.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Nanuet_Hotel_Pepperoni_Pizza.jpg
+korean1.jpg : File:Brighton Bibimbap (mushroom) - Time For Kimchi 2023-12-15.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Brighton_Bibimbap_(mushroom)_-_Time_For_Kimchi_2023-12-15.jpg
+korean2.jpg : File:Dinner at YORI, Brighton 2023-08-28.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Dinner_at_YORI,_Brighton_2023-08-28.jpg
+korean3.jpg : File:Bibimbap with kkakdugi.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Bibimbap_with_kkakdugi.jpg
+taco1.jpg : File:151 Dos Tacos de Camarone.jpg | cc0 | https://commons.wikimedia.org/wiki/File:151_Dos_Tacos_de_Camarone.jpg
+taco2.jpg : File:Tacos in a soft tortilla 2.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Tacos_in_a_soft_tortilla_2.jpg
+burrito.jpg : File:Burrito.JPG | cc0 | https://commons.wikimedia.org/wiki/File:Burrito.JPG
+curry1.jpg : File:Food Indian butter chicken (52843424475).jpg | cc0 | https://commons.wikimedia.org/wiki/File:Food_Indian_butter_chicken_(52843424475).jpg
+curry2.jpg : File:Chicken Tikka Masala - Mohammed - Spice Of Life.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Chicken_Tikka_Masala_-_Mohammed_-_Spice_Of_Life.jpg
+naan.jpg : File:Butter chicken and naan chicken.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Butter_chicken_and_naan_chicken.jpg
+kebab1.jpg : File:Döner Kebab Wrap - What The Pitta.jpg | cc0 | https://commons.wikimedia.org/wiki/File:D%C3%B6ner_Kebab_Wrap_-_What_The_Pitta.jpg
+kebab2.jpg : File:Kebab 20210723 111422.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Kebab_20210723_111422.jpg
+chicken1.jpg : File:Korean fried chicken (banban).jpg | cc0 | https://commons.wikimedia.org/wiki/File:Korean_fried_chicken_(banban).jpg
+chicken2.jpg : File:Korean fried chicken in Korea.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Korean_fried_chicken_in_Korea.jpg
+salad1.jpg : File:Falafel Super Bowl Salad - Leon 2025-10-27.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Falafel_Super_Bowl_Salad_-_Leon_2025-10-27.jpg
+salad2.jpg : File:Salad bowl, Kiedrich.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Salad_bowl,_Kiedrich.jpg
+pho1.jpg : File:Beef Pho (M) - Milk No Sugar.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Beef_Pho_(M)_-_Milk_No_Sugar.jpg
+pho2.jpg : File:Pho Bo by Banh & Mee in Kirkgate Market.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Pho_Bo_by_Banh_%26_Mee_in_Kirkgate_Market.jpg
+cake1.jpg : File:Strawberry Cake.JPG | public domain | https://commons.wikimedia.org/wiki/File:Strawberry_Cake.JPG
+cake2.jpg : File:Pound layer cake.jpg | public domain | https://commons.wikimedia.org/wiki/File:Pound_layer_cake.jpg
+cupcake.jpg : File:Pink Cupcakes.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Pink_Cupcakes.jpg
+coffee1.jpg : File:Latte art 3.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Latte_art_3.jpg
+coffee2.jpg : File:Latte art 4.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Latte_art_4.jpg
+grocery.jpg : File:Grocery store salad bar.png | cc0 | https://commons.wikimedia.org/wiki/File:Grocery_store_salad_bar.png
+ramen1.jpg : File:KEIKA ramen at Shinjuku 桂花ラーメン 新宿 20210909.jpg | public domain | https://commons.wikimedia.org/wiki/File:KEIKA_ramen_at_Shinjuku_%E6%A1%82%E8%8A%B1%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3_%E6%96%B0%E5%AE%BF_20210909.jpg
+ramen2.jpg : File:Tonkotsu Creamy Ramen with Pork belly - Stir Fry by CK.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Tonkotsu_Creamy_Ramen_with_Pork_belly_-_Stir_Fry_by_CK.jpg
+dumpling1.jpg : File:中国饺子（Jiaozi；Dumplings；餃子）.jpg | cc0 | https://commons.wikimedia.org/wiki/File:%E4%B8%AD%E5%9B%BD%E9%A5%BA%E5%AD%90%EF%BC%88Jiaozi%EF%BC%9BDumplings%EF%BC%9B%E9%A4%83%E5%AD%90%EF%BC%89.jpg
+dumpling2.jpg : File:Dumplings at New Dumpling.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Dumplings_at_New_Dumpling.jpg
+african1.jpg : File:Siga De Mariscos.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Siga_De_Mariscos.jpg
+african2.jpg : File:My African Pot of soup.tif | cc0 | https://commons.wikimedia.org/wiki/File:My_African_Pot_of_soup.tif
+steak1.jpg : File:Tomahawk steaks on the grill.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Tomahawk_steaks_on_the_grill.jpg
+steak2.jpg : File:Steak auf Grill.jpg | public domain | https://commons.wikimedia.org/wiki/File:Steak_auf_Grill.jpg
+bento.jpg : File:Coronation Bento - Taro 2026-02-11.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Coronation_Bento_-_Taro_2026-02-11.jpg
+croissant1.jpg : File:Croissant-Petr Kratochvil.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Croissant-Petr_Kratochvil.jpg
+croissant2.jpg : File:Croissant with jam and butter - Little Miss Piggies.jpg | cc0 | https://commons.wikimedia.org/wiki/File:Croissant_with_jam_and_butter_-_Little_Miss_Piggies.jpg
+fries.jpg : File:French fries 🍟.jpg | cc0 | https://commons.wikimedia.org/wiki/File:French_fries_%F0%9F%8D%9F.jpg

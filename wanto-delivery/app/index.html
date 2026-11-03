@@ -157,8 +157,6 @@ svg{display:block;flex:none}
 .lall{width:40px;height:40px;display:grid;place-items:center;flex:none;box-shadow:-8px 0 10px #fff}.lall svg{width:20px;height:20px}
 .banner.wide{margin:16px 0 0;border-radius:0;height:170px}
 .banner.wide .bslide b{font-size:24px}
-.theme{width:118px;height:150px;border-radius:16px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#14161a;text-align:center}
-.theme span{font-size:40px}.theme b{font-size:14.5px;font-weight:800;line-height:1.3}
 .ts2{margin:-6px -18px 0;padding:16px 18px 18px;background:#14161a;color:#fff;position:relative;overflow:hidden}
 .ts2::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,19,.45),transparent 70%)}
 .ts2>*{position:relative;z-index:1}
@@ -185,6 +183,27 @@ svg{display:block;flex:none}
 .tsbar .ts-clock b{background:var(--brand)}
 .tsbar .ts-clock i{color:#fff}
 .ts2>.ts-x{position:absolute;right:10px;top:8px;z-index:2}
+.gm{position:absolute;inset:-60px 0 -60px;width:100%;height:calc(100% + 120px);border:0;pointer-events:none;filter:saturate(.85)}
+.mapc.g{height:250px;margin:12px 16px 0;border:1px solid var(--line)}
+.mapc .mtop{position:absolute;left:10px;right:10px;top:10px;display:flex;justify-content:space-between;align-items:center;gap:6px;z-index:2}
+.mapc .mtop span{background:rgba(20,22,26,.86);color:#fff;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:14px;backdrop-filter:blur(4px)}
+.mapc .mtop a{background:#fff;color:var(--ink);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;gap:4px}
+.mapc .ring{position:absolute;left:50%;top:56%;width:150px;height:150px;border-radius:50%;border:1.5px dashed rgba(47,128,237,.6);background:rgba(47,128,237,.06);transform:translate(-50%,-50%);pointer-events:none}
+.pin2{position:absolute;transform:translate(-50%,-100%);background:#fff;border-radius:12px;padding:4px 9px 4px 4px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,.18);white-space:nowrap;text-align:left;z-index:1}
+.pin2::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;background:#fff;transform:translateX(-50%) rotate(45deg);border-radius:2px}
+.pin2 img{width:30px;height:30px;border-radius:9px;object-fit:cover}
+.pin2 b{display:block;font-size:11px;font-weight:800;max-width:86px;overflow:hidden;text-overflow:ellipsis}
+.pin2 small{display:flex;gap:4px;font-size:10.5px;color:var(--sub);font-weight:600}.pin2 small em{font-style:normal;color:var(--brand);font-weight:800}
+.mleg{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 0;scrollbar-width:none}.mleg::-webkit-scrollbar{display:none}
+.mleg button{flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:7px 10px 7px 7px;text-align:left;background:#fff}
+.mleg img{width:34px;height:34px;border-radius:9px;object-fit:cover}.mleg b{display:block;font-size:12.5px}.mleg small{font-size:11px;color:var(--sub)}
+.amap .gm{inset:-50px 0;height:calc(100% + 100px)}
+.theme{width:128px;height:156px;border-radius:18px;flex:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:14px 13px 13px;color:#14161a;text-align:left;position:relative;overflow:hidden;border:1px solid rgba(0,0,0,.04)}
+.theme .ti{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.theme .ti svg{width:28px;height:28px}
+.theme b{font-size:14.5px;font-weight:800;line-height:1.3;letter-spacing:-.02em}
+.theme small{display:block;font-size:11px;font-weight:600;color:rgba(20,22,26,.55);margin-top:3px}
+.theme::after{content:"";position:absolute;right:-26px;bottom:-26px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.35)}
 /* 아래 탭 */
 .tabs{position:absolute;left:0;right:0;bottom:0;height:calc(62px + var(--sb));padding-bottom:var(--sb);background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(16px);border-top:.5px solid #e2e4e8;display:flex;z-index:20}
 .tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:#8d939d;position:relative}
@@ -751,6 +770,8 @@ function renderTab() {
 }
 
 /* ── 지도 그림 ── */
+const GQ = {pick: [36.9640, 127.0505, 16], rest: [36.9636, 127.0498, 17], home: [36.9642, 127.0512, 16]};  // 안정리(험프리스 정문 앞)
+const gmap = (k = 'pick') => { const [la, ln, z] = GQ[k]; return `<iframe class="gm" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?ll=${la},${ln}&z=${z}&hl=${S.lang === 'ko' ? 'ko' : 'en'}&output=embed" title="Google Maps"></iframe>`; };
 function mapSVG(seed = 1) {
   let roads = '', blocks = '';
   const rnd = (i) => (Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453) % 1;
@@ -830,7 +851,9 @@ function vHome(el) {
 }
 
 /* ── 음식배달 화면 (배민 메뉴 화면 배치: 홈·요리 탭 → 동그라미 → 배너 → 테마별 → 맞춤 추천 → 가게) ── */
-const THEMES = () => [['near',L('Neighbourhood<br>deals','우리동네<br>할인가게'),'🏷️','linear-gradient(160deg,#ffe0cc,#ffb98a)'],['top',L('Top 1%<br>rated','별점<br>상위 1%'),'⭐','linear-gradient(160deg,#dbeafe,#93c5fd)'],['free',L('Free<br>delivery','배달팁<br>0원 가게'),'🛵','linear-gradient(160deg,#dcfce7,#86efac)'],['solo',L('Solo meals<br>no minimum','1인분<br>최소주문 없음'),'🍱','linear-gradient(160deg,#ede9fe,#c4b5fd)'],['halal',L('Halal<br>certified','할랄<br>인증'),'🥙','linear-gradient(160deg,#fef3c7,#fcd34d)']];
+const TICON = {'near': '<svg viewBox="0 0 32 32" fill="none"><path d="M4 15.2V6a2 2 0 0 1 2-2h9.2a2 2 0 0 1 1.4.6l10.8 10.8a2 2 0 0 1 0 2.8l-9.2 9.2a2 2 0 0 1-2.8 0L4.6 16.6A2 2 0 0 1 4 15.2z" fill="#ffe1cf" stroke="#ff6a13" stroke-width="2.2" stroke-linejoin="round"/><circle cx="10" cy="10" r="2.2" fill="#ff6a13"/><path d="M13.5 21.5l8-8" stroke="#ff6a13" stroke-width="2.2" stroke-linecap="round"/><circle cx="14.5" cy="15" r="1.6" fill="#ff6a13"/><circle cx="20" cy="20.5" r="1.6" fill="#ff6a13"/></svg>', 'top': '<svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5l3.7 7.6 8.3 1.2-6 5.9 1.4 8.3L16 22.6l-7.4 3.9L10 18.2l-6-5.9 8.3-1.2z" fill="#dbeafe" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.6 15.6l2.4 2.4 4.6-4.8" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', 'free': '<svg viewBox="0 0 32 32" fill="none"><circle cx="8" cy="23" r="4" fill="#dcfce7" stroke="#16a34a" stroke-width="2.2"/><circle cx="24.5" cy="23" r="4" fill="#dcfce7" stroke="#16a34a" stroke-width="2.2"/><path d="M12 23h8.5l2-7.5H26M18 9h3.5l1 6.5M4 15.5h9.5l1.5 4" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="9" width="9" height="6.5" rx="1.5" fill="#16a34a"/><text x="8.5" y="14.2" text-anchor="middle" font-size="5.6" font-weight="800" fill="#fff" font-family="Inter,sans-serif">0</text></svg>', 'solo': '<svg viewBox="0 0 32 32" fill="none"><path d="M4 15h24a12 12 0 0 1-24 0z" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 27h12" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round"/><path d="M19 12L27 4M15 12l9-9" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="11.5" r="2.4" fill="#7c3aed"/></svg>', 'halal': '<svg viewBox="0 0 32 32" fill="none"><path d="M16 3l3.2 2.4 4-.2 1.2 3.8 3.3 2.3-1.3 3.7 1.3 3.7-3.3 2.3-1.2 3.8-4-.2L16 27l-3.2-2.4-4 .2-1.2-3.8-3.3-2.3L5.6 15 4.3 11.3l3.3-2.3 1.2-3.8 4 .2z" fill="#fef3c7" stroke="#d97706" stroke-width="2" stroke-linejoin="round"/><path d="M18.5 10.5a5 5 0 1 0 0 9 4 4 0 1 1 0-9z" fill="#d97706"/><path d="M21 13.6l.6 1.2 1.3.2-1 .9.3 1.3-1.2-.6-1.2.6.3-1.3-1-.9 1.3-.2z" fill="#d97706"/></svg>'};
+const TCNT = {near: 9, top: 6, free: 6, solo: 7, halal: 4};
+const THEMES = () => [['near',L('Neighbourhood<br>deals','우리동네<br>할인가게'),'near','linear-gradient(155deg,#fff4ec,#ffd2b5)'],['top',L('Top 1%<br>rated','별점<br>상위 1%'),'top','linear-gradient(155deg,#f0f6ff,#c9ddff)'],['free',L('Free<br>delivery','배달팁<br>0원 가게'),'free','linear-gradient(155deg,#effcf3,#c3f0d2)'],['solo',L('Solo meals<br>no minimum','1인분<br>최소주문 없음'),'solo','linear-gradient(155deg,#f5f3ff,#ddd3fe)'],['halal',L('Halal<br>certified','할랄<br>인증'),'halal','linear-gradient(155deg,#fffaeb,#fde7a8)']];
 function openList(mode, cat) {
   S.mode = mode; S.lmode = mode;
   S.lcat = cat || 'home';
@@ -847,9 +870,12 @@ function openList(mode, cat) {
      <div class="body" id="lb">
       ${home ? `
        <div class="hs" style="padding-top:14px;gap:14px">${CUIS.slice(0, 12).map(([c, p]) => `<button class="cat" data-ltab="${c}"><div class="c" style="background-image:url(${IMG(p)})"></div>${cname(c)}</button>`).join('')}</div>
-       ${S.lmode==='pickup' ? `<div class="mapc">${mapSVG(3)}<i class="me" style="left:50%;top:56%"></i>${R.filter(r=>r.pick).slice(0,5).map((r,i)=>`<button class="pin" data-rest="${r.id}" style="left:${[22,70,38,82,55][i]}%;top:${[30,28,80,62,40][i]}%"><img src="${IMG(r.ph[0])}" alt="">${r.t.split('–')[0]-10}′</button>`).join('')}</div>` :
+       ${S.lmode==='pickup' ? (() => { const PR = R.filter(r => r.pick).slice(0, 5), XY = [[24,34],[72,30],[36,84],[80,70],[57,46]], KM = ['0.4','0.7','0.6','0.9','0.3']; return `<div class="mapc g">${gmap('pick')}<div class="ring"></div><i class="me" style="left:50%;top:56%"></i>
+         <div class="mtop"><span>${L(`${PR.length} pickup spots within 1 km`,`반경 1km 포장 가능 ${PR.length}곳`)}</span><a href="https://www.google.com/maps/search/?api=1&query=restaurants+near+Camp+Humphreys" target="_blank" rel="noopener">${L('Open in Google Maps','구글 지도로 보기')} ›</a></div>
+         ${PR.map((r, i) => `<button class="pin2" data-rest="${r.id}" style="left:${XY[i][0]}%;top:${XY[i][1]}%"><img src="${IMG(r.ph[0])}" alt=""><span><b>${r.n}</b><small><em>${r.t.split('–')[0] - 10}′</em>★${r.r} · ${KM[i]}km</small></span></button>`).join('')}</div>
+         <div class="mleg">${PR.map((r, i) => `<button data-rest="${r.id}"><img src="${IMG(r.ph[0])}" alt=""><span><b>${r.n}</b><small>${L(`Ready in ${r.t.split('–')[0] - 10} min · ${KM[i]} km · ★${r.r}`,`${r.t.split('–')[0] - 10}분 뒤 픽업 · ${KM[i]}km · ★${r.r}`)}</small></span></button>`).join('')}</div>`; })() :
        `<div class="banner wide"><div class="bs" id="bs">${ADS.banner.map(([id,nm,en,ko,ph]) => `<button class="bslide" data-rest="${id}" style="background-image:linear-gradient(90deg,rgba(0,0,0,.62),rgba(0,0,0,.05) 70%),url(${IMG(ph)})"><small>${nm}</small><b>${L(en,ko)}</b></button>`).join('')}</div><span class="bad">AD</span><span class="bno"><b id="bno">1</b> / ${ADS.banner.length}</span></div>`}
-       <div class="sec"><div class="sec-h"><h2>${L('Browse by theme','테마별 가게 둘러보기')}</h2></div><div class="hs">${THEMES().map(([k, nm, e, bg]) => `<button class="theme" data-theme="${k}" style="background:${bg}"><span>${e}</span><b>${nm}</b></button>`).join('')}</div></div>
+       <div class="sec"><div class="sec-h"><h2>${L('Browse by theme','테마별 가게 둘러보기')}</h2></div><div class="hs">${THEMES().map(([k, nm, e, bg]) => `<button class="theme" data-theme="${k}" style="background:${bg}"><span class="ti">${TICON[e]}</span><span><b>${nm}</b><small>${L(`${TCNT[e]} restaurants`,`가게 ${TCNT[e]}곳`)}</small></span></button>`).join('')}</div></div>
        <div class="sec"><div class="sec-h"><h2>${L('Picks for Alex','Alex님을 위한 맞춤 맛집')}</h2><button data-ltab="American & Grill">${L('See all','전체보기')} ›</button></div><p style="font-size:13px;color:var(--sub);padding:0 16px 10px;margin-top:-6px">${L('Based on your recent orders','최근 주문 내역 기반 추천')}</p>
         <div class="hs">${[2,7,13,14].map(rest).map(r => `<div class="pick" data-rest="${r.id}"><div class="ph" style="background-image:url(${IMG(r.ph[0])})"><button class="heart ${S.saved.has(r.id)?'on':''}" data-save="${r.id}">${ic('heart',2)}</button><span class="eta">${r.t} ${t('min')}</span></div><h3>${r.n}</h3><div class="meta">${star(r)}<i></i>${cname(r.c)}<i></i>${fee(r)}</div></div>`).join('')}</div></div>
        <div class="sec"><div class="sec-h"><h2>${t('allRest')}</h2></div></div>` : `<div class="club">${ic('bike',1.8)}<div><b>${L('Free delivery on 6 restaurants today','오늘 배달비 무료 식당 6곳')}</b><small>${L('Look for the green tag','초록 글씨를 찾아보세요')}</small></div></div>`}
@@ -1002,7 +1028,7 @@ function openRest(id) {
 }
 function restInfo(r) {
   sheet(`<h3>${r.n}</h3><p class="lead">${cname(r.c)} · ${r.tags.join(' · ')}</p>
-    <div class="amap" style="height:140px;margin-top:14px">${mapSVG(r.id)}<button class="pin" style="left:50%;top:55%"><img src="${IMG(r.ph[0])}" alt="">${r.n}</button></div>
+    <div class="amap" style="height:160px;margin-top:14px">${gmap('rest')}<button class="pin" style="left:50%;top:55%"><img src="${IMG(r.ph[0])}" alt="">${r.n}</button></div>
     <div class="opt">${'<span class="ic">'+ic('pin')+'</span>'}<span class="tx"><b>${r.id===1?'Pyeongtaek-si, Paengseong-eup, Anjeong-ri 155-3':'Pyeongtaek-si, Sinjang-dong 280-12'}</b><small>${r.dist} km · ${L('Copy address','주소 복사')}</small></span></div>
     <div class="opt"><span class="ic">${ic('clock')}</span><span class="tx"><b>${L('Open today 11:00 – 21:30','오늘 11:00 – 21:30')}</b><small>${L('Last order 21:00 · Prep time about 25 min','마지막 주문 21:00 · 준비 약 25분')}</small></span></div>
     <div class="opt"><span class="ic">${ic('info')}</span><span class="tx"><b>${L('About','소개')}</b><small>${L('Small-batch burgers smashed to order, near the Humphreys walking gate. Halal beef on request.','험프리스 도보 게이트 근처, 주문 즉시 굽는 수제버거. 요청하면 할랄 소고기로.')}</small></span></div>
@@ -1069,7 +1095,7 @@ function openCart() {
     el.innerHTML = hd(r.n) + `<div class="body">
      ${!isM && r.pick ? `<div class="seg" style="margin-top:4px">${['delivery','pickup'].map(m => `<button data-fmode="${m}" class="${S.fmode===m?'on':''}">${ic(m==='delivery'?'bike':'bag')}${t(m)}</button>`).join('')}</div>` : ''}
      <div class="card"><h4>${pick ? L('Pick up at','포장 받을 곳') : t('address')}${pick?'':`<button data-addr>${L('Change','변경')}</button>`}</h4>
-      <div class="amap">${mapSVG(pick ? 7 : 2)}${pick?`<button class="pin" style="left:50%;top:60%"><img src="${IMG(r.ph[0])}" alt="">${r.n}</button>`:`<i class="me" style="left:50%;top:50%"></i>`}</div>
+      <div class="amap">${gmap(pick ? 'rest' : 'home')}${pick?`<button class="pin" style="left:50%;top:60%"><img src="${IMG(r.ph[0])}" alt="">${r.n}</button>`:`<i class="me" style="left:50%;top:50%"></i>`}</div>
       <div class="ci" style="padding:0"><div class="tx">${pick ? `${r.n}<small>${L('Ready in about','약')} ${r.t.split('–')[0]-10} ${t('min')} · ${r.dist} km</small>` : `${a[1]}<small>${a[2]} · ${L('Gate / room note added','게이트·호수 메모 있음')}</small>`}</div></div>
       ${pick ? '' : `<div class="drop">${[['gate',L('Meet at gate','정문에서'),'gate'],['door',L('Leave at door','문 앞에'),'door'],['hand',L('Hand to me','직접 받기'),'hand']].map(([k,n,i]) => `<button data-drop="${k}" class="${S.drop===k?'on':''}">${ic(i)}${n}</button>`).join('')}</div>
       ${S.drop==='gate'?`<p style="font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.45">${L('No base pass needed. The rider waits at the visitor gate and texts you on arrival.','출입증 없어도 돼요. 기사님이 방문자 게이트에서 기다리다 도착하면 문자 드려요.')}</p>`:''}`}

@@ -47,7 +47,7 @@ main{padding:22px 28px 60px;min-width:0}
 .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .btn.sm{padding:5px 10px;font-size:12.5px;border-radius:8px}
 .demo{background:#fff8f1;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:8px 12px;font-size:12.5px;margin-bottom:16px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
 .kpi span{color:var(--sub);font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
 .kpi b{display:block;font-size:25px;letter-spacing:-.5px;margin-top:6px}
@@ -56,7 +56,7 @@ main{padding:22px 28px 60px;min-width:0}
 .kpi small{display:block;color:var(--sub);font-size:12px;margin-top:2px}
 .kpi.hl{background:var(--ink);color:#fff;border-color:var(--ink)}.kpi.hl span,.kpi.hl small{color:#aeb4bf}
 .row{display:grid;gap:14px;margin-top:14px}
-.r21{grid-template-columns:2fr 1fr}.r11{grid-template-columns:1fr 1fr}.r111{grid-template-columns:1fr 1fr 1fr}
+.r21{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.r11{grid-template-columns:repeat(2,minmax(0,1fr))}.r111{grid-template-columns:repeat(3,minmax(0,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
 .card h3{font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .card h3 small{color:var(--sub);font-weight:500;font-size:12px}
@@ -95,8 +95,40 @@ tr.tot td{font-weight:800;background:#fafbfc;border-top:2px solid var(--line)}
 .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok);animation:bl 1.4s infinite}
 @keyframes bl{50%{opacity:.25}}
 .hide{display:none!important}
-@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.r21,.r11,.r111{grid-template-columns:1fr}}
-@media (max-width:760px){.app{grid-template-columns:1fr}aside{position:static;height:auto;display:flex;overflow-x:auto;gap:4px;padding:10px}aside .grp,.lg small{display:none}aside a{white-space:nowrap}.lg{padding:4px 8px}main{padding:14px}.form{grid-template-columns:1fr}}
+.kpi .spark{display:flex;align-items:flex-end;gap:2px;height:26px;margin-top:10px}
+.kpi .spark i{flex:1;background:#ffd9c2;border-radius:2px 2px 0 0}.kpi .spark i.t{background:var(--brand)}
+.kpi.hl .spark i{background:#3a404b}.kpi.hl .spark i.t{background:var(--brand)}
+.kpi .vs{display:block;font-size:11px;color:var(--sub);margin-top:6px}.kpi.hl .vs{color:#8a909b}
+.ch{position:relative;margin-left:46px}
+.ch-y>div{position:absolute;left:0;right:0;border-top:1px dashed #e3e5ea}.ch-y>div.z{border-top:1px solid #c9cdd4}
+.ch-y span{position:absolute;right:100%;margin-right:7px;transform:translateY(-50%);font-size:10.5px;color:var(--sub);white-space:nowrap;font-family:Inter,sans-serif}
+.ch-bars{position:absolute;inset:0;display:flex;align-items:flex-end;gap:3px}
+.col{flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;position:relative;min-width:0}
+.stk{flex:1;max-width:34px;display:flex;flex-direction:column-reverse;border-radius:3px 3px 0 0;overflow:hidden}
+.stk i{display:block;min-height:0}
+.col:hover .stk{filter:brightness(.9)}
+.col:hover::after{content:attr(data-v);position:absolute;top:-6px;left:50%;transform:translate(-50%,-100%);background:var(--ink);color:#fff;font-size:11px;line-height:1.5;padding:5px 8px;border-radius:6px;white-space:pre;z-index:3;pointer-events:none}
+.col.t::before{content:"";position:absolute;inset:0 -1px;background:rgba(255,106,19,.07);border-radius:4px}
+.ch-line{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.ch-line polyline{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.ch-x{display:flex;gap:3px;margin:6px 0 0 46px}.ch-x span{flex:1;min-width:0;font-size:10.5px;color:var(--sub);text-align:center;white-space:nowrap;overflow:visible;display:flex;justify-content:center}
+.lgd{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--sub)}.lgd i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.lgd i.ln{width:16px;height:2px;border-radius:1px;background:var(--ink);vertical-align:3px}
+.sumrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.sumrow div{background:#fafbfc;border-radius:10px;padding:9px 11px}.sumrow small{display:block;font-size:11px;color:var(--sub)}.sumrow b{font-family:Inter,'Noto Sans KR',sans-serif;font-size:15px}
+.ops{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:14px}
+.op{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}.op span{font-size:12px;color:var(--sub);font-weight:600;display:block}.op b{font-family:Inter,'Noto Sans KR',sans-serif;font-size:19px;display:block;margin-top:3px}.op small{font-size:11px;color:var(--sub)}
+.op .gg{height:5px;border-radius:3px;background:#eef0f3;margin-top:8px;overflow:hidden}.op .gg i{display:block;height:100%;background:var(--brand);border-radius:3px}.op .gg i.ok{background:var(--ok)}
+.hm{display:grid;grid-template-columns:30px repeat(12,minmax(0,1fr));gap:3px;font-size:10.5px;color:var(--sub)}
+.hm span{display:flex;align-items:center;justify-content:center}.hm i{height:24px;border-radius:4px;position:relative}
+.hm i:hover::after{content:attr(data-v);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:4px;background:var(--ink);color:#fff;font-size:11px;padding:3px 7px;border-radius:5px;white-space:nowrap;z-index:3;font-style:normal}
+.hmk{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--sub)}.hmk i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(255,106,19,.06),rgba(255,106,19,1))}
+.mix{margin-bottom:14px}.mix>div:first-child{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:6px}
+.mix .b100{display:flex;height:22px;border-radius:6px;overflow:hidden;gap:2px}.mix .b100 i{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;font-style:normal;min-width:0;overflow:hidden;white-space:nowrap}
+.mix .k{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;font-size:11.5px;color:var(--sub)}.mix .k b{color:var(--ink);font-weight:700}.mix .k em{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+td .ib{display:flex;align-items:center;gap:8px}td .ib i{display:block;height:8px;border-radius:4px;background:var(--brand);min-width:2px}td .ib i.g{background:#ffc199}
+.rk{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:#f1f2f4;font-size:11px;font-weight:800;margin-right:6px}.rk.g{background:var(--brand);color:#fff}
+.tbl-sm td,.tbl-sm th{padding:8px 6px;font-size:12.5px}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.r21,.r11,.r111{grid-template-columns:minmax(0,1fr)}.ops{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.app{grid-template-columns:minmax(0,1fr)}.kpis{gap:10px}.kpi{padding:12px;border-radius:12px}.kpi b{font-size:18px;letter-spacing:-.3px}.kpi span{flex-wrap:wrap;gap:2px 6px;font-size:11.5px}.kpi small{font-size:11px}.card{padding:14px}.ops{grid-template-columns:repeat(2,minmax(0,1fr))}.sumrow{grid-template-columns:repeat(2,minmax(0,1fr))}.ch,.ch-x{margin-left:38px}.ch-bars,.ch-x{gap:1px}.hbar{grid-template-columns:96px 1fr 64px;font-size:12px}.top h1{font-size:19px}.mh{display:none}.ib i{display:none!important}.tbl-sm td,.tbl-sm th{padding:8px 4px;font-size:12px}.demo{font-size:11.5px}aside{position:static;height:auto;display:flex;overflow-x:auto;gap:4px;padding:10px}aside .grp,.lg small{display:none}aside a{white-space:nowrap}.lg{padding:4px 8px}main{padding:14px}.form{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -138,8 +170,8 @@ const RIDERS = ['Mike T.','Jason K.','Daniel P.','김민수','박지훈','이서
 const NAMES = ['Jake M.','Amira S.','Chris D.','Emily R.','Tom H.','Sarah K.','David L.','Olivia P.','James W.','Mia C.','Noah B.','Ava G.','Liam F.','Sophia N.','Ethan J.','민지','Grace Y.','Lucas V.'];
 const STATUS = [['new','접수 대기'],['cook','조리 중'],['go','배달 중'],['done','완료'],['cxl','취소']];
 const DAYS = 30, TODAY = new Date(2026, 10, 3);
-const orders = [];
-for (let d = DAYS - 1; d >= 0; d--) {
+const ALL = [];
+for (let d = DAYS * 2 - 1; d >= 0; d--) {
   const day = new Date(TODAY); day.setDate(TODAY.getDate() - d);
   const wk = day.getDay(); const n = Math.round((wk === 5 || wk === 6 ? 150 : wk === 0 ? 135 : 105) * (0.85 + rnd() * 0.3) * (1 + (DAYS - d) * 0.006));
   for (let i = 0; i < n; i++) {
@@ -155,9 +187,11 @@ for (let d = DAYS - 1; d >= 0; d--) {
     const coupon = rnd() < 0.04 ? 5000 : 0;
     let st = 'done'; if (rnd() < 0.025) st = 'cxl';
     if (d === 0 && h >= 18) st = pick(['new','cook','go','go','done']);
-    orders.push({id: 'W-' + (20000 + orders.length), day, d, h, m: Math.floor(rnd() * 60), ri, rest: r[0], cuisine: r[1], rate: r[2], area: AREAS[ai], food, fee, km, pickup, pay, cur, coupon, st, rider: pickup ? '-' : pick(RIDERS), cust: pick(NAMES), stars: 3 + Math.floor(rnd() * 2.4)});
+    ALL.push({id: 'W-' + (20000 + ALL.length), day, d, h, m: Math.floor(rnd() * 60), ri, rest: r[0], cuisine: r[1], rate: r[2], area: AREAS[ai], food, fee, km, pickup, pay, cur, coupon, st, rider: pickup ? '-' : pick(RIDERS), cust: pick(NAMES), stars: 3 + Math.floor(rnd() * 2.4)});
   }
 }
+
+const orders = ALL.filter(o => o.d < DAYS);
 
 /* ── 광고 (식당이 사는 자리) ── 상품: 목록 맨 위(월 정액) · 홈 배너(주 정액) · 검색 상단(클릭당) · 쿠폰 알림(받는 사람당) */
 const ADP = {top:['목록 맨 위', '월 정액'], banner:['홈 배너', '주 정액'], search:['검색 상단', '클릭당'], push:['쿠폰 알림', '받는 사람당']};
@@ -192,7 +226,7 @@ function calc(list) {
 }
 let range = 'month';
 const inRange = o => range === 'today' ? o.d === 0 : range === 'week' ? o.d < 7 : true;
-const prevRange = o => range === 'today' ? o.d === 1 : range === 'week' ? o.d >= 7 && o.d < 14 : false;
+const prevRange = o => range === 'today' ? o.d === 1 : range === 'week' ? o.d >= 7 && o.d < 14 : o.d >= DAYS && o.d < DAYS * 2;
 const pct = (a, b) => b ? ((a - b) / b * 100) : null;
 const delta = (a, b) => { const p = pct(a, b); return p === null ? '' : `<em class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p).toFixed(1)}%</em>`; };
 const $ = id => document.getElementById(id);
@@ -201,28 +235,90 @@ const segHtml = () => `<div class="seg">${[['today','오늘'],['week','7일'],['
 const csvBtn = name => `<button class="btn ghost" data-csv="${name}">⬇ 엑셀(CSV)</button>`;
 
 /* ── 화면 ── */
+const niceStep = x => { const p = Math.pow(10, Math.floor(Math.log10(x || 1))), n = x / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p; };
+const dLabel = d => { const x = new Date(TODAY); x.setDate(TODAY.getDate() - d); return (x.getMonth() + 1) + '/' + x.getDate(); };
+/* 막대그래프: rows=[{l, v:[쌓을 값들], tip, t}] keys=[[이름, 색]] — 눈금·격자·평균선·범례까지 */
+function chart(rows, keys, {h = 230, line = null, lineName = '7일 평균', fmt = man, every = 5, group = false} = {}) {
+  const tot = rows.map(r => group ? Math.max(...r.v) : r.v.reduce((a, b) => a + b, 0));
+  const step = niceStep(Math.max(...tot, ...(line || [0])) / 4), top = step * Math.ceil(Math.max(...tot, ...(line || [0])) / step || 1);
+  const ticks = []; for (let y = 0; y <= top + 1e-9; y += step) ticks.push(y);
+  const bar = (v, k) => `<div class="stk" style="height:${v / top * 100}%;background:${keys[k][1]}"></div>`;
+  return `<div class="ch" style="height:${h}px"><div class="ch-y">${ticks.map(t => `<div class="${t === 0 ? 'z' : ''}" style="bottom:${t / top * 100}%"><span>${fmt(t)}</span></div>`).join('')}</div>
+   <div class="ch-bars">${rows.map((r, i) => `<div class="col ${r.t ? 't' : ''}" data-v="${r.tip}">${group ? r.v.map(bar).join('') : `<div class="stk" style="height:${tot[i] / top * 100}%">${r.v.map((v, k) => `<i style="flex:${v} 0 0;background:${keys[k][1]}"></i>`).join('')}</div>`}</div>`).join('')}</div>
+   ${line ? `<svg class="ch-line" viewBox="0 0 ${rows.length} 100" preserveAspectRatio="none"><polyline points="${line.map((v, i) => `${i + .5},${100 - v / top * 100}`).join(' ')}"/></svg>` : ''}</div>
+   <div class="ch-x">${rows.map((r, i) => `<span>${i % every === 0 || i === rows.length - 1 ? r.l : ''}</span>`).join('')}</div>
+   <div class="lgd">${keys.map(k => `<span><i style="background:${k[1]}"></i>${k[0]}</span>`).join('')}${line ? `<span><i class="ln"></i>${lineName}</span>` : ''}</div>`;
+}
+const C = {comm: '#ff6a13', fee: '#ffb685', ad: '#3b4252', cur: '#ff6a13', prev: '#d5d9e0', pick: '#ffd9c2'};
 function vDash() {
-  const L = orders.filter(inRange), P = orders.filter(prevRange), s = calc(L), p = calc(P);
-  const byDay = []; for (let d = DAYS - 1; d >= 0; d--) { const c = orders.filter(o => o.d === d && o.st !== 'cxl'); byDay.push([d, c.length, c.reduce((t, o) => t + o.food + o.fee, 0)]); }
-  const mx = Math.max(...byDay.map(x => x[1]));
-  const agg = (k, val = o => 1) => { const m = {}; L.filter(o => o.st !== 'cxl').forEach(o => m[o[k]] = (m[o[k]] || 0) + val(o)); return Object.entries(m).sort((a, b) => b[1] - a[1]); };
-  const area = agg('area'), cuis = agg('cuisine', o => o.food), rest = agg('rest', o => o.food).slice(0, 6);
-  const hours = Array.from({length: 12}, (_, i) => L.filter(o => o.h === 11 + i && o.st !== 'cxl').length); const hm = Math.max(...hours);
+  const L = orders.filter(inRange), P = ALL.filter(prevRange), s = calc(L), p = calc(P);
+  const ok = o => o.st !== 'cxl', Lk = L.filter(ok), Pk = P.filter(ok);
+  const DC = []; for (let d = DAYS - 1; d >= 0; d--) DC.push({d, s: calc(orders.filter(o => o.d === d))});
+  const spark = f => { const v = DC.slice(-14).map(x => f(x.s)), m = Math.max(...v) || 1; return `<div class="spark">${v.map((n, i) => `<i class="${i === 13 ? 't' : ''}" style="height:${Math.max(8, n / m * 100)}%"></i>`).join('')}</div>`; };
+  const vsTxt = {today: '어제 대비', week: '지난 7일 대비', month: '지난 30일 대비'}[range];
+  const kpi = (lab, a, b, val, sub, f, hl) => `<div class="kpi ${hl ? 'hl' : ''}"><span>${lab} ${delta(a, b)}</span><b>${val}</b><small>${sub}</small>${spark(f)}<span class="vs">최근 14일 추이</span></div>`;
+  // 1) 일별 매출 (쌓은 막대 + 7일 평균선)
+  const rev = DC.map(x => x.s.rev), ma = rev.map((_, i) => { const a = rev.slice(Math.max(0, i - 6), i + 1); return a.reduce((t, v) => t + v, 0) / a.length; });
+  const daily = DC.map(x => ({l: dLabel(x.d), t: x.d === 0, v: [x.s.comm, x.s.fee, x.s.ad], tip: `${dLabel(x.d)}${x.d === 0 ? ' (오늘)' : ''}\n플랫폼 매출 ${won(x.s.rev)}\n수수료 ${won(x.s.comm)} · 배달비 ${won(x.s.fee)}\n광고 ${won(x.s.ad)} · 주문 ${x.s.orders}건`}));
+  const best = DC.reduce((a, b) => b.s.rev > a.s.rev ? b : a), avgRev = rev.reduce((a, b) => a + b, 0) / rev.length;
+  // 2) 주별 주문 (8주, 배달·포장 쌓기)
+  const weeks = []; for (let w = 7; w >= 0; w--) { const W = ALL.filter(o => o.d >= w * 7 && o.d < w * 7 + 7 && ok(o)); const dv = W.filter(o => !o.pickup).length, pk = W.length - dv; weeks.push({l: dLabel(w * 7 + 6) + '~', t: w === 0, v: [dv, pk], tip: `${dLabel(w * 7 + 6)}~${dLabel(w * 7)}\n주문 ${W.length.toLocaleString()}건 (배달 ${dv} · 포장 ${pk})\n주문금액 ${won(W.reduce((t, o) => t + o.food + o.fee, 0))}`}); }
+  const wn = weeks.map(w => w.v[0] + w.v[1]), wg = pct(wn[7], wn[6]);
+  // 3) 요일별 평균 주문: 이번 30일 vs 지난 30일 (나란히)
+  const DOW = ['일','월','화','수','목','금','토'];
+  const dowAvg = (A, w) => { const days = new Set(A.filter(o => o.day.getDay() === w).map(o => o.d)).size || 1; return A.filter(o => o.day.getDay() === w && ok(o)).length / days; };
+  const cur30 = ALL.filter(o => o.d < DAYS), prv30 = ALL.filter(o => o.d >= DAYS);
+  const dow = [1,2,3,4,5,6,0].map(w => { const a = dowAvg(cur30, w), b = dowAvg(prv30, w); return {l: DOW[w], v: [b, a], tip: `${DOW[w]}요일 하루 평균\n이번 30일 ${a.toFixed(0)}건 · 지난 30일 ${b.toFixed(0)}건`}; });
+  // 4) 요일×시간 히트맵
+  const hmv = {}; Lk.forEach(o => { const k = o.day.getDay() + '-' + o.h; hmv[k] = (hmv[k] || 0) + 1; }); const hmx = Math.max(...Object.values(hmv), 1);
+  const peak = Object.entries(hmv).sort((a, b) => b[1] - a[1])[0] || ['0-18', 0];
+  // 5) 지역 표
+  const grp = (A, k) => { const m = {}; A.forEach(o => { const x = m[o[k]] || (m[o[k]] = {n: 0, g: 0, food: 0}); x.n++; x.g += o.food + o.fee; x.food += o.food; }); return m; };
+  const ga = grp(Lk, 'area'), gp = grp(Pk, 'area'); const areas = Object.entries(ga).sort((a, b) => b[1].n - a[1].n);
+  const gc = grp(Lk, 'cuisine'), gcp = grp(Pk, 'cuisine'); const cuis = Object.entries(gc).sort((a, b) => b[1].food - a[1].food).slice(0, 8);
+  // 6) 구성비
+  const share = (A, f, keys) => keys.map(([k, n, c]) => [n, A.filter(o => f(o) === k).length, c]);
+  const mix = (title, parts, note) => { const t = parts.reduce((a, x) => a + x[1], 0) || 1; return `<div class="mix"><div><span>${title}</span><small style="color:var(--sub);font-weight:500">${note || ''}</small></div><div class="b100">${parts.map(([n, v, c]) => `<i style="flex:${v} 0 0;background:${c}">${v / t >= .12 ? Math.round(v / t * 100) + '%' : ''}</i>`).join('')}</div><div class="k">${parts.map(([n, v, c]) => `<span><em style="background:${c}"></em>${n} <b>${(v / t * 100).toFixed(1)}%</b></span>`).join('')}</div></div>`; };
+  const kmB = o => o.pickup ? 'p' : o.km < 1.5 ? 'a' : o.km < 3 ? 'b' : 'c';
+  // 7) 운영 지표
+  const rate = (A, f) => A.length ? A.filter(f).length / A.length * 100 : 0;
+  const cx = rate(L, o => o.st === 'cxl'), cxp = rate(P, o => o.st === 'cxl');
+  const dlv = Lk.filter(o => !o.pickup), kmAvg = dlv.reduce((t, o) => t + o.km, 0) / (dlv.length || 1);
+  const dn = Lk.filter(o => o.st === 'done'), star = dn.reduce((t, o) => t + o.stars, 0) / (dn.length || 1);
+  const cp = rate(Lk, o => o.coupon), usd = rate(Lk, o => o.cur === 'USD'), pkr = rate(Lk, o => o.pickup);
+  const adRun = ADCAMP.filter(c => c[9] !== 'wait'), roas = adRun.reduce((t, c) => t + c[7], 0) / (adMonth() || 1);
+  const op = (lab, val, sub, g, good) => `<div class="op"><span>${lab}</span><b>${val}</b><small>${sub}</small><div class="gg"><i class="${good ? 'ok' : ''}" style="width:${Math.min(100, g)}%"></i></div></div>`;
+  // 8) 식당 순위
+  const gr = grp(Lk, 'rest'), grp_ = grp(Pk, 'rest'); const rest = Object.entries(gr).sort((a, b) => b[1].food - a[1].food).slice(0, 8); const rtot = s.food || 1;
   const live = orders.filter(o => o.d === 0 && ['new','cook','go'].includes(o.st));
+  const dd = (a, b) => { const x = pct(a, b); return x === null ? '' : `<span class="${x >= 0 ? 'up' : 'down'}" style="font-size:11.5px;font-weight:700">${x >= 0 ? '▲' : '▼'}${Math.abs(x).toFixed(1)}%</span>`; };
+
   $('view').innerHTML = `<div class="top"><h1>대시보드</h1><span class="live">실시간 진행 ${live.length}건</span><div class="r">${segHtml()}${csvBtn('summary')}</div></div>
   <div class="kpis">
-   <div class="kpi"><span>배달·포장 건수 ${delta(s.orders, p.orders)}</span><b>${s.orders.toLocaleString()}건</b><small>배달 ${s.deliv.toLocaleString()} · 포장 ${s.pickup.toLocaleString()} · 취소 ${s.cxl}</small></div>
-   <div class="kpi"><span>총 주문금액 (GMV) ${delta(s.gmv, p.gmv)}</span><b>${won(s.gmv)}</b><small>음식값 ${man(s.food)} + 배달비 ${man(s.fee)}</small></div>
-   <div class="kpi"><span>플랫폼 매출 ${delta(s.rev, p.rev)}</span><b>${won(s.rev)}</b><small>중개수수료 ${man(s.comm)} + 배달비 ${man(s.fee)} + 광고 ${man(s.ad)}</small></div>
-   <div class="kpi hl"><span>순이익 (예상) ${delta(s.net, p.net)}</span><b>${won(s.net)}</b><small>세금·결제수수료·기사비·쿠폰 뺀 금액</small></div>
-   <div class="kpi"><span>객단가</span><b>${won(s.aov)}</b><small>음식값 기준 평균</small></div>
-   <div class="kpi"><span>부가세 (매출세액)</span><b>${won(s.vat)}</b><small>플랫폼 매출 × ${CFG.vat}/${100 + CFG.vat}</small></div>
-   <div class="kpi"><span>기사 지급 · 원천세 ${CFG.withhold}%</span><b>${won(s.rider)}</b><small>원천세 ${won(s.wh)} 떼고 ${won(s.rider - s.wh)} 지급</small></div>
-   <div class="kpi"><span>식당 정산 예정</span><b>${won(s.restPay)}</b><small>음식값 − 중개수수료</small></div>
+   ${kpi('배달·포장 건수', s.orders, p.orders, s.orders.toLocaleString() + '건', `배달 ${s.deliv.toLocaleString()} · 포장 ${s.pickup.toLocaleString()} · 취소 ${s.cxl}`, x => x.orders)}
+   ${kpi('총 주문금액 (GMV)', s.gmv, p.gmv, won(s.gmv), `음식값 ${man(s.food)} + 배달비 ${man(s.fee)}`, x => x.gmv)}
+   ${kpi('플랫폼 매출', s.rev, p.rev, won(s.rev), `수수료 ${man(s.comm)} + 배달비 ${man(s.fee)} + 광고 ${man(s.ad)}`, x => x.rev)}
+   ${kpi('순이익 (예상)', s.net, p.net, won(s.net), `이익률 ${(s.net / (s.rev || 1) * 100).toFixed(1)}% · 세금·수수료·기사비·쿠폰 뺀 금액`, x => x.net, 1)}
+   ${kpi('객단가', s.aov, p.aov, won(s.aov), '음식값 기준 평균', x => x.aov)}
+   ${kpi('부가세 (매출세액)', s.vat, p.vat, won(s.vat), `플랫폼 매출 × ${CFG.vat}/${100 + CFG.vat}`, x => x.vat)}
+   ${kpi('기사 지급 · 원천세 ' + CFG.withhold + '%', s.rider, p.rider, won(s.rider), `원천세 ${won(s.wh)} 떼고 ${won(s.rider - s.wh)} 지급`, x => x.rider)}
+   ${kpi('식당 정산 예정', s.restPay, p.restPay, won(s.restPay), '음식값 − 중개수수료', x => x.restPay)}
+  </div>
+  <div class="ops">
+   ${op('취소율', cx.toFixed(1) + '%', `지난 기간 ${cxp.toFixed(1)}% · 목표 3% 이하`, cx / 5 * 100, cx <= 3)}
+   ${op('평균 배달 거리', kmAvg.toFixed(1) + 'km', `배달 ${dlv.length.toLocaleString()}건 기준`, kmAvg / 5 * 100, true)}
+   ${op('평균 별점', '★ ' + star.toFixed(2), `완료 주문 ${dn.length.toLocaleString()}건`, star / 5 * 100, star >= 4)}
+   ${op('포장 비율', pkr.toFixed(1) + '%', '배달비 없는 주문', pkr * 4, true)}
+   ${op('USD 결제', usd.toFixed(1) + '%', `환율 ₩${CFG.usd.toLocaleString()} 기준`, usd, true)}
+   ${op('광고 ROAS', roas.toFixed(1) + '배', '광고비 1원당 들어온 주문금액', roas * 5, roas >= 5)}
   </div>
   <div class="row r21">
-   <div class="card"><h3>일별 주문 건수 <small>최근 30일 · 막대에 올리면 금액</small></h3><div class="bar-chart">${byDay.map(([d, n, g]) => `<div class="${d === 0 ? 't' : ''}" style="height:${n / mx * 100}%" data-v="${d === 0 ? '오늘' : d + '일 전'} · ${n}건 · ${won(g)}"></div>`).join('')}</div><div class="axis"><span>10/5</span><span>10/19</span><span>오늘 11/3</span></div></div>
-   <div class="card"><h3>돈의 흐름 <small>${rangeLabel()}</small></h3><div class="wf">
+   <div class="card"><h3>일별 플랫폼 매출 <small>최근 30일 · 막대에 올리면 자세히</small></h3>
+    <div class="sumrow"><div><small>30일 합계</small><b>${won(rev.reduce((a, b) => a + b, 0))}</b></div><div><small>하루 평균</small><b>${won(avgRev)}</b></div><div><small>최고 (${dLabel(best.d)})</small><b>${won(best.s.rev)}</b></div><div><small>오늘 (11/3)</small><b>${won(rev[rev.length - 1])}</b></div></div>
+    ${chart(daily, [['중개수수료', C.comm], ['배달비', C.fee], ['광고', C.ad]], {line: ma})}</div>
+   <div class="card"><h3>돈의 흐름 <small>${rangeLabel()}</small></h3>
+    ${mix('플랫폼 매출 구성', [['중개수수료', s.comm, C.comm], ['배달비', s.fee, C.fee], ['광고', s.ad, C.ad]], won(s.rev))}
+    <div class="wf">
     <div class="p"><span>중개수수료<small>음식값 × 수수료율 (식당 부담)</small></span><b>${won(s.comm)}</b></div>
     <div class="p"><span>배달비<small>고객 부담</small></span><b>${won(s.fee)}</b></div>
     <div class="p"><span>광고 매출<small>식당이 산 광고 자리 · <a data-go="ads" style="color:var(--brand);cursor:pointer">광고 보기</a></small></span><b>${won(s.ad)}</b></div>
@@ -232,15 +328,32 @@ function vDash() {
     <div class="m"><span>쿠폰·크레딧<small>플랫폼 부담 할인</small></span><b>− ${won(s.coupon)}</b></div>
     <div class="tot"><span>순이익 (예상)</span><b>${won(s.net)}</b></div></div></div>
   </div>
-  <div class="row r111">
-   <div class="card"><h3>지역별 건수</h3>${area.map(([k, v]) => `<div class="hbar"><span>${k}</span><i style="width:${v / area[0][1] * 100}%"></i><span class="n">${v.toLocaleString()}건</span></div>`).join('')}</div>
-   <div class="card"><h3>요리별 주문금액</h3>${cuis.slice(0, 8).map(([k, v]) => `<div class="hbar"><span>${k}</span><i style="width:${v / cuis[0][1] * 100}%"></i><span class="n">${man(v)}</span></div>`).join('')}</div>
-   <div class="card"><h3>시간대별 주문 <small>11시~22시</small></h3><div class="bar-chart" style="height:150px">${hours.map((n, i) => `<div style="height:${n / hm * 100}%" data-v="${11 + i}시 · ${n}건"></div>`).join('')}</div><div class="axis"><span>11시</span><span>16시</span><span>22시</span></div>
-    <p class="note">저녁 6~9시에 몰림 → 이 시간 기사 배치 늘리기</p></div>
+  <div class="row r11">
+   <div class="card"><h3>주별 주문 건수 <small>최근 8주 · 이번 주 ${wg === null ? '' : (wg >= 0 ? '▲' : '▼') + Math.abs(wg).toFixed(1) + '%'}</small></h3>${chart(weeks, [['배달', C.cur], ['포장', C.pick]], {h: 200, every: 1, fmt: n => n.toLocaleString()})}</div>
+   <div class="card"><h3>요일별 하루 평균 주문 <small>이번 30일 vs 지난 30일</small></h3>${chart(dow, [['지난 30일', C.prev], ['이번 30일', C.cur]], {h: 200, every: 1, group: true, fmt: n => n.toFixed(0)})}</div>
   </div>
   <div class="row r11">
-   <div class="card"><h3>매출 상위 식당<span class="r"><a class="btn sm ghost" data-go="rest">전체 보기</a></span></h3><table><tr><th>식당</th><th class="n">주문금액</th><th class="n">수수료</th></tr>${rest.map(([k, v]) => { const r = RESTS.find(x => x[0] === k); return `<tr><td>${k}</td><td class="n">${won(v)}</td><td class="n">${won(v * (CFG.commission !== 15 ? CFG.commission : r[2]) / 100)}</td></tr>`; }).join('')}</table></div>
-   <div class="card"><h3>지금 진행 중인 주문<span class="r"><a class="btn sm ghost" data-go="orders">주문 관리</a></span></h3><table><tr><th>주문</th><th>식당</th><th>지역</th><th>상태</th></tr>${live.slice(-7).reverse().map(o => `<tr><td>${o.id}<br><small style="color:var(--sub)">${o.h}:${String(o.m).padStart(2, '0')}</small></td><td>${o.rest}</td><td>${o.area}</td><td>${stHtml(o.st)}</td></tr>`).join('') || '<tr><td colspan=4>없음</td></tr>'}</table></div>
+   <div class="card"><h3>요일 × 시간 주문 <small>${rangeLabel()} · 진할수록 많음</small></h3>
+    <div class="hm"><span></span>${Array.from({length: 12}, (_, i) => `<span>${11 + i}</span>`).join('')}
+    ${[1,2,3,4,5,6,0].map(w => `<span>${DOW[w]}</span>${Array.from({length: 12}, (_, i) => { const n = hmv[w + '-' + (11 + i)] || 0; return `<i data-v="${DOW[w]} ${11 + i}시 · ${n}건" style="background:rgba(255,106,19,${(.06 + n / hmx * .94).toFixed(2)})"></i>`; }).join('')}`).join('')}</div>
+    <div class="hmk">적음<i></i>많음<span style="margin-left:auto">가장 바쁜 때: <b style="color:var(--ink)">${DOW[+peak[0].split('-')[0]]}요일 ${peak[0].split('-')[1]}시</b> (${peak[1]}건)</span></div>
+    <p class="note">금·토 저녁 6~9시에 몰립니다. 이 시간에 기사 배치와 타임세일을 집중하면 좋습니다.</p></div>
+   <div class="card"><h3>주문 구성 <small>${rangeLabel()}</small></h3>
+    ${mix('결제 수단', [['카드', Lk.filter(o => o.pay === '카드').length, '#ff6a13'], ['PayPal', Lk.filter(o => o.pay === 'PayPal').length, '#2563eb'], ['크레딧+카드', Lk.filter(o => o.pay === '크레딧+카드').length, '#3b4252']])}
+    ${mix('결제 통화', [['원화 KRW', Lk.filter(o => o.cur === 'KRW').length, '#ff6a13'], ['달러 USD', Lk.filter(o => o.cur === 'USD').length, '#0e9f6e']])}
+    ${mix('배달 거리', [['포장', Lk.filter(o => kmB(o) === 'p').length, '#d5d9e0'], ['1.5km 안', Lk.filter(o => kmB(o) === 'a').length, '#ffd9c2'], ['1.5~3km', Lk.filter(o => kmB(o) === 'b').length, '#ff9a5c'], ['3km 넘음', Lk.filter(o => kmB(o) === 'c').length, '#ff6a13']], '배달비 ₩2,500 / 3,500 / 4,000')}
+    ${mix('쿠폰 사용', [['쿠폰 씀', Lk.filter(o => o.coupon).length, '#ff6a13'], ['안 씀', Lk.filter(o => !o.coupon).length, '#e6e8ec']], `할인 ${won(s.coupon)}`)}</div>
+  </div>
+  <div class="row r11">
+   <div class="card"><h3>지역별 실적 <small>${vsTxt}</small></h3><div class="scroll"><table class="tbl-sm"><tr><th>지역</th><th>비중</th><th class="n">주문</th><th class="n">주문금액</th><th class="n mh">객단가</th><th class="n">증감</th></tr>
+    ${areas.map(([k, v]) => `<tr><td style="white-space:nowrap"><b>${k}</b></td><td style="min-width:90px"><div class="ib"><i style="width:${v.n / areas[0][1].n * 70}px"></i><small>${(v.n / Lk.length * 100).toFixed(1)}%</small></div></td><td class="n">${v.n.toLocaleString()}</td><td class="n">${man(v.g)}</td><td class="n mh">${won(v.food / v.n)}</td><td class="n">${dd(v.n, gp[k] ? gp[k].n : 0)}</td></tr>`).join('')}</table></div></div>
+   <div class="card"><h3>요리별 주문금액 <small>상위 8개</small></h3><div class="scroll"><table class="tbl-sm"><tr><th>요리</th><th>음식값</th><th class="n">주문</th><th class="n mh">객단가</th><th class="n">증감</th></tr>
+    ${cuis.map(([k, v]) => `<tr><td style="white-space:nowrap"><b>${k}</b></td><td style="min-width:110px"><div class="ib"><i style="width:${v.food / cuis[0][1].food * 80}px"></i><small>${man(v.food)}</small></div></td><td class="n">${v.n.toLocaleString()}</td><td class="n mh">${won(v.food / v.n)}</td><td class="n">${dd(v.food, gcp[k] ? gcp[k].food : 0)}</td></tr>`).join('')}</table></div></div>
+  </div>
+  <div class="row r11">
+   <div class="card"><h3>매출 상위 식당<span class="r"><a class="btn sm ghost" data-go="rest">전체 보기</a></span></h3><div class="scroll"><table class="tbl-sm"><tr><th>식당</th><th>점유율</th><th class="n">주문</th><th class="n">음식값</th><th class="n mh">수수료</th><th class="n">증감</th></tr>
+    ${rest.map(([k, v], i) => { const r = RESTS.find(x => x[0] === k), cr = CFG.commission !== 15 ? CFG.commission : r[2]; return `<tr><td><span class="rk ${i < 3 ? 'g' : ''}">${i + 1}</span>${k}</td><td style="min-width:90px"><div class="ib"><i style="width:${v.food / rest[0][1].food * 60}px"></i><small>${(v.food / rtot * 100).toFixed(1)}%</small></div></td><td class="n">${v.n}</td><td class="n">${man(v.food)}</td><td class="n mh">${won(v.food * cr / 100)}<br><small style="color:var(--sub)">${cr}%</small></td><td class="n">${dd(v.food, grp_[k] ? grp_[k].food : 0)}</td></tr>`; }).join('')}</table></div></div>
+   <div class="card"><h3>지금 진행 중인 주문<span class="r"><a class="btn sm ghost" data-go="orders">주문 관리</a></span></h3><div class="scroll"><table class="tbl-sm"><tr><th>주문</th><th>식당</th><th class="mh">지역</th><th class="n">금액</th><th>상태</th></tr>${live.slice(-8).reverse().map(o => `<tr><td style="white-space:nowrap">${o.id}<br><small style="color:var(--sub)">${o.h}:${String(o.m).padStart(2, '0')} · ${o.pickup ? '포장' : o.km + 'km'}</small></td><td>${o.rest}</td><td class="mh" style="white-space:nowrap">${o.area}</td><td class="n">${won(o.food + o.fee)}</td><td>${stHtml(o.st)}</td></tr>`).join('') || '<tr><td colspan=5>없음</td></tr>'}</table></div></div>
   </div>`;
 }
 const stHtml = st => { const s = STATUS.find(x => x[0] === st); return `<span class="st ${st}">${s[1]}</span>`; };
